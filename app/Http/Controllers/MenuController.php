@@ -33,4 +33,10 @@ class MenuController extends Controller
         $data['child'] = $child;
         return response(json_encode($data));
     }
+
+    // admin
+    public function admin_index()
+    {
+        return view('backend.menu.index');
+    }
 }
