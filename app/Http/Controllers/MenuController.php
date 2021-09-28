@@ -24,8 +24,8 @@ class MenuController extends Controller
 
     public function getChildMenu($id)
     {
-        $mainMenu = Menu::find($id);
-        $child = Menu::where('parent_id', $id)->get()->toArray();
+        $mainMenu = MenuPage::find($id);
+        $child = MenuPage::where('parent_id', $id)->get()->toArray();
         $data['main'] = $mainMenu;
         $data['child'] = $child;
         return response(json_encode($data));
@@ -87,5 +87,25 @@ class MenuController extends Controller
         \Session::flash('flash_message', $flashMessage);
 
         return 'true';
+    }
+
+    public function save(Request $request)
+    {
+        $this->validate($request, [
+            'display_name' => 'required',
+        ]);
+        $menu = new MenuPage();
+        if ($request->hasFile('image')){
+            $path = $request->file('image')->store('menu_images');
+            $menu->image = $path;
+        }
+        $menu->display_name = $request->display_name;
+        $menu->parent_id = 0;
+        $menu->page_id = 0;
+        $menu->menu_id = 1;
+        $menu->save();
+
+        return redirect()->back();
+
     }
 }

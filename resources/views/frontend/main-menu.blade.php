@@ -25,7 +25,7 @@
                 $('#add').remove();
                 $('#toggle').append(
                     `<a id="add" href="${mainMenu.id}">
-            ${mainMenu.title}
+            ${mainMenu.display_name}
         </a>`
                 )
             }
@@ -37,7 +37,7 @@
                         `<div class='item-wrap'>
             <div class='item'>
             <a href='${menu[i].id}' class='child_menu'>
-            ${menu[i].title}
+            ${menu[i].display_name}
             </a>
             </div>
             </div>`

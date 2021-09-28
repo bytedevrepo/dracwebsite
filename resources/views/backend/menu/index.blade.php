@@ -21,7 +21,12 @@
             <div class="col-md-4">
                 <div class="card">
                     <div class="card-body">
-                        pages section
+                        <form action="{{ route('admin.menu.save') }}" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <input class="form-control" type="text" name="display_name" placeholder="Display Name"><br>
+                            <input class="form-control" type="file" name="image"><br>
+                            <button class="btn btn-sm btn-primary">Save</button>
+                        </form>
                     </div>
                 </div>
             </div>
