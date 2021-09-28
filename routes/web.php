@@ -10,6 +10,7 @@ Route::get('getChildMenu/{id}', [\App\Http\Controllers\MenuController::class, 'g
 // admin routes
 Route::group(['prefix' => 'admin'], function (){
     Route::get('menu', [\App\Http\Controllers\MenuController::class, 'admin_index'])->name('admin.menu.index');
+    Route::post('menu/saveOrder', [\App\Http\Controllers\MenuController::class, 'saveMenuOrder'])->name('admin.menu.saveOrder');
     Route::get('/', function () {
         return view('backend/dashboard/dashboard');
     })->middleware(['auth'])->name('dashboard');

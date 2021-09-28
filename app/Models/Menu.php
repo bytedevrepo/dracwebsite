@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Menu extends Model
 {
     use HasFactory;
-    protected $table = 'tbl_links';
+//    protected $table = 'tbl_links';
 
     public function child()
     {

@@ -1,17 +1,92 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Menu Management') }}
-        </h2>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    You're logged in!
+@extends('backend.layouts.app')
+@section('content')
+    <div class="container-fluid dashboard-content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <input class="form-control" type="text" placeholder="Menu Name" disabled value="{{ $menu->title ?? '' }}">
+                            </div>
+                            <div class="col-md-2">
+                                <a href="#" class="btn btn-primary btn-sm" disabled>Update</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        pages section
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>Menu Structure</h5>
+                        <div class="dd">
+                            <ol class="dd-list">
+                                @if(isset($menu_items))
+                                    @foreach($menu_items as $value)
+                                        <li class="dd-item" data-id="{{ $value->id }}">
+                                            <div class="dd-handle">{{ $value->display_name }}</div>
+                                            @if ($value->children->count())
+                                                <ol class="dd-list">
+                                                    @foreach($value->children as $child)
+                                                        <li class="dd-item" data-id="{{ $child->id }}">
+                                                            <div class="dd-handle">{{ $child->display_name }}</div>
+                                                            @if ($child->children->count())
+                                                                <ol class="dd-list">
+                                                                    @foreach($child->children as $subchild)
+                                                                        <li class="dd-item" data-id="{{ $subchild->id }}">
+                                                                            <div class="dd-handle">{{ $subchild->display_name }}</div>
+                                                                        </li>
+                                                                    @endforeach
+                                                                </ol>
+                                                            @endif
+                                                        </li>
+                                                    @endforeach
+                                                </ol>
+                                            @endif
+                                        </li>
+                                    @endforeach
+                                @endif
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button id="saveMenuOrder" class="btn btn-primary btn-sm">Update</button>
                 </div>
             </div>
         </div>
     </div>
-</x-app-layout>
+@stop
+@section('script')
+    <script type="text/javascript">
+        $('.dd').nestable({
+            maxDepth:3
+        });
+
+        $('#saveMenuOrder').on('click', function(){
+            $.ajax({
+                type: "POST",
+                url: "{{ route('admin.menu.saveOrder') }}",
+                headers: {
+                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {data:$('.dd').nestable('serialize')},
+                success: function (msg) {
+                    console.log(msg);
+                    // $("#confirmDelete").modal("hide");
+                    // window.location.reload();
+                }
+            });
+        });
+    </script>
+@endsection
