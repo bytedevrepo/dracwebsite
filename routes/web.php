@@ -13,9 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [\App\Http\Controllers\MenuController::class, 'index']);
+
+Route::get('getMainMenu', [\App\Http\Controllers\MenuController::class, 'getMainMenu']);
+Route::get('getChildMenu/{id}', [\App\Http\Controllers\MenuController::class, 'getChildMenu']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
