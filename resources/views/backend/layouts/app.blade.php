@@ -6,12 +6,21 @@
     <meta charset="utf-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Concept - Bootstrap 4 Admin Dashboard Template</title>
+    <title>{{ config('app.name', 'Laravel') }}</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('backend-assets/vendor/bootstrap/css/bootstrap.min.css') }}">
     <link href="{{ asset('backend-assets/vendor/fonts/circular-std/style.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('backend-assets/libs/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('backend-assets/vendor/fonts/fontawesome/css/fontawesome-all.css') }}">
+    @yield('css')
+    <style>
+        .dashboard-wrapper {
+            position: relative;
+            left: 0;
+            margin-left: 264px;
+            min-height: 85vh !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -33,18 +42,22 @@
                     @if(auth()->check())
                         <li class="nav-item dropdown nav-user">
                             <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="../assets/images/avatar-1.jpg" alt="" class="user-avatar-md rounded-circle">
+                                <img src="{{ asset('backend-assets/images/avatar-1.jpg') }}" alt="" class="user-avatar-md rounded-circle">
                             </a>
                             <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
                                 <div class="nav-user-info">
                                     <h5 class="mb-0 text-white nav-user-name">
-                                        {{ auth()->user() }}
+                                        {{ auth()->user()->name }}
                                     </h5>
-                                    <span class="status"></span><span class="ml-2">Available</span>
                                 </div>
-                                <a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>Account</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-cog mr-2"></i>Setting</a>
-                                <a class="dropdown-item" href="#"><i class="fas fa-power-off mr-2"></i>Logout</a>
+                                {{--<a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>Account</a>--}}
+                                {{--<a class="dropdown-item" href="#"><i class="fas fa-cog mr-2"></i>Setting</a>--}}
+                                <form method="POST" action="{{ route('logout') }}">
+
+                                    <a class="dropdown-item" href="{{route('logout')}}" onclick="event.preventDefault();
+                                                this.closest('form').submit();"><i class="fas fa-power-off mr-2"></i>Logout</a>
+                                    @csrf
+                                </form>
                             </div>
                         </li>
                     @else
@@ -56,12 +69,7 @@
             </div>
         </nav>
     </div>
-    <!-- ============================================================== -->
-    <!-- end navbar -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-    <!-- left sidebar -->
-    <!-- ============================================================== -->
+
     <div class="nav-left-sidebar sidebar-dark">
         <div class="menu-list">
             <nav class="navbar navbar-expand-lg navbar-light">
@@ -75,12 +83,13 @@
                             Menu
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="{{ route('dashboard') }}"><i class="fa fa-fw fa-home"></i>
+                            <a class="nav-link {{ Route::currentRouteName() == 'dashboard' ? 'active' : '' }}" href="{{ route('dashboard') }}"><i class="fa fa-fw fa-home"></i>
                                 Dashboard <span class="badge badge-success">6</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1"><i class="fa fa-fw fa-user-circle"></i>
+                            <a class="nav-link {{ Route::currentRouteName() == 'page' ? 'active' : '' }}" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1">
+                                <i class="fab fa-fw fa-firefox"></i>
                                 Pages
                             </a>
                             <div id="submenu-1" class="collapse submenu" style="">
@@ -95,7 +104,8 @@
                             </div>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fa fa-fw fa-user"></i>
+                            <a class="nav-link {{ Route::currentRouteName() == 'admin.menu.index' ? 'active' : '' }} " href="{{ route('admin.menu.index') }}">
+                                <i class="fab fa-fw fa-stack-exchange"></i>
                                 Menu
                             </a>
                         </li>
@@ -106,21 +116,15 @@
     </div>
 
     <div class="dashboard-wrapper">
+        @include('backend._partials.alert')
         @yield('content')
+    </div>
 
-        <div class="footer">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                        Copyright © 2018 Concept. All rights reserved. Dashboard by <a href="https://colorlib.com/wp/">Colorlib</a>.
-                    </div>
-                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
-                        <div class="text-md-right footer-links d-none d-sm-block">
-                            <a href="javascript: void(0);">About</a>
-                            <a href="javascript: void(0);">Support</a>
-                            <a href="javascript: void(0);">Contact Us</a>
-                        </div>
-                    </div>
+    <div class="footer">
+        <div class="container-fluid ">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-center">
+                    Copyright © <?=date('Y') ?> {{ config('app.name', 'Laravel') }}. All rights reserved.
                 </div>
             </div>
         </div>

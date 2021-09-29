@@ -18,6 +18,7 @@ class CreatePagesTable extends Migration
             $table->string('title');
             $table->string('slug');
             $table->longText('body')->nullable();
+            $table->boolean('status')->default(0)->comment('0->draft, 1->published');
             $table->timestamps();
         });
     }

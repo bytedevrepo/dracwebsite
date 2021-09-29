@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Menu;
 use App\Models\MenuPage;
+use App\Models\Page;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class MenuController extends Controller
 {
@@ -34,6 +37,7 @@ class MenuController extends Controller
     // admin
     public function admin_index()
     {
+        $pages = Page::where('status', 1)->get();
         $menu = Menu::where('is_selected', 1)->first();
         if ($menu){
             $menu_items = MenuPage::where('menu_id',$menu->id)
@@ -43,7 +47,7 @@ class MenuController extends Controller
                 ->get();
         }
 
-        return view('backend.menu.index', compact('menu', 'menu_items'));
+        return view('backend.menu.index', compact('menu', 'menu_items', 'pages'));
     }
 
     public function saveMenuOrder(Request $request)
@@ -77,15 +81,8 @@ class MenuController extends Controller
             $menu->order = $dataCount;
             $menu->save();
             $dataCount++;
-
         }
-        $flashMessage = [
-            'heading'=>'success',
-            'type'=>'success',
-            'message'=>'Menu order saved successfully.'
-        ];
-        \Session::flash('flash_message', $flashMessage);
-
+        Session::flash('message', 'Menu updated successfully.');
         return 'true';
     }
 
@@ -104,8 +101,60 @@ class MenuController extends Controller
         $menu->page_id = 0;
         $menu->menu_id = 1;
         $menu->save();
-
+        Session::flash('message', 'Menu added successfully.');
         return redirect()->back();
+    }
 
+    public function delete(Request $request)
+    {
+        $this->validate($request,[
+            'menu_id' => 'required|integer'
+        ]);
+        $menu = MenuPage::find($request->menu_id);
+        if($menu){
+            $child = MenuPage::where('parent_id', $menu->id)->delete();
+            $menu->delete();
+        }
+        Session::flash('message', 'Menu deleted successfully.');
+        return redirect()->back();
+    }
+
+    public function addPageToMenu(Request $request)
+    {
+        $this->validate($request,[
+            'page_id' => 'required|integer'
+        ]);
+        $page = Page::findOrFail($request->page_id);
+        $menu = new MenuPage();
+        $menu->page_id = $page->id;
+        $menu->menu_id = 1;
+        $menu->order = 0;
+        $menu->display_name = $page->title;
+        $menu->image = '';
+        $menu->save();
+        Session::flash('message', 'Page added successfully.');
+        return response()->json('success');
+    }
+
+    public function update(Request $request)
+    {
+        $this->validate($request, [
+            'menu_id' => 'required|integer',
+            'display_name' => 'required|string|max:255'
+        ]);
+
+        $menu = MenuPage::find($request->menu_id);
+        $menu->display_name = $request->display_name;
+        if ($request->hasFile('image')){
+            $old_image = $menu->image;
+            $path = $request->file('image')->store('menu_images', 'public');
+            $menu->image = $path;
+
+            //delete old file
+            Storage::disk('public')->delete($old_image);
+        }
+        $menu->save();
+        Session::flash('message', 'Menu updated successfully.');
+        return redirect()->back();
     }
 }
