@@ -25,7 +25,7 @@ class MenuController extends Controller
     public function getChildMenu($id)
     {
         $mainMenu = MenuPage::find($id);
-        $child = MenuPage::where('parent_id', $id)->get()->toArray();
+        $child = MenuPage::with('page:id,slug')->where('parent_id', $id)->get()->toArray();
         $data['main'] = $mainMenu;
         $data['child'] = $child;
         return response(json_encode($data));
@@ -96,7 +96,7 @@ class MenuController extends Controller
         ]);
         $menu = new MenuPage();
         if ($request->hasFile('image')){
-            $path = $request->file('image')->store('menu_images');
+            $path = $request->file('image')->store('menu_images', 'public');
             $menu->image = $path;
         }
         $menu->display_name = $request->display_name;

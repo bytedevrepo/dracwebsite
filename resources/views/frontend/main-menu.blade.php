@@ -16,32 +16,34 @@
     <div class="menu" id="menu"></div>
 @stop
 @section('script')
-
     <script type="text/javascript">
         $(document).ready(function(){
             getMainMenu();
             function setCenterMenu(mainMenu){
-                var url = 'images/'+mainMenu.image;
                 $('#add').remove();
                 $('#toggle').append(
-                    `<a id="add" href="${mainMenu.id}">
-            ${mainMenu.display_name}
-        </a>`
+                    `<a id="add" data-menu_id="${mainMenu.id}" href="#">
+                        <img width='175' src="storage/${mainMenu.image}" alt="">
+                    </a>`
                 )
             }
             function setChildMenu(menu){
+                // console.log({menu})
                 $('.item-wrap').remove();
                 for (i=0;i<menu.length;i++){
-                    var url = 'images/'+menu[i].image;
-                    $('#menu').append(
-                        `<div class='item-wrap'>
-            <div class='item'>
-            <a href='${menu[i].id}' class='child_menu'>
-            ${menu[i].display_name}
-            </a>
-            </div>
-            </div>`
-                    )
+                    let page_slug;
+                    let page_id = menu[i].page_id;
+                    if (page_id !== 'undefined' && page_id !== 0){
+                        page_slug = menu[i].page.slug;
+                    }
+                    $('#menu').append
+                    (`<div class='item-wrap'>
+                        <div class='item'>
+                            <a data-menu_id="${menu[i].id}" data-page_slug="${page_slug}" href='#' class='child_menu' title='${menu[i].display_name}'>
+                                <img width='150' src="storage/${menu[i].image}" alt="">
+                            </a>
+                        </div>
+                    </div>`)
                 }
                 expandMenu();
             }
@@ -68,22 +70,31 @@
             $(document).on('click', '.child_menu', function(e) {
                 e.preventDefault();
                 closeMenu();
-                let id = $(this).attr('href');
-                $.ajax({
-                    type: "GET",
-                    url: '/getChildMenu/'+id,
-                    dataType: 'json',
-                    success: function (response) {
-                        // console.log(response)
-                        $('.item-wrap').remove();
-                        setCenterMenu(response.main);
-                        setChildMenu(response.child);
-                    },
-                    error: function (data) {
-                        console.log(data);
-                    }
-                });
+                let menu_id = $(this).data("menu_id");
+                let page_slug = $(this).data("page_slug");
+                if (page_slug === 'undefined'){
+                    $.ajax({
+                        type: "GET",
+                        url: '/getChildMenu/'+menu_id,
+                        dataType: 'json',
+                        success: function (response) {
+                            // console.log(response)
+                            $('.item-wrap').remove();
+                            setCenterMenu(response.main);
+                            setChildMenu(response.child);
+                        },
+                        error: function (data) {
+                            console.log(data);
+                        }
+                    });
+                }else{
+                    followPage(page_slug, menu_id);
+                }
             });
+
+            function followPage(page_slug, menu_id) {
+                window.location.href = '/'+page_slug+'?menu='+menu_id
+            }
 
             function expandMenu(){
                 var exapand0=['translateY(-160px)','translate(140px,-80px)', 'translate(140px,80px)','translateY(160px)', 'translate(-140px, 80px)', 'translate(-140px, -80px)' ];

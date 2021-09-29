@@ -16,3 +16,5 @@ Route::group(['prefix' => 'admin'], function (){
         return view('backend/dashboard/dashboard');
     })->middleware(['auth'])->name('dashboard');
 });
+
+Route::get('{slug}', [\App\Http\Controllers\PageController::class, 'getPageBySlug']);

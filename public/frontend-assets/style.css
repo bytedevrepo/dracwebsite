@@ -39,22 +39,20 @@ body {
     font-size: 100px;
     color: white;
     position: relative;
-    transition: 0.5s;
+    transition: 1s;
 }
 
 .item-wrap {
-    filter: drop-shadow(-1px 6px 3px rgba(30, 30, 30, 0.5));
-    transition: 0.5s;
+    filter: drop-shadow(-1px 4px 3px rgba(30, 30, 30, 0.3));
+    transition: 1s;
 }
 
 .item {
-    height: 0;
     width: 180px;
     height: 155px;
     clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
     position: absolute;
     top: 0;
-    transition: 0.5s;
     z-index: 1;
     opacity: 0.6;
     background-color: rgb(238, 236, 236);
@@ -80,7 +78,6 @@ body {
     padding: 10px 0;
     text-decoration: none;
     font-style: normal;
-    padding: 100px 0;
 }
 
 .item .item-image {
@@ -95,6 +92,7 @@ body {
     transform: scale(0.6);
     animation: animate 4s infinite;
     top: -10px
+
 }
 
 @keyframes animate {
@@ -190,20 +188,20 @@ body {
     top: 15px;
     left: 15px;
     font-size: 30px;
-    transition: all 0.5s ease-in-out;
-    -webkit-transition: all 0.5s ease-in-out;
-    -moz-transition: all 0.5s ease-in-out;
-    -o-transition: all 0.5s ease-in-out;
-    -ms-transition: all 0.5s ease-in-out;
+    transition: all 1s ease-in-out;
+    -webkit-transition: all 1s ease-in-out;
+    -moz-transition: all 1s ease-in-out;
+    -o-transition: all 1s ease-in-out;
+    -ms-transition: all 1s ease-in-out;
 }
 
 .wrap .blob:not([for="checking"]):hover {
     color: #F44336;
-    animation: harlem 0.5s linear forwards;
-    -webkit-animation: harlem 0.5s linear forwards;
-    -moz-animation: harlem 0.5s linear forwards;
-    -o-animation: harlem 0.5s linear forwards;
-    -ms-animation: harlem 0.5s linear forwards;
+    animation: harlem 1s linear forwards;
+    -webkit-animation: harlem 1s linear forwards;
+    -moz-animation: harlem 1s linear forwards;
+    -o-animation: harlem 1s linear forwards;
+    -ms-animation: harlem 1s linear forwards;
 }
 
 .wrap>#checking:checked~.blob:nth-child(2) {
