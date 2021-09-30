@@ -7,10 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
-        body {
-            background: #BEBFBD;
-        }
-
         #mainMenu {
             display:none;
             margin: auto 0;
@@ -99,7 +95,7 @@
         .part {
             padding: 50px 20px 85px;
             background: #205B73;
-            color: #AFE4FC;
+            /*color: #AFE4FC;*/
         }
         .part:nth-of-type(2n) {
             background: #F2E6A7;

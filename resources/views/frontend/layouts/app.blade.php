@@ -10,8 +10,11 @@
     <link rel="stylesheet" href="{{ asset('frontend-assets/style.css') }}">
 </head>
 <body>
-@yield('content')
+<div id="app">
+    <container/>
+</div>
+
 <script src="{{ asset('frontend-assets/jquery-2.1.1.min.js') }}"></script>
-@yield('script')
+<script src="{{ mix('/js/app.js') }}" defer></script>
 </body>
 </html>

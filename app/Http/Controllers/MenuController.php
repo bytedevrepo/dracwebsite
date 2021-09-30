@@ -5,38 +5,37 @@ namespace App\Http\Controllers;
 use App\Models\Menu;
 use App\Models\MenuPage;
 use App\Models\Page;
+use App\Traits\SetResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 
 class MenuController extends Controller
 {
-    public function index()
-    {
-        return view('frontend.main-menu');
-    }
+    use SetResponse;
 
     public function getMainMenu()
     {
-        $mainMenu = MenuPage::where('parent_id', 0)->first()->toArray();
-        $child = MenuPage::with('children')->where('parent_id', $mainMenu['id'])->get()->toArray();
-        $data['child'] = json_encode($child, true);
-        $data['mainMenu'] = json_encode($mainMenu, true);
-        return response(json_encode($data));
+        $data['mainMenu'] = MenuPage::where('parent_id', 0)->first()->toArray();
+        $data['child'] = MenuPage::with(['page:id,slug','children'])->where('parent_id', $data['mainMenu']['id'])->get()->toArray();
+        $returnData = $this->prepareResponse(false, 'success', $data, []);
+        return response()->json($returnData, 200);
     }
 
     public function getChildMenu($id)
     {
         $mainMenu = MenuPage::find($id);
         $child = MenuPage::with('page:id,slug')->where('parent_id', $id)->get()->toArray();
-        $data['main'] = $mainMenu;
+        $data['mainMenu'] = $mainMenu;
         $data['child'] = $child;
-        return response(json_encode($data));
+        $returnData = $this->prepareResponse(false, 'success', $data, []);
+        return response()->json($returnData, 200);
     }
 
     // admin
     public function admin_index()
     {
+        $menu_items = [];
         $pages = Page::where('status', 1)->get();
         $menu = Menu::where('is_selected', 1)->first();
         if ($menu){
@@ -73,7 +72,6 @@ class MenuController extends Controller
                     $menuch->order = $childCount;
                     $menuch->save();
                     $childCount++;
-                    // dd('child'.$child['id']);
                 }
             }
             $menu = MenuPage::find($data['id']);
