@@ -1,6 +1,6 @@
 <template>
     <div class="">
-        <div class="container">
+        <div class="menu_container">
             <div class="toggle" id="toggle" v-if="mainMenu">
                 <a id="add" :data-menu_id="mainMenu.id" href="#" >
                     <img width='175' :src="'storage/'+mainMenu.image" alt="">
@@ -43,14 +43,14 @@
                 this.childMenu = response.data.data.child;
             },
             async followMenu(value){
+                console.log(value)
                 if (value.page_id === 0) {
                     this.closeMenu();
                     const response = await HomeService.getChildMenu(value.id);
                     await this.setMenu(response);
                     this.expandMenu();
                 } else{
-                    let page_slug = value.page.slug;
-                    this.$router.push({ name: 'Page', params: { slug: page_slug } })
+                    this.$router.push({ name: 'Page', params: { menu_id: value.parent_id } })
                 }
             },
             closeMenu(){

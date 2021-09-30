@@ -13,16 +13,16 @@ class PageController extends Controller
     public function getPageBySlug(Request $request,$slug='')
     {
         if($slug !== ''){
-//            $menu_id = $request->menu;
-//            $menu = [];
-//            if ($menu_id){
-//                $selected_menu = MenuPage::where('id', $menu_id)->first();
-//                $menu = MenuPage::where('id', $selected_menu->parent_id)->with('children')->first();
-//            }
             $page = Page::where('slug', $slug)->firstOrFail();
-
             $returnData = $this->prepareResponse(false, 'success', compact('page'), []);
             return response()->json($returnData, 200);
         }
+    }
+
+    public function getPageList($menu_id)
+    {
+        $menu = MenuPage::where('parent_id', $menu_id)->with('page')->get()->toArray();
+        $returnData = $this->prepareResponse(false, 'success', compact('menu'), []);
+        return response()->json($returnData, 200);
     }
 }

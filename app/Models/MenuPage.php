@@ -16,7 +16,7 @@ class MenuPage extends Model
 
     public function children()
     {
-        return $this->hasMany(MenuPage::class, 'parent_id')->orderBy('order','asc');
+        return $this->hasMany(MenuPage::class, 'parent_id');
     }
 
     public function menu()

@@ -2220,39 +2220,39 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
-        var response, page_slug;
+        var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
+                console.log(value);
+
                 if (!(value.page_id === 0)) {
-                  _context3.next = 10;
+                  _context3.next = 11;
                   break;
                 }
 
                 _this3.closeMenu();
 
-                _context3.next = 4;
+                _context3.next = 5;
                 return _services_HomeService__WEBPACK_IMPORTED_MODULE_1__["default"].getChildMenu(value.id);
 
-              case 4:
+              case 5:
                 response = _context3.sent;
-                _context3.next = 7;
+                _context3.next = 8;
                 return _this3.setMenu(response);
 
-              case 7:
+              case 8:
                 _this3.expandMenu();
 
                 _context3.next = 12;
                 break;
 
-              case 10:
-                page_slug = value.page.slug;
-
+              case 11:
                 _this3.$router.push({
                   name: 'Page',
                   params: {
-                    slug: page_slug
+                    menu_id: value.parent_id
                   }
                 });
 
@@ -2309,43 +2309,130 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Page",
   data: function data() {
     return {
-      page_slug: '',
-      pageData: ''
+      menu_id: '',
+      pageListCount: 6,
+      pageList: []
     };
   },
-  mounted: function mounted() {
-    this.page_slug = this.$route.params.slug;
-    this.getPage();
+  beforeMount: function beforeMount() {
+    var _this = this;
+
+    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _this.menu_id = _this.$route.params.menu_id;
+              _context.next = 3;
+              return _this.getPageList();
+
+            case 3:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee);
+    }))();
   },
   methods: {
-    getPage: function getPage() {
-      var _this = this;
+    getPageList: function getPageList() {
+      var _this2 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
         var response;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _context.next = 2;
-                return _services_HomeService__WEBPACK_IMPORTED_MODULE_1__["default"].getPage(_this.page_slug);
+                _context2.next = 2;
+                return _services_HomeService__WEBPACK_IMPORTED_MODULE_1__["default"].getPageList(_this2.menu_id);
 
               case 2:
-                response = _context.sent;
-                _this.pageData = response.data.data.page;
+                response = _context2.sent;
+                _this2.pageList = response.data.data.menu;
+                console.log(_this2.pageList);
 
-              case 4:
+              case 5:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee);
+        }, _callee2);
       }))();
+    },
+    getData: function getData(index) {
+      console.log(this.pageList);
+    },
+    goBack: function goBack() {
+      this.$router.push('/');
     }
   }
 });
@@ -2440,7 +2527,7 @@ __webpack_require__.r(__webpack_exports__);
 
 vue__WEBPACK_IMPORTED_MODULE_2__["default"].use(vue_router__WEBPACK_IMPORTED_MODULE_3__["default"]);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new vue_router__WEBPACK_IMPORTED_MODULE_3__["default"]({
-  mode: 'history',
+  // mode: 'history',
   routes: [{
     name: "Home",
     path: "",
@@ -2449,7 +2536,13 @@ vue__WEBPACK_IMPORTED_MODULE_2__["default"].use(vue_router__WEBPACK_IMPORTED_MOD
     }
   }, {
     name: "Page",
-    path: "/:slug",
+    path: "/:menu_id",
+    components: {
+      "default": _pages_Page__WEBPACK_IMPORTED_MODULE_1__["default"]
+    }
+  }, {
+    name: "PageDetails",
+    path: "/:menu_id/details/:slug",
     components: {
       "default": _pages_Page__WEBPACK_IMPORTED_MODULE_1__["default"]
     }
@@ -2500,6 +2593,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   getPage: function getPage(slug) {
     return (0,_Api__WEBPACK_IMPORTED_MODULE_0__["default"])().get('/api/getPage/' + slug);
+  },
+  getPageList: function getPageList(menu_id) {
+    return (0,_Api__WEBPACK_IMPORTED_MODULE_0__["default"])().get('/api/getPageList/' + menu_id);
   }
 });
 
@@ -38910,7 +39006,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", {}, [
-    _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "menu_container" }, [
       _vm.mainMenu
         ? _c("div", { staticClass: "toggle", attrs: { id: "toggle" } }, [
             _c(
@@ -38989,17 +39085,140 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    {},
-    [
-      _vm._v("\n    " + _vm._s(_vm.pageData) + "\n    "),
-      _c("router-link", { attrs: { to: "/" } }, [_vm._v("Back")])
-    ],
-    1
-  )
+  return _c("div", {}, [
+    _c(
+      "header",
+      { staticClass: "episoda-header", attrs: { id: "episoda-home" } },
+      [
+        _c("div", { staticClass: "episoda-logo" }, [_vm._v("e")]),
+        _vm._v(" "),
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", { staticClass: "episoda-copyright" }, [
+          _vm._v("Copyright © 2018 episoda")
+        ]),
+        _vm._v(" "),
+        _vm._m(1),
+        _vm._v(" "),
+        _vm._m(2),
+        _vm._v(" "),
+        _c(
+          "section",
+          {
+            staticClass: "episoda-slider owl-carousel",
+            attrs: { id: "episoda-header-slider" }
+          },
+          _vm._l(_vm.pageListCount, function(value) {
+            return _c(
+              "div",
+              { staticClass: "episoda-slide", attrs: { "data-hash": value } },
+              [
+                _c("img", {
+                  staticClass: "episoda-slide-img",
+                  attrs: {
+                    src: "frontend-assets/site/img/hawaii.jpg",
+                    alt: "header slide image"
+                  }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "episoda-slide-content" }, [
+                  _c(
+                    "div",
+                    {
+                      staticClass: "episoda-absolute col-md-9 col-lg-8 col-10"
+                    },
+                    [
+                      _c("p", [_vm._v(_vm._s(_vm.getData(value)))]),
+                      _vm._v(" "),
+                      _c("h1", [_vm._v("Crystal clear water near the shore")]),
+                      _vm._v(" "),
+                      _vm._m(3, true)
+                    ]
+                  )
+                ])
+              ]
+            )
+          }),
+          0
+        )
+      ]
+    )
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      {
+        staticClass: "episoda-nav-ico-open episoda-pop-up-btn",
+        attrs: { href: "#menu" }
+      },
+      [
+        _c("span", { staticClass: "episoda-sandwich-top" }),
+        _vm._v(" "),
+        _c("span", { staticClass: "episoda-sandwich-mid" }),
+        _vm._v(" "),
+        _c("span", { staticClass: "episoda-sandwich-bottom" }),
+        _vm._v(" "),
+        _c("span", { staticClass: "episoda-label" }, [_vm._v("open")])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "episoda-audio-btn" }, [
+      _c("span", { staticClass: "episoda-equalizer episoda-line-1" }),
+      _vm._v(" "),
+      _c("span", { staticClass: "episoda-equalizer episoda-line-2" }),
+      _vm._v(" "),
+      _c("span", { staticClass: "episoda-equalizer episoda-line-3" }),
+      _vm._v(" "),
+      _c("span", { staticClass: "episoda-equalizer episoda-line-4" }),
+      _vm._v(" "),
+      _c("span", { staticClass: "episoda-equalizer episoda-line-5" }),
+      _vm._v(" "),
+      _c("span", { staticClass: "episoda-label" }, [
+        _c("span", { staticClass: "episoda-label-play" }, [_vm._v("play")]),
+        _c("span", { staticClass: "episoda-label-pause" }, [_vm._v("pause")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "audio",
+      {
+        staticClass: "episoda-audio",
+        attrs: { id: "episoda-audio-bg", loop: "" }
+      },
+      [
+        _c("source", {
+          attrs: {
+            src: "/frontend-assets/site/audio/bensound-memories.mp3",
+            type: "audio/mpeg"
+          }
+        })
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      { staticClass: "episoda-pop-up-btn", attrs: { href: "#hawaii" } },
+      [_vm._v("Read more"), _c("i", { staticClass: "episoda-right-arrow" })]
+    )
+  }
+]
 render._withStripped = true
 
 

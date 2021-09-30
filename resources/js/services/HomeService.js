@@ -10,4 +10,7 @@ export default {
     getPage(slug){
         return Api().get('/api/getPage/'+slug);
     },
+    getPageList(menu_id){
+        return Api().get('/api/getPageList/'+menu_id);
+    },
 }
