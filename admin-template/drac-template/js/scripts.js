@@ -71,123 +71,123 @@ $(function () {
 
 
     /* Header, gallery slider */
-    // var owl = $('#episoda-header-slider'),
-    //     owlGallery = $('#episoda-gallery-slider'),
-    //     URLHash = window.location.hash;
-    //
-    // var owlOptions = {
-    //         items: 1,
-    //         loop: true,
-    //         nav: true,
-    //         navText: ['<i class="episoda-left-arrow"></i>Prev', 'Next<i class="episoda-right-arrow"></i>'],
-    //         autoplay: true,
-    //         autoplayTimeout: 60000,
-    //         animateIn: 'fadeIn',
-    //         animateOut: 'fadeOut',
-    //         URLhashListener: true,
-    //         startPosition: 'URLHash'
-    //     },
-    //
-    //     owlGalleryOptions = {
-    //         items: 1,
-    //         loop: true,
-    //         nav: true,
-    //         navText: ['<i class="episoda-left-arrow"></i>Prev', 'Next<i class="episoda-right-arrow"></i>'],
-    //         animateIn: 'fadeIn',
-    //         animateOut: 'fadeOut',
-    //     }
-    //
-    // owl.owlCarousel(owlOptions);
-    // owlGallery.owlCarousel(owlGalleryOptions);
-    //
-    // var allowTransitionLeft = true;
-    // var allowTransitionRight = true;
-    //
-    // function slideNav(slider) {
-    //     //Firefox:
-    //     slider.on('DOMMouseScroll', '.owl-stage', function (e) {
-    //         if (e.originalEvent.detail > 0) {
-    //             if (allowTransitionRight) {
-    //                 allowTransitionRight = false;
-    //                 slider.trigger('next.owl');
-    //             }
-    //         } else {
-    //             if (allowTransitionLeft) {
-    //                 allowTransitionLeft = false;
-    //                 slider.trigger('prev.owl');
-    //             }
-    //         }
-    //         e.preventDefault();
-    //     }).on('translated.owl.carousel', function () {
-    //         allowTransitionLeft = true;
-    //         allowTransitionRight = true;
-    //     });
-    //
-    //     //Chrome, IE
-    //     slider.on('mousewheel', '.owl-stage', function (e) {
-    //         if (e.originalEvent.wheelDelta > 0) {
-    //             if (allowTransitionLeft) {
-    //                 allowTransitionLeft = false;
-    //                 slider.trigger('prev.owl');
-    //             }
-    //         } else {
-    //             if (allowTransitionRight) {
-    //                 allowTransitionRight = false;
-    //                 slider.trigger('next.owl');
-    //             }
-    //         }
-    //         e.preventDefault();
-    //     }).on('translated.owl.carousel', function () {
-    //         allowTransitionLeft = true;
-    //         allowTransitionRight = true;
-    //     });
-    //
-    //     $(document).on('keydown', function (e) {
-    //         if ($('#preloader').css('display') === 'none') {
-    //             if (e.keyCode === 39 || e.keyCode === 40) {
-    //                 if (allowTransitionRight) {
-    //                     allowTransitionRight = false;
-    //                     slider.trigger('next.owl');
-    //                 }
-    //             }
-    //             if (e.keyCode === 37 || e.keyCode === 38) {
-    //                 if (allowTransitionLeft) {
-    //                     allowTransitionLeft = false;
-    //                     slider.trigger('prev.owl');
-    //                 }
-    //             }
-    //         }
-    //     }).on('translated.owl.carousel', function () {
-    //         allowTransitionLeft = true;
-    //         allowTransitionRight = true;
-    //     });
-    // }
-    //
-    // slideNav(owl);
-    // slideNav(owlGallery);
-    //
-    // function counter(slider, counter) {
-    //     var item = slider.find('.owl-dot.active').index() + 1,
-    //         items = slider.find('.owl-dot').length;
-    //
-    //     item = item < 10 ? '0' + item : item;
-    //     items = items < 10 ? '0' + items : items;
-    //
-    //     counter.html('<span class="episoda-slide-current">' + item + '</span><span class="episoda-slide-total">' + items + '</span>');
-    // }
-    //
-    // var counterBox = $('#episoda-counter'),
-    //     counterGalleryBox = $('#episoda-gallery-counter');
-    //
-    // counter(owl, counterBox);
-    // counter(owlGallery, counterGalleryBox);
-    //
-    // owl.on('changed.owl.carousel', function () {
-    //     counter(owl, counterBox);
-    // });
-    // owlGallery.on('changed.owl.carousel', function () {
-    //     counter(owlGallery, counterGalleryBox);
-    // });
+    var owl = $('#episoda-header-slider'),
+        owlGallery = $('#episoda-gallery-slider'),
+        URLHash = window.location.hash;
+
+    var owlOptions = {
+            items: 1,
+            loop: true,
+            nav: true,
+            navText: ['<i class="episoda-left-arrow"></i>Prev', 'Next<i class="episoda-right-arrow"></i>'],
+            autoplay: true,
+            autoplayTimeout: 60000,
+            animateIn: 'fadeIn',
+            animateOut: 'fadeOut',
+            URLhashListener: true,
+            startPosition: 'URLHash'
+        },
+
+        owlGalleryOptions = {
+            items: 1,
+            loop: true,
+            nav: true,
+            navText: ['<i class="episoda-left-arrow"></i>Prev', 'Next<i class="episoda-right-arrow"></i>'],
+            animateIn: 'fadeIn',
+            animateOut: 'fadeOut',
+        }
+
+    owl.owlCarousel(owlOptions);
+    owlGallery.owlCarousel(owlGalleryOptions);
+
+    var allowTransitionLeft = true;
+    var allowTransitionRight = true;
+
+    function slideNav(slider) {
+        //Firefox:
+        slider.on('DOMMouseScroll', '.owl-stage', function (e) {
+            if (e.originalEvent.detail > 0) {
+                if (allowTransitionRight) {
+                    allowTransitionRight = false;
+                    slider.trigger('next.owl');
+                }
+            } else {
+                if (allowTransitionLeft) {
+                    allowTransitionLeft = false;
+                    slider.trigger('prev.owl');
+                }
+            }
+            e.preventDefault();
+        }).on('translated.owl.carousel', function () {
+            allowTransitionLeft = true;
+            allowTransitionRight = true;
+        });
+
+        //Chrome, IE
+        slider.on('mousewheel', '.owl-stage', function (e) {
+            if (e.originalEvent.wheelDelta > 0) {
+                if (allowTransitionLeft) {
+                    allowTransitionLeft = false;
+                    slider.trigger('prev.owl');
+                }
+            } else {
+                if (allowTransitionRight) {
+                    allowTransitionRight = false;
+                    slider.trigger('next.owl');
+                }
+            }
+            e.preventDefault();
+        }).on('translated.owl.carousel', function () {
+            allowTransitionLeft = true;
+            allowTransitionRight = true;
+        });
+
+        $(document).on('keydown', function (e) {
+            if ($('#preloader').css('display') === 'none') {
+                if (e.keyCode === 39 || e.keyCode === 40) {
+                    if (allowTransitionRight) {
+                        allowTransitionRight = false;
+                        slider.trigger('next.owl');
+                    }
+                }
+                if (e.keyCode === 37 || e.keyCode === 38) {
+                    if (allowTransitionLeft) {
+                        allowTransitionLeft = false;
+                        slider.trigger('prev.owl');
+                    }
+                }
+            }
+        }).on('translated.owl.carousel', function () {
+            allowTransitionLeft = true;
+            allowTransitionRight = true;
+        });
+    }
+
+    slideNav(owl);
+    slideNav(owlGallery);
+
+    function counter(slider, counter) {
+        var item = slider.find('.owl-dot.active').index() + 1,
+            items = slider.find('.owl-dot').length;
+
+        item = item < 10 ? '0' + item : item;
+        items = items < 10 ? '0' + items : items;
+
+        counter.html('<span class="episoda-slide-current">' + item + '</span><span class="episoda-slide-total">' + items + '</span>');
+    }
+
+    var counterBox = $('#episoda-counter'),
+        counterGalleryBox = $('#episoda-gallery-counter');
+
+    counter(owl, counterBox);
+    counter(owlGallery, counterGalleryBox);
+
+    owl.on('changed.owl.carousel', function () {
+        counter(owl, counterBox);
+    });
+    owlGallery.on('changed.owl.carousel', function () {
+        counter(owlGallery, counterGalleryBox);
+    });
 
     window.dispatchEvent(new Event('resize'));
 
@@ -201,7 +201,7 @@ $(function () {
         audio = document.getElementById('episoda-audio-bg');
 
     function isPlaying(audio) {
-        // return !audio.paused;
+        return !audio.paused;
     }
 
     setTimeout(function () {

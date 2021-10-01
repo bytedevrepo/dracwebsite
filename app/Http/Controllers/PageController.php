@@ -21,8 +21,9 @@ class PageController extends Controller
 
     public function getPageList($menu_id)
     {
-        $menu = MenuPage::where('parent_id', $menu_id)->with('page')->get()->toArray();
-        $returnData = $this->prepareResponse(false, 'success', compact('menu'), []);
+        $menu = MenuPage::find($menu_id);
+        $siblings = MenuPage::where('parent_id', $menu->parent_id)->with('page')->get();
+        $returnData = $this->prepareResponse(false, 'success', compact('menu', 'siblings'), []);
         return response()->json($returnData, 200);
     }
 }
