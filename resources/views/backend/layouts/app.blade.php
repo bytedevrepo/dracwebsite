@@ -33,7 +33,7 @@
     <!-- ============================================================== -->
     <div class="dashboard-header">
         <nav class="navbar navbar-expand-lg bg-white fixed-top">
-            <a class="navbar-brand" href="{{ route('dashboard') }}">ByteRays</a>
+            <a class="navbar-brand" href="{{ route('dashboard') }}">{{ config('app.name', 'Laravel') }}</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -78,10 +78,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav flex-column">
-                        <li class="nav-divider">
-                            Menu
-                        </li>
+                    <ul class="navbar-nav flex-column mt-2">
                         <li class="nav-item">
                             <a class="nav-link {{ Route::currentRouteName() == 'dashboard' ? 'active' : '' }}" href="{{ route('dashboard') }}"><i class="fa fa-fw fa-home"></i>
                                 Dashboard <span class="badge badge-success">6</span>
@@ -98,7 +95,10 @@
                                         <a class="nav-link" href="#">Create new page</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#">List all pages</a>
+                                        <a class="nav-link" href="#">Pages</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('admin.category.index') }}">Categories</a>
                                     </li>
                                 </ul>
                             </div>

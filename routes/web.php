@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/auth.php';
@@ -32,4 +33,15 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function (){
 
 Route::get('/', function (){
     return view('frontend.layouts.app');
+});
+Route::get('/test', function (){
+    return view('frontend.layouts.test');
+});
+Route::get('/setup', function (){
+    return view('frontend.layouts.setup');
+})->name('setup');
+Route::post('/setup', function (){
+    if (Artisan::call('storage:link')){
+        echo "success";
+    }
 });
