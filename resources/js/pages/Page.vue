@@ -1,34 +1,14 @@
 <template>
     <div class="">
-        <!--<pre> {{ pageList}}</pre>-->
         <header id="episoda-home" class="episoda-header">
-
-            <!-- logotype -->
-
-            <!-- end logotype -->
-
-            <!-- menu button -->
             <a href="#menu" class="episoda-nav-ico-open episoda-pop-up-btn">
                 <span class="episoda-sandwich-top"></span>
                 <span class="episoda-sandwich-mid"></span>
                 <span class="episoda-sandwich-bottom"></span>
                 <span class="episoda-label">open</span>
             </a>
-            <!-- end menu button -->
 
-            <!-- copyright -->
             <div class="episoda-copyright">Copyright © 2018 Drac</div>
-            <!-- end copyright -->
-
-            <!-- play/pause audio button -->
-            <div class="episoda-audio-btn">
-                <span class="episoda-equalizer episoda-line-1"></span>
-                <span class="episoda-equalizer episoda-line-2"></span>
-                <span class="episoda-equalizer episoda-line-3"></span>
-                <span class="episoda-equalizer episoda-line-4"></span>
-                <span class="episoda-equalizer episoda-line-5"></span>
-                <span class="episoda-label"><span class="episoda-label-play">play</span><span class="episoda-label-pause">pause</span></span>
-            </div>
 
             <section id="episoda-header-slider" class="episoda-slider owl-carousel">
                 <!-- slide -->
@@ -44,7 +24,8 @@
                     <div class="episoda-slide-content">
                         <div class="episoda-absolute col-md-9 col-lg-8 col-10">
                             <p>{{ value.display_name }}</p>
-                            <h1>{{ value.page.title }}</h1>
+                            <h1>{{ sliceText(value.page.title, 50) }}</h1>
+                            <p>{{ sliceText(value.page.body, 255) }}</p>
                             <a href="#" @click="showPage(value)" class="episoda-pop-up-btn">Read more<i class="episoda-right-arrow"></i></a>
                         </div>
                     </div>
@@ -62,40 +43,38 @@
             <div class="container">
                 <div class="row">
 
-                    <article class="col-md-8 col-lg-6 col-12 offset-md-2 offset-lg-3 offset-0">
-
-                        <img src="frontend-assets/site/img/photographer.jpg" alt="" class="episoda-img-responsive">
+                    <article class="col-md-8 col-lg-8 col-12 offset-md-2 offset-lg-2 offset-0">
                         <header>
-                            <p>Hi everyone!</p>
-                            <h2>I'm Mark Smith</h2>
+                            <p>{{ selectedMenu.display_name }}</p>
+                            <h2>{{ selectedMenu.page.title }}</h2>
                         </header>
-                        <div class="episoda-content">
-                            {{ selectedPage.body }}
-                        </div>
-                        <footer class="episoda-details">
-                            <dl class="episoda-details-container">
-                                <div class="episoda-details-item">
-                                    <dt class="episoda-item-name">Date of birth</dt>
-                                    <dd class="episoda-item-data">May 17, 1987</dd>
-                                </div>
-                                <div class="episoda-details-item">
-                                    <dt class="episoda-item-name">Located in</dt>
-                                    <dd class="episoda-item-data">New-York, USA</dd>
-                                </div>
-                                <div class="episoda-details-item">
-                                    <dt class="episoda-item-name">Profession</dt>
-                                    <dd class="episoda-item-data">Professional photographer, social photography, designer</dd>
-                                </div>
-                                <div class="episoda-details-item">
-                                    <dt class="episoda-item-name">Languages spoken</dt>
-                                    <dd class="episoda-item-data">English, german</dd>
-                                </div>
-                                <div class="episoda-details-item">
-                                    <dt class="episoda-item-name">Skills</dt>
-                                    <dd class="episoda-item-data">Using digital and non-digital cameras, creativity, personality, perseverance, patience and dedication.</dd>
-                                </div>
-                            </dl>
-                        </footer>
+                        <img v-if="selectedMenu.page.background_image" :src="'storage/'+selectedMenu.page.background_image" alt="" class="episoda-img-responsive">
+
+                        <div class="episoda-content" v-html="selectedMenu.page.body"></div>
+                        <!--<footer class="episoda-details">-->
+                            <!--<dl class="episoda-details-container">-->
+                                <!--<div class="episoda-details-item">-->
+                                    <!--<dt class="episoda-item-name">Date of birth</dt>-->
+                                    <!--<dd class="episoda-item-data">May 17, 1987</dd>-->
+                                <!--</div>-->
+                                <!--<div class="episoda-details-item">-->
+                                    <!--<dt class="episoda-item-name">Located in</dt>-->
+                                    <!--<dd class="episoda-item-data">New-York, USA</dd>-->
+                                <!--</div>-->
+                                <!--<div class="episoda-details-item">-->
+                                    <!--<dt class="episoda-item-name">Profession</dt>-->
+                                    <!--<dd class="episoda-item-data">Professional photographer, social photography, designer</dd>-->
+                                <!--</div>-->
+                                <!--<div class="episoda-details-item">-->
+                                    <!--<dt class="episoda-item-name">Languages spoken</dt>-->
+                                    <!--<dd class="episoda-item-data">English, german</dd>-->
+                                <!--</div>-->
+                                <!--<div class="episoda-details-item">-->
+                                    <!--<dt class="episoda-item-name">Skills</dt>-->
+                                    <!--<dd class="episoda-item-data">Using digital and non-digital cameras, creativity, personality, perseverance, patience and dedication.</dd>-->
+                                <!--</div>-->
+                            <!--</dl>-->
+                        <!--</footer>-->
 
                     </article>
 
@@ -115,7 +94,14 @@
                 pageListCount: 6,
                 pageList: [],
                 show:false,
-                selectedPage:'',
+                selectedMenu:{
+                    display_name: '',
+                    page: {
+                        title: '',
+                        body: '',
+                        background_image: ''
+                    }
+                },
             }
         },
         beforeMount(){
@@ -123,10 +109,17 @@
             this.getPageList();
         },
         methods:{
-
+            sliceText(text, length){
+                if (text && text.length > length){
+                    let addedText = `...`;
+                    text =  ` ${text.slice(0, length)}${addedText}`
+                }
+                return text;
+            },
             showPage(data){
                 this.show = true;
-                this.selectedPage = data.page
+                this.selectedMenu = data;
+                console.log(data)
             },
             initOwl(){
                 this.$nextTick(() => {

@@ -2399,27 +2399,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Page",
@@ -2429,7 +2408,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       pageListCount: 6,
       pageList: [],
       show: false,
-      selectedPage: ''
+      selectedMenu: {
+        display_name: '',
+        page: {
+          title: '',
+          body: '',
+          background_image: ''
+        }
+      }
     };
   },
   beforeMount: function beforeMount() {
@@ -2437,9 +2423,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.getPageList();
   },
   methods: {
+    sliceText: function sliceText(text, length) {
+      if (text && text.length > length) {
+        var addedText = "...";
+        text = " ".concat(text.slice(0, length)).concat(addedText);
+      }
+
+      return text;
+    },
     showPage: function showPage(data) {
       this.show = true;
-      this.selectedPage = data.page;
+      this.selectedMenu = data;
+      console.log(data);
     },
     initOwl: function initOwl() {
       this.$nextTick(function () {
@@ -39608,8 +39603,6 @@ var render = function() {
           _vm._v("Copyright © 2018 Drac")
         ]),
         _vm._v(" "),
-        _vm._m(1),
-        _vm._v(" "),
         _c(
           "section",
           {
@@ -39651,7 +39644,13 @@ var render = function() {
                     [
                       _c("p", [_vm._v(_vm._s(value.display_name))]),
                       _vm._v(" "),
-                      _c("h1", [_vm._v(_vm._s(value.page.title))]),
+                      _c("h1", [
+                        _vm._v(_vm._s(_vm.sliceText(value.page.title, 50)))
+                      ]),
+                      _vm._v(" "),
+                      _c("p", [
+                        _vm._v(_vm._s(_vm.sliceText(value.page.body, 255)))
+                      ]),
                       _vm._v(" "),
                       _c(
                         "a",
@@ -39715,28 +39714,30 @@ var render = function() {
               "article",
               {
                 staticClass:
-                  "col-md-8 col-lg-6 col-12 offset-md-2 offset-lg-3 offset-0"
+                  "col-md-8 col-lg-8 col-12 offset-md-2 offset-lg-2 offset-0"
               },
               [
-                _c("img", {
-                  staticClass: "episoda-img-responsive",
-                  attrs: {
-                    src: "frontend-assets/site/img/photographer.jpg",
-                    alt: ""
-                  }
-                }),
-                _vm._v(" "),
-                _vm._m(2),
-                _vm._v(" "),
-                _c("div", { staticClass: "episoda-content" }, [
-                  _vm._v(
-                    "\n                        " +
-                      _vm._s(_vm.selectedPage.body) +
-                      "\n                    "
-                  )
+                _c("header", [
+                  _c("p", [_vm._v(_vm._s(_vm.selectedMenu.display_name))]),
+                  _vm._v(" "),
+                  _c("h2", [_vm._v(_vm._s(_vm.selectedMenu.page.title))])
                 ]),
                 _vm._v(" "),
-                _vm._m(3)
+                _vm.selectedMenu.page.background_image
+                  ? _c("img", {
+                      staticClass: "episoda-img-responsive",
+                      attrs: {
+                        src:
+                          "storage/" + _vm.selectedMenu.page.background_image,
+                        alt: ""
+                      }
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("div", {
+                  staticClass: "episoda-content",
+                  domProps: { innerHTML: _vm._s(_vm.selectedMenu.page.body) }
+                })
               ]
             )
           ])
@@ -39766,95 +39767,6 @@ var staticRenderFns = [
         _c("span", { staticClass: "episoda-label" }, [_vm._v("open")])
       ]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "episoda-audio-btn" }, [
-      _c("span", { staticClass: "episoda-equalizer episoda-line-1" }),
-      _vm._v(" "),
-      _c("span", { staticClass: "episoda-equalizer episoda-line-2" }),
-      _vm._v(" "),
-      _c("span", { staticClass: "episoda-equalizer episoda-line-3" }),
-      _vm._v(" "),
-      _c("span", { staticClass: "episoda-equalizer episoda-line-4" }),
-      _vm._v(" "),
-      _c("span", { staticClass: "episoda-equalizer episoda-line-5" }),
-      _vm._v(" "),
-      _c("span", { staticClass: "episoda-label" }, [
-        _c("span", { staticClass: "episoda-label-play" }, [_vm._v("play")]),
-        _c("span", { staticClass: "episoda-label-pause" }, [_vm._v("pause")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("header", [
-      _c("p", [_vm._v("Hi everyone!")]),
-      _vm._v(" "),
-      _c("h2", [_vm._v("I'm Mark Smith")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("footer", { staticClass: "episoda-details" }, [
-      _c("dl", { staticClass: "episoda-details-container" }, [
-        _c("div", { staticClass: "episoda-details-item" }, [
-          _c("dt", { staticClass: "episoda-item-name" }, [
-            _vm._v("Date of birth")
-          ]),
-          _vm._v(" "),
-          _c("dd", { staticClass: "episoda-item-data" }, [
-            _vm._v("May 17, 1987")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "episoda-details-item" }, [
-          _c("dt", { staticClass: "episoda-item-name" }, [
-            _vm._v("Located in")
-          ]),
-          _vm._v(" "),
-          _c("dd", { staticClass: "episoda-item-data" }, [
-            _vm._v("New-York, USA")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "episoda-details-item" }, [
-          _c("dt", { staticClass: "episoda-item-name" }, [
-            _vm._v("Profession")
-          ]),
-          _vm._v(" "),
-          _c("dd", { staticClass: "episoda-item-data" }, [
-            _vm._v("Professional photographer, social photography, designer")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "episoda-details-item" }, [
-          _c("dt", { staticClass: "episoda-item-name" }, [
-            _vm._v("Languages spoken")
-          ]),
-          _vm._v(" "),
-          _c("dd", { staticClass: "episoda-item-data" }, [
-            _vm._v("English, german")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "episoda-details-item" }, [
-          _c("dt", { staticClass: "episoda-item-name" }, [_vm._v("Skills")]),
-          _vm._v(" "),
-          _c("dd", { staticClass: "episoda-item-data" }, [
-            _vm._v(
-              "Using digital and non-digital cameras, creativity, personality, perseverance, patience and dedication."
-            )
-          ])
-        ])
-      ])
-    ])
   }
 ]
 render._withStripped = true
