@@ -98,7 +98,10 @@
                                         <a class="nav-link" href="#">Create new page</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#">List all pages</a>
+                                        <a class="nav-link" href="#">Pages</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('admin.category.index') }}">Categories</a>
                                     </li>
                                 </ul>
                             </div>

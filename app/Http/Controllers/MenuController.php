@@ -147,6 +147,7 @@ class MenuController extends Controller
         $menu = MenuPage::find($request->menu_id);
         $menu->display_name = $request->display_name;
         $menu->slug = Str::slug($request->display_name);
+        $menu->page_id = $request->page_id ? $request->page_id : 0;
         if ($request->hasFile('image')){
             $old_image = $menu->image;
             $path = $request->file('image')->store('menu_images', 'public');
