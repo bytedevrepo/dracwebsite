@@ -1,14 +1,5 @@
 @extends('frontend.layouts.app')
 @section('content')
-    <svg>
-        <defs>
-            <filter id="filt">
-                <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="10" />
-                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="filt" />
-                <feBlend in2="filt" in="SourceGraphic" result="mix" />
-            </filter>
-        </defs>
-    </svg>
     <div class="container">
         <div class="toggle" id="toggle"></div>
     </div>

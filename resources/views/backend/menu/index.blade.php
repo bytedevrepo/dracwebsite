@@ -115,8 +115,13 @@
                                     @foreach($menu_items as $value)
                                         <li class="dd-item" data-id="{{ $value->id }}">
                                             <div class="dd-handle"> <span class="drag-indicator"></span>
-                                                <div>{{ $value->display_name }}</div>
+                                                <div>
+                                                    {{ $value->display_name }}
+                                                </div>
                                                 <div class="dd-nodrag btn-group ml-auto">
+                                                    @if(!blank($value->page_id) AND $value->page_id !== 0)
+                                                        <span class="mr-5"><span class="badge-dot badge-primary"></span>Page</span>
+                                                    @endif
                                                     <button class="btn btn-xs btn-outline-light edit_btn"
                                                             data-image="{{$value->image}}"
                                                             data-title="{{$value->display_name}}"
@@ -131,8 +136,13 @@
                                                     @foreach($value->children as $child)
                                                         <li class="dd-item" data-id="{{ $child->id }}">
                                                             <div class="dd-handle"> <span class="drag-indicator"></span>
-                                                                <div> {{ $child->display_name }}</div>
+                                                                <div>
+                                                                    {{ $child->display_name }}
+                                                                </div>
                                                                 <div class="dd-nodrag btn-group ml-auto">
+                                                                    @if(!blank($child->page_id) AND $child->page_id !== 0)
+                                                                        <span class="mr-5"><span class="badge-dot badge-primary"></span>Page</span>
+                                                                    @endif
                                                                     <button class="btn btn-xs btn-outline-light edit_btn"
                                                                             data-image="{{$child->image}}"
                                                                             data-title="{{$child->display_name}}"
@@ -147,8 +157,13 @@
                                                                     @foreach($child->children as $subchild)
                                                                         <li class="dd-item" data-id="{{ $subchild->id }}">
                                                                             <div class="dd-handle"> <span class="drag-indicator"></span>
-                                                                                <div> {{ $subchild->display_name }}</div>
+                                                                                <div>
+                                                                                    {{ $subchild->display_name }}
+                                                                                </div>
                                                                                 <div class="dd-nodrag btn-group ml-auto">
+                                                                                    @if(!blank($subchild->page_id) AND $subchild->page_id !== 0)
+                                                                                        <span class="mr-5"><span class="badge-dot badge-primary"></span>Page</span>
+                                                                                    @endif
                                                                                     <button class="btn btn-xs btn-outline-light edit_btn"
                                                                                             data-title="{{$subchild->display_name}}"
                                                                                             data-image="{{$subchild->image}}"

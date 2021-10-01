@@ -1,19 +1,19 @@
 body {
     /* background-color: #213149; */
-    padding: 0;
-    margin: 0;
-    background: linear-gradient(-45deg, #d1b8b0, #c7a0af, #a3bbc4, #b1cec7);
-    background-size: 200% 200%;
-    animation: gradient 15s ease infinite;
+    /*padding: 0;*/
+    /*margin: 0;*/
+    /*background: linear-gradient(-45deg, #d1b8b0, #c7a0af, #a3bbc4, #b1cec7);*/
+    /*background-size: 200% 200%;*/
+    /*animation: gradient 15s ease infinite;*/
 }
 
-.container,
+.menu_container,
 .menu {
     height: 140px;
     width: 140px;
     position: absolute;
     margin: auto;
-    top: 0;
+    top: 600px;
     bottom: 0;
     left: 0;
     right: 0;
@@ -54,8 +54,8 @@ body {
     position: absolute;
     top: 0;
     z-index: 1;
-    opacity: 0.6;
-    background-color: rgb(238, 236, 236);
+    opacity: 0.8;
+    background-color: #fff;
     transition: 1s;
     transform: scale(0.95);
 }

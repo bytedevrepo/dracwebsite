@@ -17,8 +17,13 @@ class CreatePagesTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('slug');
+            $table->string('background_image');
+            $table->text('excerpt')->nullable();
             $table->longText('body')->nullable();
             $table->boolean('status')->default(0)->comment('0->draft, 1->published');
+            $table->string('meta_title')->nullable();
+            $table->text('meta_keyword')->nullable();
+            $table->text('meta_description')->nullable();
             $table->timestamps();
         });
     }
