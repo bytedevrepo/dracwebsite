@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class PageController extends Controller
 {
     use SetResponse;
-    public function getPageBySlug(Request $request,$slug='')
+    public function getPageBySlug(Request $request, $slug='')
     {
         if($slug !== ''){
             $page = Page::where('slug', $slug)->firstOrFail();
@@ -19,9 +19,9 @@ class PageController extends Controller
         }
     }
 
-    public function getPageList($menu_id)
+    public function getPageList($menu_slug)
     {
-        $menu = MenuPage::find($menu_id);
+        $menu = MenuPage::where('slug', $menu_slug)->first();
         $siblings = MenuPage::where('parent_id', $menu->parent_id)->with('page')->get();
         $returnData = $this->prepareResponse(false, 'success', compact('menu', 'siblings'), []);
         return response()->json($returnData, 200);

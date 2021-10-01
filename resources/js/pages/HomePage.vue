@@ -57,7 +57,7 @@
                     await this.setMenu(response);
                     this.expandMenu();
                 } else{
-                    this.$router.push({ name: 'Page', params: { menu_id: value.id } })
+                    this.$router.push({ name: 'Page', params: { menu_id: value.slug } })
                 }
                 this.showCloseBtn = true;
             },

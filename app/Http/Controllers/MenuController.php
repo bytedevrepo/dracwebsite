@@ -9,6 +9,7 @@ use App\Traits\SetResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class MenuController extends Controller
 {
@@ -95,6 +96,7 @@ class MenuController extends Controller
             $menu->image = $path;
         }
         $menu->display_name = $request->display_name;
+        $menu->slug = Str::slug($request->display_name);
         $menu->parent_id = 0;
         $menu->page_id = 0;
         $menu->menu_id = 1;
@@ -128,6 +130,7 @@ class MenuController extends Controller
         $menu->menu_id = 1;
         $menu->order = 0;
         $menu->display_name = $page->title;
+        $menu->slug = Str::slug($page->title);
         $menu->image = '';
         $menu->save();
         Session::flash('message', 'Page added successfully.');
@@ -143,6 +146,7 @@ class MenuController extends Controller
 
         $menu = MenuPage::find($request->menu_id);
         $menu->display_name = $request->display_name;
+        $menu->slug = Str::slug($request->display_name);
         if ($request->hasFile('image')){
             $old_image = $menu->image;
             $path = $request->file('image')->store('menu_images', 'public');

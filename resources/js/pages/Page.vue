@@ -29,17 +29,10 @@
                 <span class="episoda-equalizer episoda-line-5"></span>
                 <span class="episoda-label"><span class="episoda-label-play">play</span><span class="episoda-label-pause">pause</span></span>
             </div>
-            <!-- end play/pause audio button -->
-
-            <!-- audio track -->
-            <!--<audio id="episoda-audio-bg" class="episoda-audio" loop>-->
-                <!--<source src="/frontend-assets/site/audio/bensound-memories.mp3" type="audio/mpeg">-->
-            <!--</audio>-->
-            <!-- end audio track -->
 
             <section id="episoda-header-slider" class="episoda-slider owl-carousel">
                 <!-- slide -->
-                <div class="episoda-slide" :data-hash="value.id" v-for="(value,index) in pageList" :key="index">
+                <div class="episoda-slide" :data-hash="value.slug" v-for="(value,index) in pageList" :key="index">
                     <a @click=""><div class="episoda-logo">
                         <img :src="'storage/'+value.image" alt="" style="width: 100px !important;">
                     </div></a>
@@ -153,7 +146,6 @@
                 })
             },
             async getPageList(){
-
                 const response = await HomeService.getPageList(this.menu_id);
                 this.pageList = response.data.data.siblings;
                 this.initOwl();
