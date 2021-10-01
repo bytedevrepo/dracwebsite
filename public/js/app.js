@@ -2399,6 +2399,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Page",
@@ -39597,8 +39605,6 @@ var render = function() {
       "header",
       { staticClass: "episoda-header", attrs: { id: "episoda-home" } },
       [
-        _vm._m(0),
-        _vm._v(" "),
         _c("div", { staticClass: "episoda-copyright" }, [
           _vm._v("Copyright © 2018 Drac")
         ]),
@@ -39746,29 +39752,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      {
-        staticClass: "episoda-nav-ico-open episoda-pop-up-btn",
-        attrs: { href: "#menu" }
-      },
-      [
-        _c("span", { staticClass: "episoda-sandwich-top" }),
-        _vm._v(" "),
-        _c("span", { staticClass: "episoda-sandwich-mid" }),
-        _vm._v(" "),
-        _c("span", { staticClass: "episoda-sandwich-bottom" }),
-        _vm._v(" "),
-        _c("span", { staticClass: "episoda-label" }, [_vm._v("open")])
-      ]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

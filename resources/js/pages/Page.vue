@@ -1,12 +1,20 @@
 <template>
     <div class="">
+        <!--<ul id="menu_ferro">-->
+            <!--<li><a href="#"><i class="icon-camera"></i></a></li>-->
+            <!--<li><a href="#"><i class="icon-user"></i></a></li>-->
+            <!--<li><a href="#"><i class="icon-map-marker"></i></a></li>-->
+            <!--<li><a href="#"><i class="icon-music"></i></a></li>-->
+            <!--<li><a href="#"><i class="icon-comment-alt"></i></a></li>-->
+            <!--<li><a href="#"><i class="icon-moon"></i></a></li>-->
+        <!--</ul>-->
         <header id="episoda-home" class="episoda-header">
-            <a href="#menu" class="episoda-nav-ico-open episoda-pop-up-btn">
-                <span class="episoda-sandwich-top"></span>
-                <span class="episoda-sandwich-mid"></span>
-                <span class="episoda-sandwich-bottom"></span>
-                <span class="episoda-label">open</span>
-            </a>
+            <!--<a href="#menu" class="episoda-nav-ico-open episoda-pop-up-btn">-->
+                <!--<span class="episoda-sandwich-top"></span>-->
+                <!--<span class="episoda-sandwich-mid"></span>-->
+                <!--<span class="episoda-sandwich-bottom"></span>-->
+                <!--<span class="episoda-label">open</span>-->
+            <!--</a>-->
 
             <div class="episoda-copyright">Copyright © 2018 Drac</div>
 
