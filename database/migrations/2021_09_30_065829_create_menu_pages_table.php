@@ -20,7 +20,6 @@ class CreateMenuPagesTable extends Migration
             $table->integer('order')->default(1);
             $table->unsignedBigInteger('parent_id')->default(0);
             $table->string('display_name')->nullable();
-            $table->string('image')->nullable();
             $table->timestamps();
         });
     }
