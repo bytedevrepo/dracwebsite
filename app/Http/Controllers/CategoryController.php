@@ -45,7 +45,7 @@ class CategoryController extends Controller
         $category->delete();
 
         return redirect()->back()
-        ->with('message', 'Your post has been deleted!');
+        ->with('message', 'Category has been deleted!');
     }
 
     public function edit($category_id)

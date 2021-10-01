@@ -23,6 +23,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function (){
     Route::get('category/edit/{id}', [\App\Http\Controllers\CategoryController::class, 'edit'])->name('admin.category.edit');
     Route::get('category/delete/{id}', [\App\Http\Controllers\CategoryController::class, 'delete'])->name('admin.category.delete');
 
+    //Post//
+    Route::get('post', [\App\Http\Controllers\PostController::class, 'index'])->name('admin.category.post');
+
+
     Route::get('/', function () {
         return view('backend/dashboard/dashboard');
     })->middleware(['auth'])->name('dashboard');

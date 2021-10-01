@@ -47,7 +47,7 @@ class MenuController extends Controller
                 ->get();
         }
 
-        return view('backend.menu.index', compact('menu', 'pages'));
+        return view('backend.menu.index', compact('menu', 'menu_items', 'pages'));
     }
 
     public function saveMenuOrder(Request $request)
