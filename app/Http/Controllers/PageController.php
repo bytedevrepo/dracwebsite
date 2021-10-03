@@ -24,7 +24,7 @@ class PageController extends Controller
 
     public function getPageList($menu_slug)
     {
-        $menu = MenuPage::where('slug', $menu_slug)->first();
+        $menu = MenuPage::where('slug', $menu_slug)->with('page')->first();
         $siblings = MenuPage::where('parent_id', $menu->parent_id)->with('page')->get();
         $returnData = $this->prepareResponse(false, 'success', compact('menu', 'siblings'), []);
         return response()->json($returnData, 200);

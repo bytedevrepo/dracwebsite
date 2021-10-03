@@ -118,10 +118,12 @@
                                                     {{ $value->display_name }}
                                                 </div>
                                                 <div class="dd-nodrag btn-group ml-auto">
+                                                    <small class="mr-5 text-warning"><em><i class="fa fa-info-circle"></i> Do not attach page here!</em></small>
                                                     @if(!blank($value->page_id) AND $value->page_id !== 0)
                                                         <span class="mr-5"><span class="badge-dot badge-primary"></span>Page</span>
                                                     @endif
                                                     <button class="btn btn-xs btn-outline-light edit_btn"
+                                                            data-page="{{$value->page_id}}"
                                                             data-image="{{$value->image}}"
                                                             data-title="{{$value->display_name}}"
                                                             data-id="{{$value->id}}">Edit</button>
@@ -139,10 +141,12 @@
                                                                     {{ $child->display_name }}
                                                                 </div>
                                                                 <div class="dd-nodrag btn-group ml-auto">
+                                                                    <small class="mr-5 text-warning"><em><i class="fa fa-info-circle"></i> Do not attach page here!</em></small>
                                                                     @if(!blank($child->page_id) AND $child->page_id !== 0)
                                                                         <span class="mr-5"><span class="badge-dot badge-primary"></span>Page</span>
                                                                     @endif
                                                                     <button class="btn btn-xs btn-outline-light edit_btn"
+                                                                            data-page="{{$child->page_id}}"
                                                                             data-image="{{$child->image}}"
                                                                             data-title="{{$child->display_name}}"
                                                                             data-id="{{$child->id}}">Edit</button>
@@ -164,6 +168,7 @@
                                                                                         <span class="mr-5"><span class="badge-dot badge-primary"></span>Page</span>
                                                                                     @endif
                                                                                     <button class="btn btn-xs btn-outline-light edit_btn"
+                                                                                            data-page="{{$subchild->page_id}}"
                                                                                             data-title="{{$subchild->display_name}}"
                                                                                             data-image="{{$subchild->image}}"
                                                                                             data-id="{{$subchild->id}}">Edit</button>
@@ -236,9 +241,6 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-
-                                </div>
-                                <div class="form-group">
                                     <div class="row">
                                         <div class="col-md-8">
                                             <label for="edit_title" class="col-form-label">Image</label>
@@ -248,11 +250,21 @@
                                             <img id="edit_image_url" src="{{ asset('images/default.png') }}" alt="" width="100">
                                         </div>
                                     </div>
-
                                 </div>
                                 <div class="form-group">
                                     <label for="edit_title" class="col-form-label">Title</label>
                                     <input id="edit_title" type="text" name="display_name" placeholder="Menu Title" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="input-select">Attach Post</label>
+                                    <select id="edit_page" class="form-control" id="input-select" name="page_id">
+                                        <option value="">--- SELECT POST ---</option>
+                                        @if($pages->count())
+                                            @foreach($pages as $value)
+                                                <option value="{{ $value->id }}">{{ Illuminate\Support\Str::limit($value->title, 60, $end='...') }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -297,8 +309,12 @@
             let menu_id = $(this).data("id");
             let menu_title = $(this).data("title");
             let menu_url = $(this).data("image");
+            let menu_page = $(this).data("page");
             $("#edit_id").val(menu_id);
             $("#edit_title").val(menu_title);
+            if (menu_page !== 0) {
+                $("#edit_page").val(menu_page);
+            }
             $("#edit_image_url").prop('src', '/storage/'+menu_url);
             $("#editModal").modal('show');
         });

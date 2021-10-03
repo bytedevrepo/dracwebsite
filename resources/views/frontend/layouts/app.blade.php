@@ -30,127 +30,37 @@
     <link rel="stylesheet" href="{{ asset('frontend-assets/site/css/main.css') }}">
     <!-- End CSS files -->
     <link rel="stylesheet" href="{{ asset('frontend-assets/style.css') }}">
+
+    {{--<link rel="stylesheet" href="{{ asset('frontend-assets/radial/fonts/font-awesome/css/font-awesome.css') }}" />--}}
+    {{--<link rel="stylesheet" href="{{ asset('frontend-assets/radial/jquery.ferro.ferroMenu.css') }}" />--}}
+    <style>
+        #ferromenu-controller{
+            top: 40% !important;
+        }
+    </style>
 </head>
 
 <body id="episoda-body" >
+
 <div id="app">
     <container/>
 </div>
-<!-- End Pop-up window -->
-
-<!-- Start JavaScript files -->
 
 <script src="{{ mix('/js/app.js') }}" ></script>
 <script src="{{ asset('frontend-assets/site/libs/jquery/dist/jquery.min.js') }}"></script>
+{{--<script src="{{ asset('frontend-assets/radial/jquery-1.9.1.min.js') }}" type="text/javascript"></script>--}}
 <script src="{{ asset('frontend-assets/site/libs/OwlCarousel2/dist/owl.carousel.min.js') }}"></script>
-{{--<script src="{{ asset('frontend-assets/site/js/scripts.js') }}"></script>--}}
-
-<!-- End JavaScript files -->
-<script>
-    // var owl = $('#episoda-header-slider'),
-    //     URLHash = window.location.hash;
-    // window.owlC = owl;
-    // var owlOptions = {
-    //         items: 1,
-    //         loop: true,
-    //         nav: true,
-    //         navText: ['<i class="episoda-left-arrow"></i>Prev', 'Next<i class="episoda-right-arrow"></i>'],
-    //         autoplay: true,
-    //         autoplayTimeout: 60000,
-    //         animateIn: 'fadeIn',
-    //         animateOut: 'fadeOut',
-    //         URLhashListener: true,
-    //         startPosition: 'URLHash'
-    //     };
-
-    // owl.owlCarousel(owlOptions);
-    //
-    // var allowTransitionLeft = true;
-    // var allowTransitionRight = true;
-    //
-    // function slideNav(slider) {
-    //     //Firefox:
-    //     slider.on('DOMMouseScroll', '.owl-stage', function (e) {
-    //         if (e.originalEvent.detail > 0) {
-    //             if (allowTransitionRight) {
-    //                 allowTransitionRight = false;
-    //                 slider.trigger('next.owl');
-    //             }
-    //         } else {
-    //             if (allowTransitionLeft) {
-    //                 allowTransitionLeft = false;
-    //                 slider.trigger('prev.owl');
-    //             }
-    //         }
-    //         e.preventDefault();
-    //     }).on('translated.owl.carousel', function () {
-    //         allowTransitionLeft = true;
-    //         allowTransitionRight = true;
-    //     });
-    //
-    //     //Chrome, IE
-    //     slider.on('mousewheel', '.owl-stage', function (e) {
-    //         if (e.originalEvent.wheelDelta > 0) {
-    //             if (allowTransitionLeft) {
-    //                 allowTransitionLeft = false;
-    //                 slider.trigger('prev.owl');
-    //             }
-    //         } else {
-    //             if (allowTransitionRight) {
-    //                 allowTransitionRight = false;
-    //                 slider.trigger('next.owl');
-    //             }
-    //         }
-    //         e.preventDefault();
-    //     }).on('translated.owl.carousel', function () {
-    //         allowTransitionLeft = true;
-    //         allowTransitionRight = true;
-    //     });
-    //
-    //     $(document).on('keydown', function (e) {
-    //         if ($('#preloader').css('display') === 'none') {
-    //             if (e.keyCode === 39 || e.keyCode === 40) {
-    //                 if (allowTransitionRight) {
-    //                     allowTransitionRight = false;
-    //                     slider.trigger('next.owl');
-    //                 }
-    //             }
-    //             if (e.keyCode === 37 || e.keyCode === 38) {
-    //                 if (allowTransitionLeft) {
-    //                     allowTransitionLeft = false;
-    //                     slider.trigger('prev.owl');
-    //                 }
-    //             }
-    //         }
-    //     }).on('translated.owl.carousel', function () {
-    //         allowTransitionLeft = true;
-    //         allowTransitionRight = true;
-    //     });
-    // }
-    //
-    // slideNav(owl);
-    //
-    // function counter(slider, counter) {
-    //     var item = slider.find('.owl-dot.active').index() + 1,
-    //         items = slider.find('.owl-dot').length;
-    //
-    //     item = item < 10 ? '0' + item : item;
-    //     items = items < 10 ? '0' + items : items;
-    //
-    //     counter.html('<span class="episoda-slide-current">' + item + '</span><span class="episoda-slide-total">' + items + '</span>');
-    // }
-    //
-    // var counterBox = $('#episoda-counter');
-    //
-    // counter(owl, counterBox);
-    //
-    // owl.on('changed.owl.carousel', function () {
-    //     counter(owl, counterBox);
-    // });
-
-
+{{--<script src="{{ asset('frontend-assets/radial/jquery.ferro.ferroMenu-1.0.min.js') }}" type="text/javascript"></script>--}}
+{{--<script src="{{ asset('frontend-assets/radial/lib/jquery.transit.min.js') }}" type="text/javascript"></script>--}}
+<script type="text/javascript">
+    $(document).ready(function() {
+        // $("#menu_ferro").ferroMenu({
+        //     position 	: "right-center",
+        //     delay 		: 50,
+        //     rotation 	: 720,
+        //     margin		: 20
+        // });
+    });
 </script>
 </body>
-
-
 </html>
