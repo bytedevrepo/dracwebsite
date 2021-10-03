@@ -28,13 +28,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function (){
     Route::get('post/create', [\App\Http\Controllers\PostController::class, 'create'])->name('admin.post.create');
     Route::get('post/edit/{id}', [\App\Http\Controllers\PostController::class, 'edit'])->name('admin.post.edit');
     Route::post('post/store', [\App\Http\Controllers\PostController::class, 'store'])->name('admin.post.store');
+    Route::post('post/delete', [\App\Http\Controllers\PostController::class, 'delete'])->name('admin.post.delete');
+
 
 
     Route::get('/', function () {
         return view('backend/dashboard/dashboard');
     })->middleware(['auth'])->name('dashboard');
-
-
 
 });
 Route::get('/', function (){
