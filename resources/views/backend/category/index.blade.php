@@ -16,14 +16,24 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        @if(blank($edit))
-                            Create Category
-                        @else
-                            Edit Category
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    @if(blank($edit))
+                        Create Category
+                     @else
+                        Edit Category
+                    @endif
+                </div>
+                <div class="card-body">
+                    <form action="{{ route('admin.category.save') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <input class="form-control" type="text" value="{{ (!blank($edit)) ? $edit->title: '' }}" name="title" placeholder="Title"><br>
+                        <input type="hidden" value="{{ (!blank($edit)) ? $edit->id: '' }}" name="category_id" >
+                        <button class="btn btn-xs btn-primary float-right">{{(!blank($edit) ? 'Update' : 'Save' )}}</button>
+                        @if (!blank($edit))
+                        <a href="{{ route('admin.category.index') }}" class="btn btn-xs btn-default float-right mr-2">Discard</a>
                         @endif
                     </div>
                     <div class="card-body">
