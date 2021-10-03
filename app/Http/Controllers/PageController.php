@@ -6,6 +6,9 @@ use App\Models\MenuPage;
 use App\Models\Page;
 use App\Traits\SetResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PageController extends Controller
 {
@@ -26,4 +29,6 @@ class PageController extends Controller
         $returnData = $this->prepareResponse(false, 'success', compact('menu', 'siblings'), []);
         return response()->json($returnData, 200);
     }
+
 }
+
