@@ -33,7 +33,7 @@
                             <input type="hidden" value="{{ (!blank($edit)) ? $edit->id: '' }}" name="category_id" >
                             <button class="btn btn-xs btn-primary float-right">{{(!blank($edit) ? 'Update' : 'Save' )}}</button>
                             @if (!blank($edit))
-                            <a href="{{ route('admin.category.index') }}" class="btn btn-xs btn-default float-right mr-2">Discard</a>
+                                <a href="{{ route('admin.category.index') }}" class="btn btn-xs btn-default float-right mr-2">Discard</a>
                             @endif
                         </form>
                     </div>
@@ -62,9 +62,9 @@
                                         <td>
                                             <button class="btn btn-xs btn-outline-light edit_btn"><a href="{{ route('admin.category.edit',$value['id']) }}"
                                                 >Edit</a></button>
-                                                <button class="btn btn-outline-light btn-xs delete_btn" data-id="{{ $value->id }}">
-                                                    <i class="far fa-trash-alt"></i>
-                                                </button>
+                                            <button class="btn btn-outline-light btn-xs delete_btn" data-id="{{ $value->id }}">
+                                                <i class="far fa-trash-alt"></i>
+                                            </button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -94,7 +94,7 @@
                 </div>
                 <div class="modal-footer">
                     <a href="#" class="btn btn-secondary btn-xs" data-dismiss="modal">Discard</a>
-                    <a id="confirm_delete" href="#" type="submit" class="btn btn-primary btn-xs">Delete</button>
+                    <a id="confirm_delete" href="#" type="submit" class="btn btn-primary btn-xs">Delete</a>
                 </div>
             </div>
         </div>
@@ -102,17 +102,17 @@
 
 @endsection
 @section('script')
-<script type="text/javascript">
- $('.delete_btn').on('click', function(e){
-     e.preventDefault();
-    let id = $(this).data("id");
-    var url = '/admin/category/delete/'+id;
-    $("#confirm_delete").attr('href', url);
-    $("#deleteCategoryModal").modal('show');
-});
+    <script type="text/javascript">
+        $('.delete_btn').on('click', function(e){
+            e.preventDefault();
+            let id = $(this).data("id");
+            var url = '/admin/category/delete/'+id;
+            $("#confirm_delete").attr('href', url);
+            $("#deleteCategoryModal").modal('show');
+        });
 
-$(".modal").on("hidden.bs.modal", function () {
-    $("#confirm_delete").attr('href', '#');
+        $(".modal").on("hidden.bs.modal", function () {
+            $("#confirm_delete").attr('href', '#');
         })
-</script>
+    </script>
 @endsection
