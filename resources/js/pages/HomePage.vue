@@ -51,13 +51,14 @@
                 this.childMenu = response.data.data.child;
             },
             async followMenu(value){
+                // console.log(this.mainMenu)
                 if (value.page_id === 0) {
                     this.closeMenu();
                     const response = await HomeService.getChildMenu(value.id);
                     await this.setMenu(response);
                     this.expandMenu();
                 } else{
-                    this.$router.push({ name: 'Page', params: { menu_id: value.slug } })
+                    this.$router.push({ name: 'Page', params: { menu_id: this.mainMenu.slug } })
                 }
                 this.showCloseBtn = true;
             },

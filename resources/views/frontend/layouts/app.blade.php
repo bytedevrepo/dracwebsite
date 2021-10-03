@@ -31,7 +31,7 @@
     <!-- End CSS files -->
     <link rel="stylesheet" href="{{ asset('frontend-assets/style.css') }}">
 
-    {{--<link rel="stylesheet" href="{{ asset('frontend-assets/radial/fonts/font-awesome/css/font-awesome.css') }}" />--}}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     {{--<link rel="stylesheet" href="{{ asset('frontend-assets/radial/jquery.ferro.ferroMenu.css') }}" />--}}
     <style>
         #ferromenu-controller{
