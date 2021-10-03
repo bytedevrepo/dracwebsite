@@ -299,7 +299,8 @@
             });
         });
 
-        $('.delete_btn').on('click', function(){
+        $('.delete_btn').on('click', function(e){
+            e.preventDefault();
             let menu_id = $(this).data("id");
             $("#delete_input").val(menu_id);
             $("#deleteModal").modal('show');

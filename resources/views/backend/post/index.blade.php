@@ -17,7 +17,6 @@
             </div>
         </div>
     <div class="row">
-
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
@@ -27,32 +26,74 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th scope="col">S.N</th>
+                                <th scope="col" style="width:85px" class="text-center">S.N</th>
+                                <th scope="col" style="width:200px" class="text-center">Backgroound</th>
                                 <th scope="col">Title</th>
-                                <th scope="col">Action</th>
+                                <th scope="col" class="text-center" style="width:200px"></th>
                             </tr>
                         </thead>
                         <tbody>
+                            @if(!blank($pages))
                             @foreach($pages as $value)
                             <tr>
-                                <td>{{$loop->iteration}}</td>
-                                <td>{{$value->title}}</td>
-                                    <td>
+                                <td class="text-center">{{$loop->iteration}}</td>
+
+                                <td class="text-center"><img src="{{ asset('storage/'. $value->background_image) }}" alt="" width="80" style="border-radius:5px">
+                                    <td>{{$value->title}}</td>
+                                    <td class="text-center">
                                         <a class="btn btn-xs btn-outline-light" href="{{ route('admin.post.edit',$value->id) }}"
                                           >Edit</a>
-                                            <button class="btn btn-outline-light btn-xs delete_btn">
-                                                 <a href="{{ route('admin.category.delete',$value['id']) }}">
-                                                    @csrf
-                                                <i class="far fa-trash-alt"></i></a>
+                                          <button class="btn btn-outline-light btn-xs delete_btn">
+                                            <i class="far fa-trash-alt"></i>
                                         </button>
+
                                     </td>
                             </tr>
                             @endforeach
+                            @else
+                            <tr>
+                                <td colspan="3">No items available.</td>
+                            </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
+    {{-- Delete Modal --}}
+    <div class="modal" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Menu</h5>
+                    <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
+                </div>
+                <div class="modal-body">
+                    <p>You are about to delete this post permanently. Continue?</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-secondary btn-xs" data-dismiss="modal">Discard</a>
+                    <form action="{{ route('admin.post.delete',$value->id) }}" method="post">
+                        @csrf
+                        <input type="hidden" name="post_id" id="delete_input">
+                        <button type="submit" class="btn btn-primary btn-xs">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+@endsection
+
+@section('script')
+<script type="text/javascript">
+ $('.delete_btn').on('click', function(){
+            let id = $(this).data("id");
+            $("#delete_input").val(id);
+            $("#deleteModal").modal('show');
+        });
+</script>
 @endsection
