@@ -41,7 +41,7 @@ class CategoryController extends Controller
 
     public function delete($category_id)
     {
-        $category = Category::find($category_id);
+        $category = Category::findOrFail($category_id);
         $category->delete();
 
         return redirect()->back()
