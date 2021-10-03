@@ -92,10 +92,10 @@
                             <div id="submenu-1" class="collapse submenu" style="">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#">Create new page</a>
+                                        <a class="nav-link" href="{{ route('admin.post.create') }}">Create new page</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="#">Pages</a>
+                                        <a class="nav-link" href="{{ route('admin.post.index') }}">Pages</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{ route('admin.category.index') }}">Categories</a>

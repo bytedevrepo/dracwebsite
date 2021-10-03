@@ -30,11 +30,11 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-
+//dd($request->all());
         $request->validate([
             'title' => 'required|max:255',
             'excerpt' => 'required',
-            'body' => 'required',
+            'body' => 'nullable',
             'meta_title' => 'nullable|max:255',
             'meta_keyboard' => 'nullable|max:255',
             'meta_description' => 'nullable|max:500'
@@ -53,7 +53,7 @@ class PostController extends Controller
         $page->excerpt = $request->excerpt;
         $page->body = $request->body;
         $page->meta_title = $request->meta_title;
-        $page->meta_keyboard = $request->meta_keyboard;
+        $page->meta_keyword = $request->meta_keyboard;
         $page->meta_description = $request->meta_description;
         $page->status = $request->submit;
         $page->save();
