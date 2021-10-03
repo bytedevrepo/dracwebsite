@@ -2262,7 +2262,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   params: {
                     menu_id: _this3.mainMenu.slug
                   }
-                });
+                }); // this.$router.push({ name: 'Page', params: { menu_id: value.slug } })
+
 
               case 11:
                 _this3.showCloseBtn = true;
@@ -2411,6 +2412,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Page",
@@ -2435,12 +2441,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     this.menu_id = this.$route.params.menu_id;
     this.getPageList();
   },
-  mounted: function mounted() {},
   methods: {
-    setActive: function setActive() {
-      console.log(this.pageList);
-      $(tab).addClass("active");
-    },
     sliceText: function sliceText(text, length) {
       if (text && text.length > length) {
         var addedText = "...";
@@ -2452,15 +2453,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     showPage: function showPage(data) {
       this.show = true;
       this.selectedMenu = data;
-      console.log(data);
     },
-    followMenu: function followMenu(value) {
-      // var current = event.item.index;
-      var hash = value.slug;
-      $('.' + hash).addClass('active'); // this.$router.push(this.mainMenu.slug+'#'+value.slug,() => {});
-      // var element_id = '#'+value.slug;
-      // $(".owl-item").removeClass('animated owl-animated-in fadeIn active');
-      // $(element_id).parent().addClass("animated owl-animated-in fadeIn active");
+    followMenu: function followMenu(value, index) {
+      var element_id = '#' + value.slug;
+      console.log($(element_id).parent());
+      $(element_id).parent().trigger("to.owl.carousel", [index, 1]);
     },
     initOwl: function initOwl() {
       this.$nextTick(function () {
@@ -2471,11 +2468,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           nav: true,
           navText: ['<i class="episoda-left-arrow"></i>Prev', 'Next<i class="episoda-right-arrow"></i>'],
           autoplay: true,
-          autoplayTimeout: 6000,
+          autoplayTimeout: 10000,
           animateIn: 'fadeIn',
           animateOut: 'fadeOut',
-          URLhashListener: true,
-          startPosition: 'URLHash'
+          URLhashListener: false
         });
       });
     },
@@ -2496,8 +2492,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this.pageList = response.data.data.siblings;
                 _this.mainMenu = response.data.data.menu;
 
-                _this.initOwl(); // console.log(this.pageList)
-
+                _this.initOwl();
 
               case 6:
               case "end":
@@ -7159,7 +7154,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.circular-menu[data-v-135ba3d0] {\n    position: fixed;\n    right: 5em;\n    top: 4em;\n}\n.circular-menu .floating-btn[data-v-135ba3d0] {\n    display: block;\n    width: 5em;\n    height: 5em;\n    border-radius: 50%;\n    /*background-color: hsl(4, 98%, 60%);*/\n    /*background-color: hsla(0,0%,0%,.1);;*/\n    background-color: rgba(0, 0, 0, 0.9);\n\n    box-shadow: 0 2px 5px 0 hsla(0, 0%, 0%, .26);\n    color: hsl(0, 0%, 100%);\n    text-align: center;\n    line-height: 6.5;\n    cursor: pointer;\n    outline: 0;\n}\n.circular-menu.active .floating-btn[data-v-135ba3d0] {\n    box-shadow: inset 0 0 3px hsla(0, 0%, 0%, .3);\n}\n.circular-menu .floating-btn[data-v-135ba3d0]:active {\n    box-shadow: 0 4px 8px 0 hsla(0, 0%, 0%, .4);\n}\n.circular-menu .floating-btn i[data-v-135ba3d0] {\n    font-size: 1.3em;\n    transition: transform .2s;\n}\n.circular-menu.active .floating-btn i[data-v-135ba3d0] {\n    transform: rotate(-45deg);\n}\n.circular-menu[data-v-135ba3d0]:after {\n    display: block;\n    content: ' ';\n    width: 5em;\n    height: 5em;\n    border-radius: 50%;\n    position: absolute;\n    top: 0;\n    right: 0;\n    z-index: -2;\n    /*background-color: hsl(4, 98%, 60%);*/\n    background-color: hsla(0,0%,0%,0.3);\n    transition: all .3s ease;\n}\n.circular-menu.active[data-v-135ba3d0]:after {\n    transform: scale3d(5.5, 5.5, 1);\n    transition-timing-function: cubic-bezier(.68, 1.55, .265, 1);\n}\n.circular-menu .items-wrapper[data-v-135ba3d0] {\n    padding: 0;\n    margin: 0;\n}\n.circular-menu .menu-item[data-v-135ba3d0] {\n    position: absolute;\n    top: .2em;\n    right: .2em;\n    z-index: -1;\n    display: block;\n    text-decoration: none;\n    color: hsl(0, 0%, 100%);\n    font-size: 1em;\n    width: 4em;\n    height: 4em;\n    border-radius: 50%;\n    text-align: center;\n    line-height: 4;\n    /*background-color: hsla(0,0%,0%,.1);*/\n    background-color: whitesmoke;\n    transition: transform .3s ease, background .2s ease;\n}\n.circular-menu .menu-item[data-v-135ba3d0]:hover {\n    background-color: hsla(0,0%,0%,.3);\n}\n.circular-menu.active .menu-item[data-v-135ba3d0] {\n    transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);\n}\n.circular-menu.active .menu-item[data-v-135ba3d0]:nth-child(1) {\n    transform: translate3d(-9em,-3.5em,0)\n}\n.circular-menu.active .menu-item[data-v-135ba3d0]:nth-child(2) {\n    transform: translate3d(-10em,1em,0);\n}\n.circular-menu.active .menu-item[data-v-135ba3d0]:nth-child(3) {\n    transform: translate3d(-8.7em,5.6em,0);\n}\n.circular-menu.active .menu-item[data-v-135ba3d0]:nth-child(4) {\n    transform: translate3d(-5em,9em,0);\n}\n.circular-menu.active .menu-item[data-v-135ba3d0]:nth-child(5) {\n    transform: translate3d(-0.5em,10em,0);\n}\n.circular-menu.active .menu-item[data-v-135ba3d0]:nth-child(6) {\n    transform: translate3d(4em,9em,0);\n}\n\n/*logo*/\n.episoda-logo[data-v-135ba3d0]{\n    background-color: hsla(0,0%,0%,0.3);\n    border-radius: 50%;\n    height: 5rem;\n    width: 5rem;\n    top: 64px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.circular-menu[data-v-135ba3d0] {\n    position: fixed;\n    right: 5em;\n    top: 4em;\n}\n.circular-menu .floating-btn[data-v-135ba3d0] {\n    display: block;\n    width: 5em;\n    height: 5em;\n    border-radius: 50%;\n    background-color: rgba(0, 0, 0, 0.9);\n    box-shadow: 0 2px 5px 0 hsla(0, 0%, 0%, .26);\n    color: hsl(0, 0%, 100%);\n    text-align: center;\n    line-height: 6.5;\n    cursor: pointer;\n    outline: 0;\n}\n.circular-menu.active .floating-btn[data-v-135ba3d0] {\n    box-shadow: inset 0 0 3px hsla(0, 0%, 0%, .3);\n}\n.circular-menu .floating-btn[data-v-135ba3d0]:active {\n    box-shadow: 0 4px 8px 0 hsla(0, 0%, 0%, .4);\n}\n.circular-menu .floating-btn i[data-v-135ba3d0] {\n    font-size: 1.3em;\n    transition: transform .2s;\n}\n.circular-menu.active .floating-btn i[data-v-135ba3d0] {\n    transform: rotate(-45deg);\n}\n.circular-menu[data-v-135ba3d0]:after {\n    display: block;\n    content: ' ';\n    width: 5em;\n    height: 5em;\n    border-radius: 50%;\n    position: absolute;\n    top: 0;\n    right: 0;\n    z-index: -2;\n    background-color: hsla(0,0%,0%,0.3);\n    transition: all .3s ease;\n}\n.circular-menu.active[data-v-135ba3d0]:after {\n    transform: scale3d(5.5, 5.5, 1);\n    transition-timing-function: cubic-bezier(.68, 1.55, .265, 1);\n}\n.circular-menu .items-wrapper[data-v-135ba3d0] {\n    padding: 0;\n    margin: 0;\n}\n.circular-menu .menu-item[data-v-135ba3d0] {\n    position: absolute;\n    top: .2em;\n    right: .2em;\n    z-index: -1;\n    display: block;\n    text-decoration: none;\n    color: hsl(0, 0%, 100%);\n    font-size: 1em;\n    width: 4em;\n    height: 4em;\n    border-radius: 50%;\n    text-align: center;\n    line-height: 4;\n    background-color: whitesmoke;\n    transition: transform .3s ease, background .2s ease;\n}\n.circular-menu .menu-item[data-v-135ba3d0]:hover {\n    background-color: hsla(0,0%,0%,.3);\n}\n.circular-menu.active .menu-item[data-v-135ba3d0] {\n    transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275);\n}\n.circular-menu.active .menu-item[data-v-135ba3d0]:nth-child(1) {\n    transform: translate3d(-9em,-3.5em,0)\n}\n.circular-menu.active .menu-item[data-v-135ba3d0]:nth-child(2) {\n    transform: translate3d(-10em,1em,0);\n}\n.circular-menu.active .menu-item[data-v-135ba3d0]:nth-child(3) {\n    transform: translate3d(-8.7em,5.6em,0);\n}\n.circular-menu.active .menu-item[data-v-135ba3d0]:nth-child(4) {\n    transform: translate3d(-5em,9em,0);\n}\n.circular-menu.active .menu-item[data-v-135ba3d0]:nth-child(5) {\n    transform: translate3d(-0.5em,10em,0);\n}\n.circular-menu.active .menu-item[data-v-135ba3d0]:nth-child(6) {\n    transform: translate3d(4em,9em,0);\n}\n\n/*logo*/\n.episoda-logo[data-v-135ba3d0]{\n    background-color: hsla(0,0%,0%,0.3);\n    border-radius: 50%;\n    height: 5rem;\n    width: 5rem;\n    top: 64px;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -39591,13 +39586,15 @@ var render = function() {
                   }
                 },
                 [
-                  _c("img", {
-                    attrs: {
-                      width: "175",
-                      src: "storage/" + _vm.mainMenu.image,
-                      alt: ""
-                    }
-                  })
+                  _vm.mainMenu.image
+                    ? _c("img", {
+                        attrs: {
+                          width: "175",
+                          src: "storage/" + _vm.mainMenu.image,
+                          alt: ""
+                        }
+                      })
+                    : _vm._e()
                 ]
               )
             ])
@@ -39650,13 +39647,15 @@ var render = function() {
                 }
               },
               [
-                _c("img", {
-                  attrs: {
-                    width: "150",
-                    src: "storage/" + value.image,
-                    alt: ""
-                  }
-                })
+                value.image
+                  ? _c("img", {
+                      attrs: {
+                        width: "150",
+                        src: "storage/" + value.image,
+                        alt: ""
+                      }
+                    })
+                  : _vm._e()
               ]
             )
           ])
@@ -39712,22 +39711,24 @@ var render = function() {
                   "a",
                   {
                     staticClass: "menu-item",
-                    attrs: { href: "#" },
+                    attrs: { href: "#", title: value.display_name },
                     on: {
                       click: function($event) {
                         $event.preventDefault()
-                        return _vm.followMenu(value)
+                        return _vm.followMenu(value, index)
                       }
                     }
                   },
                   [
-                    _c("img", {
-                      attrs: {
-                        src: "storage/" + value.image,
-                        alt: "",
-                        width: "50"
-                      }
-                    })
+                    value.image
+                      ? _c("img", {
+                          attrs: {
+                            src: "storage/" + value.image,
+                            alt: "",
+                            width: "50"
+                          }
+                        })
+                      : _vm._e()
                   ]
                 )
               }),
@@ -39752,26 +39753,46 @@ var render = function() {
               {
                 key: index,
                 staticClass: "episoda-slide",
-                attrs: {
-                  id: value.slug,
-                  "data-hash": _vm.mainMenu.slug + "#" + value.slug
-                }
+                attrs: { id: value.slug }
               },
               [
-                _c("div", { staticClass: "episoda-logo" }, [
-                  _c("img", {
-                    staticStyle: { width: "80px !important" },
-                    attrs: { src: "storage/" + value.image, alt: "" }
-                  })
-                ]),
+                _c(
+                  "router-link",
+                  { staticStyle: { "z-index": "990" }, attrs: { to: "/" } },
+                  [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "episoda-logo",
+                        staticStyle: { "z-index": "990" }
+                      },
+                      [
+                        value.image
+                          ? _c("img", {
+                              staticStyle: { width: "80px !important" },
+                              attrs: { src: "storage/" + value.image, alt: "" }
+                            })
+                          : _vm._e()
+                      ]
+                    )
+                  ]
+                ),
                 _vm._v(" "),
-                _c("img", {
-                  staticClass: "episoda-slide-img",
-                  attrs: {
-                    src: "frontend-assets/site/img/hawaii.jpg",
-                    alt: "header slide image"
-                  }
-                }),
+                value.page.background_image
+                  ? _c("img", {
+                      staticClass: "episoda-slide-img",
+                      attrs: {
+                        src: "storage/" + value.page.background_image,
+                        alt: "header slide image"
+                      }
+                    })
+                  : _c("img", {
+                      staticClass: "episoda-slide-img",
+                      attrs: {
+                        src: "frontend-assets/site/img/hawaii.jpg",
+                        alt: "header slide image"
+                      }
+                    }),
                 _vm._v(" "),
                 _c("div", { staticClass: "episoda-slide-content" }, [
                   _c(
@@ -39809,7 +39830,8 @@ var render = function() {
                     ]
                   )
                 ])
-              ]
+              ],
+              1
             )
           }),
           0

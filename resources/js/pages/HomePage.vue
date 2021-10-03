@@ -3,7 +3,7 @@
         <div class="menu_container">
             <div class="toggle" id="toggle" v-if="mainMenu">
                 <a id="add" :data-menu_id="mainMenu.id" href="#" >
-                    <img width='175' :src="'storage/'+mainMenu.image" alt="">
+                    <img width='175' v-if="mainMenu.image" :src="'storage/'+mainMenu.image" alt="">
                 </a>
             </div>
             <template v-if="showCloseBtn">
@@ -15,7 +15,7 @@
             <div class='item-wrap' v-for="(value,index) in childMenu" :key="index">
                 <div class='item'>
                     <a class="center-menu" @click.prevent="followMenu(value)" :title='value.display_name'>
-                        <img width='150' :src="'storage/'+value.image" alt="">
+                        <img width='150' v-if="value.image" :src="'storage/'+value.image" alt="">
                     </a>
                 </div>
             </div>
@@ -59,6 +59,7 @@
                     this.expandMenu();
                 } else{
                     this.$router.push({ name: 'Page', params: { menu_id: this.mainMenu.slug } })
+                    // this.$router.push({ name: 'Page', params: { menu_id: value.slug } })
                 }
                 this.showCloseBtn = true;
             },

@@ -15,8 +15,8 @@
                 </a>
 
                 <menu class="items-wrapper">
-                    <a href="#" @click.prevent="followMenu(value)" class="menu-item" v-for="(value,index) in this.pageList">
-                        <img :src="'storage/'+value.image" alt="" width="50">
+                    <a href="#" @click.prevent="followMenu(value, index)" class="menu-item" v-for="(value,index) in this.pageList" :title="value.display_name">
+                        <img v-if="value.image" :src="'storage/'+value.image" alt="" width="50">
                     </a>
                 </menu>
 
@@ -26,12 +26,17 @@
 
             <section id="episoda-header-slider" class="episoda-slider owl-carousel">
                 <!-- slide -->
-                <div class="episoda-slide" :id="value.slug" :data-hash="mainMenu.slug+'#'+value.slug" v-for="(value,index) in pageList" :key="index">
-                        <div class="episoda-logo">
-                            <img :src="'storage/'+value.image" alt="" style="width: 80px !important;">
+                <!--<div class="episoda-slide" :id="value.slug" :data-hash="mainMenu.slug+'#'+value.slug" v-for="(value,index) in pageList" :key="index">-->
+                <div class="episoda-slide" :id="value.slug" v-for="(value,index) in pageList" :key="index">
+                    <router-link to="/" style="z-index: 990;">
+                        <div class="episoda-logo" style="z-index: 990;">
+                            <img v-if="value.image" :src="'storage/'+value.image" alt="" style="width: 80px !important;">
                         </div>
+                    </router-link>
+
                     <!-- slide img -->
-                    <img class="episoda-slide-img" src="frontend-assets/site/img/hawaii.jpg" alt="header slide image">
+                    <img v-if="value.page.background_image" class="episoda-slide-img" :src="'storage/'+value.page.background_image" alt="header slide image">
+                    <img v-else class="episoda-slide-img" src="frontend-assets/site/img/hawaii.jpg" alt="header slide image">
                     <!-- end slide img -->
 
                     <!-- slide content -->
@@ -121,14 +126,7 @@
             this.menu_id = this.$route.params.menu_id;
             this.getPageList();
         },
-        mounted(){
-
-        },
         methods:{
-            setActive() {
-                console.log(this.pageList)
-                $(tab).addClass("active");
-            },
             sliceText(text, length){
                 if (text && text.length > length){
                     let addedText = `...`;
@@ -139,16 +137,11 @@
             showPage(data){
                 this.show = true;
                 this.selectedMenu = data;
-                console.log(data)
             },
-            followMenu(value){
-                    // var current = event.item.index;
-                    var hash = value.slug;
-                    $('.'+hash).addClass('active');
-                // this.$router.push(this.mainMenu.slug+'#'+value.slug,() => {});
-                // var element_id = '#'+value.slug;
-                // $(".owl-item").removeClass('animated owl-animated-in fadeIn active');
-                // $(element_id).parent().addClass("animated owl-animated-in fadeIn active");
+            followMenu(value, index){
+                var element_id = '#'+value.slug;
+                console.log($(element_id).parent());
+                $(element_id).parent().trigger("to.owl.carousel", [index, 1]);
             },
             initOwl(){
                 this.$nextTick(() => {
@@ -159,11 +152,10 @@
                         nav: true,
                         navText: ['<i class="episoda-left-arrow"></i>Prev', 'Next<i class="episoda-right-arrow"></i>'],
                         autoplay: true,
-                        autoplayTimeout: 6000,
+                        autoplayTimeout: 10000,
                         animateIn: 'fadeIn',
                         animateOut: 'fadeOut',
-                        URLhashListener: true,
-                        startPosition: 'URLHash'
+                        URLhashListener: false,
                     });
                 })
             },
@@ -172,7 +164,6 @@
                 this.pageList = response.data.data.siblings;
                 this.mainMenu = response.data.data.menu;
                 this.initOwl();
-                // console.log(this.pageList)
             },
             goBack(){
                 this.$router.push('/')
@@ -193,10 +184,7 @@
         width: 5em;
         height: 5em;
         border-radius: 50%;
-        /*background-color: hsl(4, 98%, 60%);*/
-        /*background-color: hsla(0,0%,0%,.1);;*/
         background-color: rgba(0, 0, 0, 0.9);
-
         box-shadow: 0 2px 5px 0 hsla(0, 0%, 0%, .26);
         color: hsl(0, 0%, 100%);
         text-align: center;
@@ -232,7 +220,6 @@
         top: 0;
         right: 0;
         z-index: -2;
-        /*background-color: hsl(4, 98%, 60%);*/
         background-color: hsla(0,0%,0%,0.3);
         transition: all .3s ease;
     }
@@ -261,7 +248,6 @@
         border-radius: 50%;
         text-align: center;
         line-height: 4;
-        /*background-color: hsla(0,0%,0%,.1);*/
         background-color: whitesmoke;
         transition: transform .3s ease, background .2s ease;
     }
