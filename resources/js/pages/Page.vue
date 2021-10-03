@@ -173,6 +173,9 @@
 </script>
 
 <style scoped>
+    .active-menu{
+        background: red;
+    }
     .circular-menu {
         position: fixed;
         right: 5em;
