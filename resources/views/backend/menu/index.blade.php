@@ -284,7 +284,7 @@
             </div>
         </div>
     </div>
-
+{{--{{dd()}}--}}
 @stop
 @section('script')
     <script type="text/javascript">
@@ -326,7 +326,9 @@
                 $("#edit_target").prop('checked', 'true');
             }
             if ($(this).data("image") !== '') {
-                $("#edit_image_url").prop('src', '/uploads/'+$(this).data("image"));
+                {{--var image= $(this).data("image");--}}
+                {{--var url = {!! json_encode(Storage::disk(${image})->url('image')) !!};--}}
+                $("#edit_image_url").prop('src', window.ASSET_URL+$(this).data("image"));
             }else{
                 $("#edit_image_url").prop('src', '{{ asset('images/default.png') }}');
             }

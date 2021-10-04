@@ -158,6 +158,10 @@
 <script src="{{ asset('backend-assets/libs/js/main-js.js') }}"></script>
 <script src="{{ asset('backend-assets/vendor/nestable/jquery.nestable.js') }}"></script>
 @yield('script')
+<script>
+    window.APP_URL = {!! json_encode(url('/')) !!};
+    window.ASSET_URL = {!! json_encode(config('app.url').'/uploads/') !!};
+</script>
 </body>
 
 </html>

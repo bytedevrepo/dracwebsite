@@ -3,7 +3,7 @@
         <div class="menu_container">
             <div class="toggle" id="toggle" v-if="mainMenu">
                 <a id="add" :data-menu_id="mainMenu.id" href="#" :target="mainMenu.target" :style="mainMenu.custom_css">
-                    <img width='175' v-if="mainMenu.image" :src="'uploads/'+mainMenu.image" :alt="mainMenu.alt_text">
+                    <img width='175' v-if="mainMenu.image" :src="$asset_url+mainMenu.image" :alt="mainMenu.alt_text">
                 </a>
             </div>
             <template v-if="showCloseBtn">
@@ -17,7 +17,7 @@
             <div class='item-wrap' v-for="(value,index) in childMenu" :key="index">
                 <div class='item'>
                     <a class="center-menu" @click.prevent="followMenu(value)" :title='value.display_name' :target="value.target" :style="value.custom_css">
-                        <img width='150' v-if="value.image" :src="'src/public/uploads/'+value.image" :alt="value.alt_text">
+                        <img width='150' v-if="value.image" :src="$asset_url+value.image" :alt="value.alt_text">
                     </a>
                 </div>
             </div>

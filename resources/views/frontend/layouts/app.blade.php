@@ -32,7 +32,7 @@
     <link rel="stylesheet" href="{{ asset('frontend-assets/style.css') }}">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-
+    <base href="http://localhost/dracweb/public">
     <style>
 
         body, html {
@@ -56,12 +56,13 @@
 <div id="app">
     <container/>
 </div>
+<script>
+    window.ASSET_URL = {!! json_encode(config('app.url').'/uploads/') !!};
+</script>
 <script src="{{ asset('js/app.js') }}" ></script>
 <script src="{{ asset('frontend-assets/site/libs/jquery/dist/jquery.min.js') }}"></script>
 {{--<script src="{{ asset('frontend-assets/radial/jquery-1.9.1.min.js') }}" type="text/javascript"></script>--}}
 <script src="{{ asset('frontend-assets/site/libs/OwlCarousel2/dist/owl.carousel.min.js') }}"></script>
-<script>
-    window.APP_URL = `{{ config('app.APP_URL') }}`;
-</script>
+
 </body>
 </html>
