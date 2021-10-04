@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MenuPage;
-use App\Models\Page;
+use App\Models\Post;
 use App\Traits\SetResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -16,7 +16,7 @@ class PageController extends Controller
     public function getPageBySlug(Request $request, $slug='')
     {
         if($slug !== ''){
-            $page = Page::where('slug', $slug)->firstOrFail();
+            $page = Post::where('slug', $slug)->firstOrFail();
             $returnData = $this->prepareResponse(false, 'success', compact('page'), []);
             return response()->json($returnData, 200);
         }

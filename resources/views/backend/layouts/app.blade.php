@@ -33,7 +33,7 @@
     <!-- ============================================================== -->
     <div class="dashboard-header">
         <nav class="navbar navbar-expand-lg bg-white fixed-top">
-            <a class="navbar-brand" href="{{ route('dashboard') }}">{{ config('app.name', 'Laravel') }}</a>
+            <a class="navbar-brand" href="{{ route('admin.dashboard') }}">{{ config('app.name', 'Laravel') }}</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -80,8 +80,9 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav flex-column mt-2">
                         <li class="nav-item">
-                            <a class="nav-link {{ Route::currentRouteName() == 'dashboard' ? 'active' : '' }}" href="{{ route('dashboard') }}"><i class="fa fa-fw fa-home"></i>
-                                Dashboard <span class="badge badge-success">6</span>
+                            <a class="nav-link {{ Route::currentRouteName() == 'dashboard' ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
+                                <i class="fa fa-fw fa-home"></i>
+                                Dashboard
                             </a>
                         </li>
                         <li class="nav-item">
@@ -116,8 +117,15 @@
     </div>
 
     <div class="dashboard-wrapper">
-        @include('backend._partials.alert')
-        @yield('content')
+        <div class="container-fluid dashboard-content">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    @yield('page-header')
+                    @include('backend._partials.alert')
+                </div>
+            </div>
+            @yield('content')
+        </div>
     </div>
 
     <div class="footer">

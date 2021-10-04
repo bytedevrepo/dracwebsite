@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Menu;
 use App\Models\MenuPage;
-use App\Models\Page;
+use App\Models\Post;
 use App\Traits\SetResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -37,7 +37,7 @@ class MenuController extends Controller
     public function admin_index()
     {
         $menu_items = [];
-        $pages = Page::where('status', 1)->get();
+        $pages = Post::where('status', 1)->get();
         $menu = Menu::where('is_selected', 1)->first();
         if ($menu){
             $menu_items = MenuPage::where('menu_id',$menu->id)
@@ -124,7 +124,7 @@ class MenuController extends Controller
         $this->validate($request,[
             'page_id' => 'required|integer'
         ]);
-        $page = Page::findOrFail($request->page_id);
+        $page = Post::findOrFail($request->page_id);
         $menu = new MenuPage();
         $menu->page_id = $page->id;
         $menu->menu_id = 1;
