@@ -52,7 +52,7 @@
 </head>
 <body id="episoda-body">
 <?php $bg = \App\Models\Cms::where('key', 'home_background')->first(); $bg_img = $bg->value?>
-<div class="bg" style="background-image: url({{ asset('storage/'.$bg_img) }})"></div>
+<div class="bg" style="background-image: url({{ asset('uploads/'.$bg_img) }})"></div>
 <div id="app">
     <container/>
 </div>

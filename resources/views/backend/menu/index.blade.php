@@ -326,7 +326,7 @@
                 $("#edit_target").prop('checked', 'true');
             }
             if ($(this).data("image") !== '') {
-                $("#edit_image_url").prop('src', '/storage/'+$(this).data("image"));
+                $("#edit_image_url").prop('src', '/uploads/'+$(this).data("image"));
             }else{
                 $("#edit_image_url").prop('src', '{{ asset('images/default.png') }}');
             }

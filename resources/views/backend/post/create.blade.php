@@ -139,7 +139,7 @@
                                 <div class="card-body">
                                     <div class="text-center mb-4">
                                         @if(isset($edit->background_image) AND $edit->background_image != '')
-                                            <img id="image_display" src="{{ asset('storage/'.$edit->background_image) }}" alt="" width="200" class="rounded">
+                                            <img id="image_display" src="{{ asset('uploads/'.$edit->background_image) }}" alt="" width="200" class="rounded">
                                         @else
                                             <img id="image_display" src="{{ asset('images/default.png') }}" alt="" width="200" class="rounded">
                                         @endif
