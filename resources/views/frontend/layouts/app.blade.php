@@ -56,7 +56,7 @@
 <div id="app">
     <container/>
 </div>
-<script src="{{ mix('/js/app.js') }}" ></script>
+<script src="{{ asset('js/app.js') }}" ></script>
 <script src="{{ asset('frontend-assets/site/libs/jquery/dist/jquery.min.js') }}"></script>
 {{--<script src="{{ asset('frontend-assets/radial/jquery-1.9.1.min.js') }}" type="text/javascript"></script>--}}
 <script src="{{ asset('frontend-assets/site/libs/OwlCarousel2/dist/owl.carousel.min.js') }}"></script>
