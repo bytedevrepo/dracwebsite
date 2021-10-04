@@ -22,6 +22,9 @@ class CreateMenuPagesTable extends Migration
             $table->string('display_name');
             $table->string('slug');
             $table->string('image')->nullable();
+            $table->string('alt_text',255)->nullable();
+            $table->string('target',20)->nullable();
+            $table->longText('custom_css')->nullable();
             $table->timestamps();
         });
     }

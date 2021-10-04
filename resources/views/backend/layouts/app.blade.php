@@ -33,7 +33,7 @@
     <!-- ============================================================== -->
     <div class="dashboard-header">
         <nav class="navbar navbar-expand-lg bg-white fixed-top">
-            <a class="navbar-brand" href="{{ route('dashboard') }}">{{ config('app.name', 'Laravel') }}</a>
+            <a class="navbar-brand" href="{{ route('admin.dashboard') }}">{{ config('app.name', 'Laravel') }}</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -80,25 +80,26 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav flex-column mt-2">
                         <li class="nav-item">
-                            <a class="nav-link {{ Route::currentRouteName() == 'dashboard' ? 'active' : '' }}" href="{{ route('dashboard') }}"><i class="fa fa-fw fa-home"></i>
-                                Dashboard <span class="badge badge-success">6</span>
+                            <a class="nav-link {{ Route::currentRouteName() == 'dashboard' ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
+                                <i class="fa fa-fw fa-home"></i>
+                                Dashboard
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ Route::currentRouteName() == 'page' ? 'active' : '' }}" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1">
+                            <a class="nav-link {{ (Request::segment(2) == 'post') ? 'active' : '' }}" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1">
                                 <i class="fab fa-fw fa-firefox"></i>
-                                Pages
+                                Posts
                             </a>
-                            <div id="submenu-1" class="collapse submenu" style="">
+                            <div id="submenu-1" class="submenu {{ (Request::segment(2) == 'post') ? 'open' : 'collapse' }}" style="">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('admin.post.create') }}">Create new page</a>
+                                        <a class="nav-link {{ Route::currentRouteName() == 'admin.post.create' ? 'active' : '' }}" href="{{ route('admin.post.create') }}">Add new</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('admin.post.index') }}">Pages</a>
+                                        <a class="nav-link {{ Route::currentRouteName() == 'admin.post.index' ? 'active' : '' }}" href="{{ route('admin.post.index') }}">All Posts</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('admin.category.index') }}">Categories</a>
+                                        <a class="nav-link {{ Route::currentRouteName() == 'admin.category.index' ? 'active' : '' }}" href="{{ route('admin.category.index') }}">All Categories</a>
                                     </li>
                                 </ul>
                             </div>
@@ -109,6 +110,19 @@
                                 Menu
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ (Request::segment(2) == 'cms') ? 'active' : '' }}" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-1">
+                                <i class="fab fa-fw fa-firefox"></i>
+                                CMS
+                            </a>
+                            <div id="submenu-2" class="submenu {{ (Request::segment(2) == 'post') ? 'open' : 'collapse' }}" style="">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ Route::currentRouteName() == 'admin.cms.home' ? 'active' : '' }}" href="{{ route('admin.cms.home') }}">Home Page</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </nav>
@@ -116,8 +130,16 @@
     </div>
 
     <div class="dashboard-wrapper">
-        @include('backend._partials.alert')
-        @yield('content')
+        <div class="container-fluid dashboard-content">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    @yield('page-header')
+                    @include('backend._partials.alert')
+                    @include('backend._partials.validation-error')
+                </div>
+            </div>
+            @yield('content')
+        </div>
     </div>
 
     <div class="footer">

@@ -32,35 +32,33 @@
     <link rel="stylesheet" href="{{ asset('frontend-assets/style.css') }}">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    {{--<link rel="stylesheet" href="{{ asset('frontend-assets/radial/jquery.ferro.ferroMenu.css') }}" />--}}
+
     <style>
-        #ferromenu-controller{
-            top: 40% !important;
+
+        body, html {
+            height: 100% !important;
+            margin: 0 !important;
+        }
+
+        .bg {
+            display:none;
+            height: 100% !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-size: cover !important;
         }
     </style>
+
 </head>
-
-<body id="episoda-body" >
-
+<body id="episoda-body">
+<?php $bg = \App\Models\Cms::where('key', 'home_background')->first(); $bg_img = $bg->value?>
+<div class="bg" style="background-image: url({{ asset('storage/'.$bg_img) }})"></div>
 <div id="app">
     <container/>
 </div>
-
 <script src="{{ mix('/js/app.js') }}" ></script>
 <script src="{{ asset('frontend-assets/site/libs/jquery/dist/jquery.min.js') }}"></script>
 {{--<script src="{{ asset('frontend-assets/radial/jquery-1.9.1.min.js') }}" type="text/javascript"></script>--}}
 <script src="{{ asset('frontend-assets/site/libs/OwlCarousel2/dist/owl.carousel.min.js') }}"></script>
-{{--<script src="{{ asset('frontend-assets/radial/jquery.ferro.ferroMenu-1.0.min.js') }}" type="text/javascript"></script>--}}
-{{--<script src="{{ asset('frontend-assets/radial/lib/jquery.transit.min.js') }}" type="text/javascript"></script>--}}
-<script type="text/javascript">
-    $(document).ready(function() {
-        // $("#menu_ferro").ferroMenu({
-        //     position 	: "right-center",
-        //     delay 		: 50,
-        //     rotation 	: 720,
-        //     margin		: 20
-        // });
-    });
-</script>
 </body>
 </html>

@@ -2160,11 +2160,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "HomePage",
   data: function data() {
     return {
+      background: '',
       mainMenu: '',
       childMenu: '',
       showCloseBtn: false
@@ -2172,7 +2175,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   mounted: function mounted() {
     this.getMainMenu();
-    console.log(this.$el);
+    $('.bg').css('display', 'block');
   },
   methods: {
     getMainMenu: function getMainMenu() {
@@ -2198,8 +2201,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 _this.expandMenu();
 
                 _this.showCloseBtn = false;
+                _this.background = response.data.data.background;
 
-              case 8:
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -2440,6 +2444,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   beforeMount: function beforeMount() {
     this.menu_id = this.$route.params.menu_id;
     this.getPageList();
+    $('.bg').css('display', 'none');
   },
   methods: {
     sliceText: function sliceText(text, length) {
@@ -7130,7 +7135,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.overlay[data-v-04c29797] {\n    position: relative;\n    left: 20px;\n    top: 5px;\n    border-radius: 50%;\n    opacity: 0.2;\n    width: 100%;\n    height: 100%;\n    filter: drop-shadow(2px 4px 60px grey);\n    transition: background 0.6s ease;\n}\n.menu_container:hover .overlay[data-v-04c29797] {\n    display: block;\n    background: rgba(0, 0, 0, .1);\n}\n.menu_container:hover .title[data-v-04c29797] {\n    top: 90px;\n}\n.close-button[data-v-04c29797] {\n    position: absolute;\n    left: 70px;\n    top: 20px;\n    font-size: 70px;\n    text-align: center;\n    opacity: 0;\n    transition: opacity .35s ease;\n    z-index: 90;\n}\n.material-icons[data-v-04c29797]{\n    font-size: 35px;\n    font-weight: bolder;\n}\n.menu_container:hover .close-button[data-v-04c29797] {\n    opacity: 1;\n}\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.overlay[data-v-04c29797] {\n    position: relative;\n    left: 20px;\n    top: 5px;\n    border-radius: 50%;\n    opacity: 0.2;\n    width: 100%;\n    height: 100%;\n    filter: drop-shadow(2px 4px 60px grey);\n    transition: background 0.6s ease;\n}\n.menu_container:hover .overlay[data-v-04c29797] {\n    display: block;\n    background: rgba(0, 0, 0, .1);\n}\n.menu_container:hover .title[data-v-04c29797] {\n    top: 90px;\n}\n.close-button[data-v-04c29797] {\n    position: absolute;\n    left: 70px;\n    top: 20px;\n    font-size: 70px;\n    text-align: center;\n    opacity: 0;\n    transition: opacity .35s ease;\n    z-index: 90;\n}\n.material-icons[data-v-04c29797]{\n    font-size: 35px;\n    font-weight: bolder;\n}\n.menu_container:hover .close-button[data-v-04c29797] {\n    opacity: 1;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -39579,10 +39584,12 @@ var render = function() {
               _c(
                 "a",
                 {
+                  style: _vm.mainMenu.custom_css,
                   attrs: {
                     id: "add",
                     "data-menu_id": _vm.mainMenu.id,
-                    href: "#"
+                    href: "#",
+                    target: _vm.mainMenu.target
                   }
                 },
                 [
@@ -39591,7 +39598,7 @@ var render = function() {
                         attrs: {
                           width: "175",
                           src: "storage/" + _vm.mainMenu.image,
-                          alt: ""
+                          alt: _vm.mainMenu.alt_text
                         }
                       })
                     : _vm._e()
@@ -39638,7 +39645,8 @@ var render = function() {
               "a",
               {
                 staticClass: "center-menu",
-                attrs: { title: value.display_name },
+                style: value.custom_css,
+                attrs: { title: value.display_name, target: value.target },
                 on: {
                   click: function($event) {
                     $event.preventDefault()
@@ -39652,7 +39660,7 @@ var render = function() {
                       attrs: {
                         width: "150",
                         src: "storage/" + value.image,
-                        alt: ""
+                        alt: value.alt_text
                       }
                     })
                   : _vm._e()
@@ -39778,7 +39786,7 @@ var render = function() {
                   ]
                 ),
                 _vm._v(" "),
-                value.page.background_image
+                value.page
                   ? _c("img", {
                       staticClass: "episoda-slide-img",
                       attrs: {
@@ -39803,13 +39811,17 @@ var render = function() {
                     [
                       _c("p", [_vm._v(_vm._s(value.display_name))]),
                       _vm._v(" "),
-                      _c("h1", [
-                        _vm._v(_vm._s(_vm.sliceText(value.page.title, 50)))
-                      ]),
+                      value.page
+                        ? _c("h1", [
+                            _vm._v(_vm._s(_vm.sliceText(value.page.title, 50)))
+                          ])
+                        : _vm._e(),
                       _vm._v(" "),
-                      _c("p", [
-                        _vm._v(_vm._s(_vm.sliceText(value.page.body, 255)))
-                      ]),
+                      value.page
+                        ? _c("p", [
+                            _vm._v(_vm._s(_vm.sliceText(value.page.body, 255)))
+                          ])
+                        : _vm._e(),
                       _vm._v(" "),
                       _c(
                         "a",

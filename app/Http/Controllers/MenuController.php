@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Menu;
 use App\Models\MenuPage;
-use App\Models\Page;
+use App\Models\Post;
 use App\Traits\SetResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -17,6 +17,7 @@ class MenuController extends Controller
 
     public function getMainMenu()
     {
+        $data['background'] = \App\Models\Cms::where('key', 'home_background')->first();
         $data['mainMenu'] = MenuPage::where('parent_id', 0)->first()->toArray();
         $data['child'] = MenuPage::with(['page:id,slug','children'])->where('parent_id', $data['mainMenu']['id'])->get()->toArray();
         $returnData = $this->prepareResponse(false, 'success', $data, []);
@@ -25,6 +26,7 @@ class MenuController extends Controller
 
     public function getChildMenu($id)
     {
+        $data['background'] = \App\Models\Cms::where('key', 'home_background')->first();
         $mainMenu = MenuPage::find($id);
         $child = MenuPage::with('page:id,slug')->where('parent_id', $id)->get()->toArray();
         $data['mainMenu'] = $mainMenu;
@@ -37,7 +39,7 @@ class MenuController extends Controller
     public function admin_index()
     {
         $menu_items = [];
-        $pages = Page::where('status', 1)->get();
+        $pages = Post::where('status', 1)->get();
         $menu = Menu::where('is_selected', 1)->first();
         if ($menu){
             $menu_items = MenuPage::where('menu_id',$menu->id)
@@ -124,7 +126,7 @@ class MenuController extends Controller
         $this->validate($request,[
             'page_id' => 'required|integer'
         ]);
-        $page = Page::findOrFail($request->page_id);
+        $page = Post::findOrFail($request->page_id);
         $menu = new MenuPage();
         $menu->page_id = $page->id;
         $menu->menu_id = 1;
@@ -156,6 +158,9 @@ class MenuController extends Controller
             //delete old file
             Storage::disk('public')->delete($old_image);
         }
+        $menu->alt_text = $request->alt_text;
+        $menu->target = $request->target;
+        $menu->custom_css = $request->custom_css;
         $menu->save();
         Session::flash('message', 'Menu updated successfully.');
         return redirect()->back();

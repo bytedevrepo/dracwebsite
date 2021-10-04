@@ -1,81 +1,87 @@
 @extends('backend.layouts.app')
-@section('content')
-    <div class="container-fluid dashboard-content">
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                <div class="page-header">
-                    <h2 class="pageheader-title">Post Category </h2>
-                    <div class="page-breadcrumb">
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}" class="breadcrumb-link">Dashboard</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Post Category</li>
-                            </ol>
-                        </nav>
-                    </div>
+@section('page-header')
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="page-header">
+                <h2 class="pageheader-title">Post Category </h2>
+                <div class="page-breadcrumb">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="breadcrumb-link">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Post Category</li>
+                        </ol>
+                    </nav>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        @if(blank($edit))
-                            Create Category
-                        @else
-                            Edit Category
-                        @endif
-                    </div>
-                    <div class="card-body">
-                        <form action="{{ route('admin.category.save') }}" method="post" enctype="multipart/form-data">
-                            @csrf
+    </div>
+@stop
+@section('content')
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    @if(blank($edit))
+                        Create Category
+                    @else
+                        Update Category
+                    @endif
+                </div>
+                <div class="card-body">
+                    <form action="{{ route('admin.category.save') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" value="{{ (!blank($edit)) ? $edit->id: '' }}" name="category_id" >
+                        <div class="form-group">
+                            <label for="meta_keyboard" class="col-form-label">Category Title</label>
                             <input class="form-control" type="text" value="{{ (!blank($edit)) ? $edit->title: '' }}" name="title" placeholder="Title"><br>
-                            <input type="hidden" value="{{ (!blank($edit)) ? $edit->id: '' }}" name="category_id" >
-                            <button class="btn btn-xs btn-primary float-right">{{(!blank($edit) ? 'Update' : 'Save' )}}</button>
-                            @if (!blank($edit))
-                                <a href="{{ route('admin.category.index') }}" class="btn btn-xs btn-default float-right mr-2">Discard</a>
-                            @endif
-                        </form>
-                    </div>
+                        </div>
+                        <button class="btn btn-xs btn-primary float-right">{{(!blank($edit) ? 'Update' : 'Save' )}}</button>
+                        @if (!blank($edit))
+                            <a href="{{ route('admin.category.index') }}" class="btn btn-xs btn-default float-right mr-2">Discard</a>
+                        @endif
+                    </form>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        Category Listing
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th scope="col">S.N</th>
-                                <th scope="col">Category</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @if(!blank($category))
-                                @foreach($category as $value)
-                                    <tr>
-                                        <td>{{$value['id']}}</td>
-                                        <td>{{$value['title']}}</td>
-                                        <td>
-                                            <button class="btn btn-xs btn-outline-light edit_btn"><a href="{{ route('admin.category.edit',$value['id']) }}"
-                                                >Edit</a></button>
-                                            <button class="btn btn-outline-light btn-xs delete_btn" data-id="{{ $value->id }}">
-                                                <i class="far fa-trash-alt"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @else
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Category Listing
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                        <tr>
+                            <th class="text-center" style="width: 80px;" scope="col">#</th>
+                            <th scope="col">Category</th>
+                            <th class="text-center" scope="col" style="width: 150px;"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @if(!blank($category))
+                            @foreach($category as $value)
                                 <tr>
-                                    <td colspan="3">No items available.</td>
+                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                    <td>{{$value->title}}</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-xs btn-outline-primary edit_btn">
+                                            <a href="{{ route('admin.category.edit',$value['id']) }}">
+                                                <i class="far fa-edit"></i>
+                                            </a>
+                                        </button>
+                                        <button class="btn btn-outline-danger btn-xs delete_btn" data-id="{{ $value->id }}">
+                                            <i class="far fa-trash-alt"></i>
+                                        </button>
+                                    </td>
                                 </tr>
-                            @endif
-                            </tbody>
-                        </table>
-                    </div>
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="3">No items available.</td>
+                            </tr>
+                        @endif
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -106,7 +112,7 @@
         $('.delete_btn').on('click', function(e){
             e.preventDefault();
             let id = $(this).data("id");
-            var url = '/admin/category/delete/'+id;
+            var url = '/admin/post/category/delete/'+id;
             $("#confirm_delete").attr('href', url);
             $("#deleteCategoryModal").modal('show');
         });

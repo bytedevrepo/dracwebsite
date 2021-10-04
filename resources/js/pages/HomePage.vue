@@ -1,21 +1,23 @@
 <template>
-    <div class="">
+    <div class="" >
         <div class="menu_container">
             <div class="toggle" id="toggle" v-if="mainMenu">
-                <a id="add" :data-menu_id="mainMenu.id" href="#" >
-                    <img width='175' v-if="mainMenu.image" :src="'storage/'+mainMenu.image" alt="">
+                <a id="add" :data-menu_id="mainMenu.id" href="#" :target="mainMenu.target" :style="mainMenu.custom_css">
+                    <img width='175' v-if="mainMenu.image" :src="'storage/'+mainMenu.image" :alt="mainMenu.alt_text">
                 </a>
             </div>
             <template v-if="showCloseBtn">
             <div class="overlay"></div>
-            <div class="close-button"><a @click.prevent="getMainMenu"><i class="material-icons">close</i></a></div>
+            <div class="close-button">
+                <a @click.prevent="getMainMenu"><i class="material-icons">close</i></a>
+            </div>
             </template>
         </div>
         <div class="menu" id="menu">
             <div class='item-wrap' v-for="(value,index) in childMenu" :key="index">
                 <div class='item'>
-                    <a class="center-menu" @click.prevent="followMenu(value)" :title='value.display_name'>
-                        <img width='150' v-if="value.image" :src="'storage/'+value.image" alt="">
+                    <a class="center-menu" @click.prevent="followMenu(value)" :title='value.display_name' :target="value.target" :style="value.custom_css">
+                        <img width='150' v-if="value.image" :src="'storage/'+value.image" :alt="value.alt_text">
                     </a>
                 </div>
             </div>
@@ -29,6 +31,7 @@
         name: "HomePage",
         data(){
             return{
+                background:'',
                 mainMenu:'',
                 childMenu:'',
                 showCloseBtn:false,
@@ -36,7 +39,7 @@
         },
         mounted() {
             this.getMainMenu();
-            console.log(this.$el)
+            $('.bg').css('display', 'block')
         },
         methods:{
             async getMainMenu(){
@@ -45,6 +48,7 @@
                 await this.setMenu(response);
                 this.expandMenu();
                 this.showCloseBtn = false;
+                this.background = response.data.data.background;
             },
             async setMenu(response){
                 this.mainMenu = response.data.data.mainMenu;
@@ -119,5 +123,4 @@
     .menu_container:hover .close-button {
         opacity: 1;
     }
-
 </style>

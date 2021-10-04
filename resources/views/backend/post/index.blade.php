@@ -1,60 +1,71 @@
 @extends('backend.layouts.app')
-@section('content')
-<div class="container-fluid dashboard-content">
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                <div class="page-header">
-                    <h2 class="pageheader-title">Post Listing </h2>
-                    <div class="page-breadcrumb">
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}" class="breadcrumb-link">Dashboard</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Post Category</li>
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
-            </div>
+@section('page-header')
+    <div class="page-header">
+        <h2 class="pageheader-title">
+            All Posts
+            <a href="{{ route('admin.post.create') }}" class="btn btn-sm btn-primary float-right">Create new post</a>
+        </h2>
+        <div class="page-breadcrumb">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{{ route('admin.dashboard') }}" class="breadcrumb-link">Dashboard</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Posts</li>
+                </ol>
+            </nav>
         </div>
+    </div>
+@stop
+@section('content')
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">
-                    Category Listing
-                </div>
                 <div class="card-body">
-                    <table class="table table-striped">
+                    <table class="table table-striped table-bordered">
                         <thead>
-                            <tr>
-                                <th scope="col" style="width:85px" class="text-center">S.N</th>
-                                <th scope="col" style="width:200px" class="text-center">Backgroound</th>
-                                <th scope="col">Title</th>
-                                <th scope="col" class="text-center" style="width:200px"></th>
-                            </tr>
+                        <tr>
+                            <th scope="col" style="width:85px" class="text-center">S.N</th>
+                            <th scope="col" style="width:150px" class="text-center">Background</th>
+                            <th scope="col">Title</th>
+                            <th scope="col" style="width:150px">Status</th>
+                            <th scope="col" class="text-center" style="width:150px"></th>
+                        </tr>
                         </thead>
                         <tbody>
-                            @if(!blank($pages))
+                        @if(!blank($pages))
                             @foreach($pages as $value)
-                            <tr>
-                                <td class="text-center">{{$loop->iteration}}</td>
+                                <tr>
+                                    <td class="text-center">{{$loop->iteration}}</td>
 
-                                <td class="text-center"><img src="{{ asset('storage/'. $value->background_image) }}" alt="" width="80" style="border-radius:5px">
-                                    <td>{{$value->title}}</td>
                                     <td class="text-center">
-                                        <a class="btn btn-xs btn-outline-light" href="{{ route('admin.post.edit',$value->id) }}"
-                                          >Edit</a>
-                                          <button class="btn btn-outline-light btn-xs delete_btn">
+                                        <img src="{{ asset('storage/'. $value->background_image) }}" alt="" width="45" class="rounded">
+                                    <td>
+                                        <a href="{{ route('admin.post.edit',$value->id) }}">{{$value->title}}</a>
+                                    </td>
+                                    <td>
+                                        @if($value->status)
+                                            <span class="badge-dot badge-success mr-1"></span>Published
+                                        @else
+                                            <span class="badge-dot badge-brand mr-1"></span>Draft
+                                        @endif
+                                    </td>
+                                    <td class="text-center">
+                                        <a class="btn btn-xs btn-outline-primary" href="{{ route('admin.post.edit',$value->id) }}">
+                                            <i class="far fa-edit"></i>
+                                        </a>
+                                        <button class="btn btn-outline-danger btn-xs delete_btn">
                                             <i class="far fa-trash-alt"></i>
                                         </button>
 
                                     </td>
-                            </tr>
+                                </tr>
                             @endforeach
-                            @else
+                        @else
                             <tr>
                                 <td colspan="3">No items available.</td>
                             </tr>
-                            @endif
+                        @endif
                         </tbody>
                     </table>
                 </div>
@@ -85,15 +96,14 @@
             </div>
         </div>
     </div>
-</div>
 @endsection
 
 @section('script')
-<script type="text/javascript">
- $('.delete_btn').on('click', function(){
+    <script type="text/javascript">
+        $('.delete_btn').on('click', function(){
             let id = $(this).data("id");
             $("#delete_input").val(id);
             $("#deleteModal").modal('show');
         });
-</script>
+    </script>
 @endsection
