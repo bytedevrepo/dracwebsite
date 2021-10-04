@@ -6,7 +6,7 @@ import Page from "./pages/Page";
 Vue.use(VueRouter);
 
 export default new VueRouter({
-    mode: 'history',
+    // mode: 'history',
     routes: [
         {name: "Home", path: "", components: {default: HomePage}},
         {name: "Page", path: "/:menu_id", components: {default: Page}},
