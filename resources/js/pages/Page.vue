@@ -44,7 +44,7 @@
                         <div class="episoda-absolute col-md-9 col-lg-8 col-10">
                             <p>{{ value.display_name }}</p>
                             <h1 v-if="value.page">{{ sliceText(value.page.title, 50) }}</h1>
-                            <p v-if="value.page">{{ sliceText(value.page.body, 255) }}</p>
+                            <p v-if="value.page" v-html="sliceText(value.page.body, 255)"></p>
                             <a href="#" @click.prevent="showPage(value)" class="episoda-pop-up-btn">Read more<i class="episoda-right-arrow"></i></a>
                         </div>
                     </div>
