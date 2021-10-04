@@ -156,6 +156,9 @@ class MenuController extends Controller
             //delete old file
             Storage::disk('public')->delete($old_image);
         }
+        $menu->alt_text = $request->alt_text;
+        $menu->target = $request->target;
+        $menu->custom_css = $request->custom_css;
         $menu->save();
         Session::flash('message', 'Menu updated successfully.');
         return redirect()->back();

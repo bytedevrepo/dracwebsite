@@ -122,14 +122,7 @@
                                                 @if(!blank($value->page_id) AND $value->page_id !== 0)
                                                     <span class="mr-5"><span class="badge-dot badge-primary"></span>Page</span>
                                                 @endif
-                                                <button class="btn btn-xs btn-outline-light edit_btn"
-                                                        data-page="{{$value->page_id}}"
-                                                        data-image="{{$value->image}}"
-                                                        data-title="{{$value->display_name}}"
-                                                        data-id="{{$value->id}}">Edit</button>
-                                                <button class="btn btn-outline-light btn-xs delete_btn" data-id="{{$value->id}}">
-                                                    <i class="far fa-trash-alt"></i>
-                                                </button>
+                                                @include('backend.menu.action-button', ['data' => $value])
                                             </div>
                                         </div>
                                         @if ($value->children->count())
@@ -145,14 +138,15 @@
                                                                 @if(!blank($child->page_id) AND $child->page_id !== 0)
                                                                     <span class="mr-5"><span class="badge-dot badge-primary"></span>Page</span>
                                                                 @endif
-                                                                <button class="btn btn-xs btn-outline-light edit_btn"
-                                                                        data-page="{{$child->page_id}}"
-                                                                        data-image="{{$child->image}}"
-                                                                        data-title="{{$child->display_name}}"
-                                                                        data-id="{{$child->id}}">Edit</button>
-                                                                <button class="btn btn-outline-light btn-xs delete_btn" data-id="{{$child->id}}">
-                                                                    <i class="far fa-trash-alt"></i>
-                                                                </button>
+                                                                {{--<button class="btn btn-xs btn-outline-light edit_btn"--}}
+                                                                        {{--data-page="{{$child->page_id}}"--}}
+                                                                        {{--data-image="{{$child->image}}"--}}
+                                                                        {{--data-title="{{$child->display_name}}"--}}
+                                                                        {{--data-id="{{$child->id}}">Edit</button>--}}
+                                                                {{--<button class="btn btn-outline-light btn-xs delete_btn" data-id="{{$child->id}}">--}}
+                                                                    {{--<i class="far fa-trash-alt"></i>--}}
+                                                                {{--</button>--}}
+                                                                @include('backend.menu.action-button', ['data' => $child])
                                                             </div>
                                                         </div>
                                                         @if ($child->children->count())
@@ -167,14 +161,15 @@
                                                                                 @if(!blank($subchild->page_id) AND $subchild->page_id !== 0)
                                                                                     <span class="mr-5"><span class="badge-dot badge-primary"></span>Page</span>
                                                                                 @endif
-                                                                                <button class="btn btn-xs btn-outline-light edit_btn"
-                                                                                        data-page="{{$subchild->page_id}}"
-                                                                                        data-title="{{$subchild->display_name}}"
-                                                                                        data-image="{{$subchild->image}}"
-                                                                                        data-id="{{$subchild->id}}">Edit</button>
-                                                                                <button class="btn btn-outline-light btn-xs delete_btn" data-id="{{$subchild->id}}">
-                                                                                    <i class="far fa-trash-alt"></i>
-                                                                                </button>
+                                                                                    @include('backend.menu.action-button', ['data' => $subchild])
+                                                                                {{--<button class="btn btn-xs btn-outline-light edit_btn"--}}
+                                                                                        {{--data-page="{{$subchild->page_id}}"--}}
+                                                                                        {{--data-title="{{$subchild->display_name}}"--}}
+                                                                                        {{--data-image="{{$subchild->image}}"--}}
+                                                                                        {{--data-id="{{$subchild->id}}">Edit</button>--}}
+                                                                                {{--<button class="btn btn-outline-light btn-xs delete_btn" data-id="{{$subchild->id}}">--}}
+                                                                                    {{--<i class="far fa-trash-alt"></i>--}}
+                                                                                {{--</button>--}}
                                                                             </div>
                                                                         </div>
                                                                     </li>
@@ -254,6 +249,16 @@
                                     <input id="edit_title" type="text" name="display_name" placeholder="Menu Title" class="form-control">
                                 </div>
                                 <div class="form-group">
+                                    <label for="edit_alt_text" class="col-form-label">Alt text</label>
+                                    <input id="edit_alt_text" type="text" name="alt_text" placeholder="Alt text" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit_target" class="custom-control custom-checkbox">
+                                        <input type="checkbox" id="edit_target" name="target" value="_blank" class="custom-control-input">
+                                        <span class="custom-control-label">Open menu in new tab?</span>
+                                    </label>
+                                </div>
+                                <div class="form-group">
                                     <label for="input-select">Attach Post</label>
                                     <select id="edit_page" class="form-control" id="input-select" name="page_id">
                                         <option value="">--- SELECT POST ---</option>
@@ -263,6 +268,10 @@
                                             @endforeach
                                         @endif
                                     </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="custom_css" class="col-form-label">Custom CSS</label>
+                                    <textarea name="custom_css" id="edit_custom_css" cols="30" rows="3" class="form-control" placeholder="Enter custom CSS"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -305,16 +314,22 @@
         });
 
         $('.edit_btn').on('click', function(){
-            let menu_id = $(this).data("id");
-            let menu_title = $(this).data("title");
-            let menu_url = $(this).data("image");
             let menu_page = $(this).data("page");
-            $("#edit_id").val(menu_id);
-            $("#edit_title").val(menu_title);
             if (menu_page !== 0) {
                 $("#edit_page").val(menu_page);
             }
-            $("#edit_image_url").prop('src', '/storage/'+menu_url);
+            $("#edit_id").val($(this).data("id"));
+            $("#edit_title").val($(this).data("title"));
+            $("#edit_alt_text").val($(this).data("alt_text"));
+            $("#edit_custom_css").val($(this).data("custom_css"));
+            if ($(this).data("target") === '_blank') {
+                $("#edit_target").prop('checked', 'true');
+            }
+            if ($(this).data("image") !== '') {
+                $("#edit_image_url").prop('src', '/storage/'+$(this).data("image"));
+            }else{
+                $("#edit_image_url").prop('src', '{{ asset('images/default.png') }}');
+            }
             $("#editModal").modal('show');
         });
 
@@ -342,6 +357,8 @@
         $(".modal").on("hidden.bs.modal", function () {
             $("#edit_id").val("");
             $("#edit_title").val("");
+            $("#edit_image_url").prop('src', '{{ asset('images/default.png') }}');
+            $("#edit_target").prop('checked', false);
             $("#delete_input").val("");
         })
     </script>
