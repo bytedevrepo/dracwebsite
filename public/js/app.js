@@ -39597,7 +39597,7 @@ var render = function() {
                     ? _c("img", {
                         attrs: {
                           width: "175",
-                          src: "storage/" + _vm.mainMenu.image,
+                          src: "uploads/" + _vm.mainMenu.image,
                           alt: _vm.mainMenu.alt_text
                         }
                       })
@@ -39659,7 +39659,7 @@ var render = function() {
                   ? _c("img", {
                       attrs: {
                         width: "150",
-                        src: "storage/" + value.image,
+                        src: "uploads/" + value.image,
                         alt: value.alt_text
                       }
                     })
@@ -39731,7 +39731,7 @@ var render = function() {
                     value.image
                       ? _c("img", {
                           attrs: {
-                            src: "storage/" + value.image,
+                            src: "uploads/" + value.image,
                             alt: "",
                             width: "50"
                           }
@@ -39778,7 +39778,7 @@ var render = function() {
                         value.image
                           ? _c("img", {
                               staticStyle: { width: "80px !important" },
-                              attrs: { src: "storage/" + value.image, alt: "" }
+                              attrs: { src: "uploads/" + value.image, alt: "" }
                             })
                           : _vm._e()
                       ]
@@ -39790,7 +39790,7 @@ var render = function() {
                   ? _c("img", {
                       staticClass: "episoda-slide-img",
                       attrs: {
-                        src: "storage/" + value.page.background_image,
+                        src: "uploads/" + value.page.background_image,
                         alt: "header slide image"
                       }
                     })
@@ -39900,7 +39900,7 @@ var render = function() {
                       staticClass: "episoda-img-responsive",
                       attrs: {
                         src:
-                          "storage/" + _vm.selectedMenu.page.background_image,
+                          "uploads/" + _vm.selectedMenu.page.background_image,
                         alt: ""
                       }
                     })

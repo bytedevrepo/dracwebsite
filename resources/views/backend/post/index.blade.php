@@ -39,7 +39,7 @@
                                     <td class="text-center">{{$loop->iteration}}</td>
 
                                     <td class="text-center">
-                                        <img src="{{ asset('storage/'. $value->background_image) }}" alt="" width="45" class="rounded">
+                                        <img src="{{ asset('uploads/'. $value->background_image) }}" alt="" width="45" class="rounded">
                                     <td>
                                         <a href="{{ route('admin.post.edit',$value->id) }}">{{$value->title}}</a>
                                     </td>

@@ -37,7 +37,7 @@
                             </div>
                             <div class="col-md-6">
                                 @if($background)
-                                    <img src="{{ asset('storage/'.$background->value) }}" alt="" width="200" class="rounded">
+                                    <img src="{{ asset('uploads/'.$background->value) }}" alt="" width="200" class="rounded">
                                 @else
                                     <img src="{{ asset('images/default.png') }}" alt="" width="200" class="rounded">
                                 @endif
