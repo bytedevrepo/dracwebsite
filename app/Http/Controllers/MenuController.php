@@ -17,6 +17,7 @@ class MenuController extends Controller
 
     public function getMainMenu()
     {
+        $data['background'] = \App\Models\Cms::where('key', 'home_background')->first();
         $data['mainMenu'] = MenuPage::where('parent_id', 0)->first()->toArray();
         $data['child'] = MenuPage::with(['page:id,slug','children'])->where('parent_id', $data['mainMenu']['id'])->get()->toArray();
         $returnData = $this->prepareResponse(false, 'success', $data, []);
@@ -25,6 +26,7 @@ class MenuController extends Controller
 
     public function getChildMenu($id)
     {
+        $data['background'] = \App\Models\Cms::where('key', 'home_background')->first();
         $mainMenu = MenuPage::find($id);
         $child = MenuPage::with('page:id,slug')->where('parent_id', $id)->get()->toArray();
         $data['mainMenu'] = $mainMenu;

@@ -35,7 +35,7 @@
                     </router-link>
 
                     <!-- slide img -->
-                    <img v-if="value.page.background_image" class="episoda-slide-img" :src="'storage/'+value.page.background_image" alt="header slide image">
+                    <img v-if="value.page" class="episoda-slide-img" :src="'storage/'+value.page.background_image" alt="header slide image">
                     <img v-else class="episoda-slide-img" src="frontend-assets/site/img/hawaii.jpg" alt="header slide image">
                     <!-- end slide img -->
 
@@ -43,8 +43,8 @@
                     <div class="episoda-slide-content">
                         <div class="episoda-absolute col-md-9 col-lg-8 col-10">
                             <p>{{ value.display_name }}</p>
-                            <h1>{{ sliceText(value.page.title, 50) }}</h1>
-                            <p>{{ sliceText(value.page.body, 255) }}</p>
+                            <h1 v-if="value.page">{{ sliceText(value.page.title, 50) }}</h1>
+                            <p v-if="value.page">{{ sliceText(value.page.body, 255) }}</p>
                             <a href="#" @click="showPage(value)" class="episoda-pop-up-btn">Read more<i class="episoda-right-arrow"></i></a>
                         </div>
                     </div>
@@ -125,6 +125,7 @@
         beforeMount(){
             this.menu_id = this.$route.params.menu_id;
             this.getPageList();
+            $('.bg').css('display', 'none')
         },
         methods:{
             sliceText(text, length){

@@ -21,6 +21,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'as'=> 'admin.'], fun
         Route::post('update', [\App\Http\Controllers\MenuController::class, 'update'])->name('update');
     });
 
+    Route::group(['prefix' => 'cms', 'as'=> 'cms.'], function () {
+        Route::get('/home', [\App\Http\Controllers\CmsController::class, 'homePage'])->name('home');
+        Route::post('/save_home', [\App\Http\Controllers\CmsController::class, 'homePageSave'])->name('save_home');
+    });
 
     Route::group(['prefix' => 'post'], function () {
         Route::group(['as'=>'post.'], function () {

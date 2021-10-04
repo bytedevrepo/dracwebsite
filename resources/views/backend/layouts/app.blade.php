@@ -88,7 +88,7 @@
                         <li class="nav-item">
                             <a class="nav-link {{ (Request::segment(2) == 'post') ? 'active' : '' }}" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1">
                                 <i class="fab fa-fw fa-firefox"></i>
-                                Pages
+                                Posts
                             </a>
                             <div id="submenu-1" class="submenu {{ (Request::segment(2) == 'post') ? 'open' : 'collapse' }}" style="">
                                 <ul class="nav flex-column">
@@ -96,7 +96,7 @@
                                         <a class="nav-link {{ Route::currentRouteName() == 'admin.post.create' ? 'active' : '' }}" href="{{ route('admin.post.create') }}">Add new</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link {{ Route::currentRouteName() == 'admin.post.index' ? 'active' : '' }}" href="{{ route('admin.post.index') }}">All Pages</a>
+                                        <a class="nav-link {{ Route::currentRouteName() == 'admin.post.index' ? 'active' : '' }}" href="{{ route('admin.post.index') }}">All Posts</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link {{ Route::currentRouteName() == 'admin.category.index' ? 'active' : '' }}" href="{{ route('admin.category.index') }}">All Categories</a>
@@ -109,6 +109,19 @@
                                 <i class="fab fa-fw fa-stack-exchange"></i>
                                 Menu
                             </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ (Request::segment(2) == 'cms') ? 'active' : '' }}" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-1">
+                                <i class="fab fa-fw fa-firefox"></i>
+                                CMS
+                            </a>
+                            <div id="submenu-2" class="submenu {{ (Request::segment(2) == 'post') ? 'open' : 'collapse' }}" style="">
+                                <ul class="nav flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link {{ Route::currentRouteName() == 'admin.cms.home' ? 'active' : '' }}" href="{{ route('admin.cms.home') }}">Home Page</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                     </ul>
                 </div>
