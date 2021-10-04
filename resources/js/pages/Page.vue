@@ -16,7 +16,7 @@
 
                 <menu class="items-wrapper">
                     <a href="#" @click.prevent="followMenu(value, index)" class="menu-item" v-for="(value,index) in this.pageList" :title="value.display_name">
-                        <img v-if="value.image" :src="'uploads/'+value.image" alt="" width="50">
+                        <img v-if="value.image" :src="'src/public/uploads/'+value.image" alt="" width="50">
                     </a>
                 </menu>
 
@@ -30,12 +30,12 @@
                 <div class="episoda-slide" :id="value.slug" v-for="(value,index) in pageList" :key="index">
                     <router-link to="/" style="z-index: 990;">
                         <div class="episoda-logo" style="z-index: 990;">
-                            <img v-if="value.image" :src="'uploads/'+value.image" alt="" style="width: 80px !important;">
+                            <img v-if="value.image" :src="'src/public/uploads/'+value.image" alt="" style="width: 80px !important;">
                         </div>
                     </router-link>
 
                     <!-- slide img -->
-                    <img v-if="value.page" class="episoda-slide-img" :src="'uploads/'+value.page.background_image" alt="header slide image">
+                    <img v-if="value.page" class="episoda-slide-img" :src="'src/public/uploads/'+value.page.background_image" alt="header slide image">
                     <img v-else class="episoda-slide-img" src="frontend-assets/site/img/hawaii.jpg" alt="header slide image">
                     <!-- end slide img -->
 
@@ -66,7 +66,7 @@
                             <p>{{ selectedMenu.display_name }}</p>
                             <h2>{{ selectedMenu.page.title }}</h2>
                         </header>
-                        <img v-if="selectedMenu.page.background_image" :src="'uploads/'+selectedMenu.page.background_image" alt="" class="episoda-img-responsive">
+                        <img v-if="selectedMenu.page.background_image" :src="'src/public/uploads/'+selectedMenu.page.background_image" alt="" class="episoda-img-responsive">
 
                         <div class="episoda-content" v-html="selectedMenu.page.body"></div>
                         <!--<footer class="episoda-details">-->

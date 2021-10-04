@@ -17,7 +17,7 @@
             <div class='item-wrap' v-for="(value,index) in childMenu" :key="index">
                 <div class='item'>
                     <a class="center-menu" @click.prevent="followMenu(value)" :title='value.display_name' :target="value.target" :style="value.custom_css">
-                        <img width='150' v-if="value.image" :src="'uploads/'+value.image" :alt="value.alt_text">
+                        <img width='150' v-if="value.image" :src="'src/public/uploads/'+value.image" :alt="value.alt_text">
                     </a>
                 </div>
             </div>
