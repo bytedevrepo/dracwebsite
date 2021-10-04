@@ -1,36 +1,27 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
-
-        <div class="mb-4 text-sm text-gray-600">
-            {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+@extends('backend.layouts.guest')
+@section('content')
+    <div class="splash-container">
+        <div class="card">
+            <div class="card-header text-center">
+                <h1> <a href="/">{{ config('app.name', 'Laravel') }}</a></h1>
+                <span class="splash-description">Please enter your email address.</span>
+            </div>
+            <div class="card-body">
+                @include('backend.auth.validation-error')
+                <form method="POST" action="{{ route('password.email') }}">
+                    @csrf
+                    <p>We'll send you an email to reset your password.</p>
+                    <div class="form-group">
+                        <input class="form-control form-control-lg" type="email" name="email" :value="old('email')" required autofocus  placeholder="Your Email">
+                    </div>
+                    <div class="form-group pt-1">
+                        <button type="submit" class="btn btn-block btn-primary btn-xl">{{ __('Email Password Reset Link') }}</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                <span>Already have an account? <a href="{{ route('login') }}">Login</a></span>
+            </div>
         </div>
-
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
-
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
-
-        <form method="POST" action="{{ route('password.email') }}">
-            @csrf
-
-            <!-- Email Address -->
-            <div>
-                <x-label for="email" :value="__('Email')" />
-
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <x-button>
-                    {{ __('Email Password Reset Link') }}
-                </x-button>
-            </div>
-        </form>
-    </x-auth-card>
-</x-guest-layout>
+    </div>
+@stop
