@@ -7,7 +7,7 @@
                 <span class="splash-description">Please enter your login credentials.</span>
             </div>
             <div class="card-body">
-                @include('backend.auth.validation-error')
+                @include('backend._partials.validation-error')
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <div class="form-group">

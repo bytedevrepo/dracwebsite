@@ -7,7 +7,7 @@
                 <span class="splash-description">Please enter your email address.</span>
             </div>
             <div class="card-body">
-                @include('backend.auth.validation-error')
+                @include('backend._partials.validation-error')
                 <form method="POST" action="{{ route('password.email') }}">
                     @csrf
                     <p>We'll send you an email to reset your password.</p>

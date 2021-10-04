@@ -74,10 +74,11 @@ class PostController extends Controller
         $page->published_date = $published_date;
         $page->created_by = auth()->user()->id;
         $page->save();
-        Session::flash('message', 'Post has been created');
+
+        Session::flash('message', 'Post created / updated successfully.');
 
         if(isset($request->continue_edit) AND $request->continue_edit == 1){
-            return redirect()->back();
+            return redirect()->route('admin.post.edit', $page->id);
         }else{
             return redirect()->route('admin.post.index');
         }

@@ -21,19 +21,21 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'as'=> 'admin.'], fun
         Route::post('update', [\App\Http\Controllers\MenuController::class, 'update'])->name('update');
     });
 
-    Route::group(['prefix' => 'category', 'as'=> 'category.'], function () {
-        Route::get('/', [\App\Http\Controllers\CategoryController::class, 'index'])->name('index');
-        Route::post('save', [\App\Http\Controllers\CategoryController::class, 'save'])->name('save');
-        Route::get('edit/{id}', [\App\Http\Controllers\CategoryController::class, 'edit'])->name('edit');
-        Route::get('delete/{id}', [\App\Http\Controllers\CategoryController::class, 'delete'])->name('delete');
-    });
 
-    Route::group(['prefix' => 'post', 'as'=>'post.'], function () {
-        Route::get('/', [\App\Http\Controllers\PostController::class, 'index'])->name('index');
-        Route::get('/create', [\App\Http\Controllers\PostController::class, 'create'])->name('create');
-        Route::get('edit/{id}', [\App\Http\Controllers\PostController::class, 'edit'])->name('edit');
-        Route::post('store', [\App\Http\Controllers\PostController::class, 'store'])->name('store');
-        Route::post('delete', [\App\Http\Controllers\PostController::class, 'delete'])->name('delete');
+    Route::group(['prefix' => 'post'], function () {
+        Route::group(['as'=>'post.'], function () {
+            Route::get('/', [\App\Http\Controllers\PostController::class, 'index'])->name('index');
+            Route::get('/create', [\App\Http\Controllers\PostController::class, 'create'])->name('create');
+            Route::get('edit/{id}', [\App\Http\Controllers\PostController::class, 'edit'])->name('edit');
+            Route::post('store', [\App\Http\Controllers\PostController::class, 'store'])->name('store');
+            Route::post('delete', [\App\Http\Controllers\PostController::class, 'delete'])->name('delete');
+        });
+        Route::group(['prefix' => 'category', 'as'=> 'category.'], function () {
+            Route::get('/', [\App\Http\Controllers\CategoryController::class, 'index'])->name('index');
+            Route::post('save', [\App\Http\Controllers\CategoryController::class, 'save'])->name('save');
+            Route::get('edit/{id}', [\App\Http\Controllers\CategoryController::class, 'edit'])->name('edit');
+            Route::get('delete/{id}', [\App\Http\Controllers\CategoryController::class, 'delete'])->name('delete');
+        });
     });
 });
 

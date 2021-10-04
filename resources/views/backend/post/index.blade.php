@@ -26,9 +26,9 @@
                         <thead>
                         <tr>
                             <th scope="col" style="width:85px" class="text-center">S.N</th>
-                            <th scope="col" style="width:200px" class="text-center">Background</th>
+                            <th scope="col" style="width:150px" class="text-center">Background</th>
                             <th scope="col">Title</th>
-                            <th scope="col">Status</th>
+                            <th scope="col" style="width:150px">Status</th>
                             <th scope="col" class="text-center" style="width:150px"></th>
                         </tr>
                         </thead>

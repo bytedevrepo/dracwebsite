@@ -86,20 +86,20 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ Route::currentRouteName() == 'page' ? 'active' : '' }}" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1">
+                            <a class="nav-link {{ (Request::segment(2) == 'post') ? 'active' : '' }}" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1" aria-controls="submenu-1">
                                 <i class="fab fa-fw fa-firefox"></i>
                                 Pages
                             </a>
-                            <div id="submenu-1" class="collapse submenu" style="">
+                            <div id="submenu-1" class="submenu {{ (Request::segment(2) == 'post') ? 'open' : 'collapse' }}" style="">
                                 <ul class="nav flex-column">
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('admin.post.create') }}">Create new page</a>
+                                        <a class="nav-link {{ Route::currentRouteName() == 'admin.post.create' ? 'active' : '' }}" href="{{ route('admin.post.create') }}">Add new</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('admin.post.index') }}">Pages</a>
+                                        <a class="nav-link {{ Route::currentRouteName() == 'admin.post.index' ? 'active' : '' }}" href="{{ route('admin.post.index') }}">All Pages</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('admin.category.index') }}">Categories</a>
+                                        <a class="nav-link {{ Route::currentRouteName() == 'admin.category.index' ? 'active' : '' }}" href="{{ route('admin.category.index') }}">All Categories</a>
                                     </li>
                                 </ul>
                             </div>
@@ -122,6 +122,7 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     @yield('page-header')
                     @include('backend._partials.alert')
+                    @include('backend._partials.validation-error')
                 </div>
             </div>
             @yield('content')

@@ -28,177 +28,175 @@
         }
     </style>
 @stop
+@section('page-header')
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div class="page-header">
+                <h2 class="pageheader-title">Menu Management </h2>
+                <div class="page-breadcrumb">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}" class="breadcrumb-link">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Menu Management</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+@stop
 @section('content')
-
-    <div class="container-fluid dashboard-content">
-        <div class="row">
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                <div class="page-header">
-                    <h2 class="pageheader-title">Menu Management </h2>
-                    <div class="page-breadcrumb">
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}" class="breadcrumb-link">Dashboard</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Menu Management</li>
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-10">
-                                <input class="form-control" type="text" placeholder="Menu Name" disabled value="{{ $menu->title ?? '' }}">
-                            </div>
-                            <div class="col-md-2">
-                                <a href="#" class="btn btn-primary btn-xs float-right" disabled>Save</a>
-                            </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <input class="form-control" type="text" placeholder="Menu Name" disabled value="{{ $menu->title ?? '' }}">
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">
-                        Menu
-                    </div>
-                    <div class="card-body">
-                        <form action="{{ route('admin.menu.save') }}" method="post" enctype="multipart/form-data">
-                            @csrf
-                            <input class="form-control" type="text" name="display_name" placeholder="Display Name"><br>
-                            <input class="form-control" type="file" name="image"><br>
-                            <button class="btn btn-xs btn-primary float-right">Save</button>
-                        </form>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Pages
-                    </div>
-                    <div class="card-body">
-                        <ul class="list-group">
-                            @if($pages->count())
-                                @foreach($pages as $page)
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        {{Illuminate\Support\Str::limit($page->title, 25, $end='...')}}
-                                        <button class="btn btn-xs btn-default add_page" data-page_id="{{ $page->id }}">
-                                            <i class="fa fa-plus"></i>
-                                        </button>
-                                    </li>
-                                @endforeach
-                            @else
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    No pages found
-                                </li>
-                            @endif
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">
-                        Menu Structure
-                        <button id="saveMenuOrder" class="btn btn-primary btn-xs float-right">Save</button>
-                    </div>
-                    <div class="card-body">
-                        <div class="dd" id="nestable2">
-                            <ol class="dd-list">
-                                @if(isset($menu_items))
-                                    @foreach($menu_items as $value)
-                                        <li class="dd-item" data-id="{{ $value->id }}">
-                                            <div class="dd-handle"> <span class="drag-indicator"></span>
-                                                <div>
-                                                    {{ $value->display_name }}
-                                                </div>
-                                                <div class="dd-nodrag btn-group ml-auto">
-                                                    <small class="mr-5 text-warning"><em><i class="fa fa-info-circle"></i> Do not attach page here!</em></small>
-                                                    @if(!blank($value->page_id) AND $value->page_id !== 0)
-                                                        <span class="mr-5"><span class="badge-dot badge-primary"></span>Page</span>
-                                                    @endif
-                                                    <button class="btn btn-xs btn-outline-light edit_btn"
-                                                            data-page="{{$value->page_id}}"
-                                                            data-image="{{$value->image}}"
-                                                            data-title="{{$value->display_name}}"
-                                                            data-id="{{$value->id}}">Edit</button>
-                                                    <button class="btn btn-outline-light btn-xs delete_btn" data-id="{{$value->id}}">
-                                                        <i class="far fa-trash-alt"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            @if ($value->children->count())
-                                                <ol class="dd-list">
-                                                    @foreach($value->children as $child)
-                                                        <li class="dd-item" data-id="{{ $child->id }}">
-                                                            <div class="dd-handle"> <span class="drag-indicator"></span>
-                                                                <div>
-                                                                    {{ $child->display_name }}
-                                                                </div>
-                                                                <div class="dd-nodrag btn-group ml-auto">
-                                                                    <small class="mr-5 text-warning"><em><i class="fa fa-info-circle"></i> Do not attach page here!</em></small>
-                                                                    @if(!blank($child->page_id) AND $child->page_id !== 0)
-                                                                        <span class="mr-5"><span class="badge-dot badge-primary"></span>Page</span>
-                                                                    @endif
-                                                                    <button class="btn btn-xs btn-outline-light edit_btn"
-                                                                            data-page="{{$child->page_id}}"
-                                                                            data-image="{{$child->image}}"
-                                                                            data-title="{{$child->display_name}}"
-                                                                            data-id="{{$child->id}}">Edit</button>
-                                                                    <button class="btn btn-outline-light btn-xs delete_btn" data-id="{{$child->id}}">
-                                                                        <i class="far fa-trash-alt"></i>
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                            @if ($child->children->count())
-                                                                <ol class="dd-list">
-                                                                    @foreach($child->children as $subchild)
-                                                                        <li class="dd-item" data-id="{{ $subchild->id }}">
-                                                                            <div class="dd-handle"> <span class="drag-indicator"></span>
-                                                                                <div>
-                                                                                    {{ $subchild->display_name }}
-                                                                                </div>
-                                                                                <div class="dd-nodrag btn-group ml-auto">
-                                                                                    @if(!blank($subchild->page_id) AND $subchild->page_id !== 0)
-                                                                                        <span class="mr-5"><span class="badge-dot badge-primary"></span>Page</span>
-                                                                                    @endif
-                                                                                    <button class="btn btn-xs btn-outline-light edit_btn"
-                                                                                            data-page="{{$subchild->page_id}}"
-                                                                                            data-title="{{$subchild->display_name}}"
-                                                                                            data-image="{{$subchild->image}}"
-                                                                                            data-id="{{$subchild->id}}">Edit</button>
-                                                                                    <button class="btn btn-outline-light btn-xs delete_btn" data-id="{{$subchild->id}}">
-                                                                                        <i class="far fa-trash-alt"></i>
-                                                                                    </button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </li>
-                                                                    @endforeach
-                                                                </ol>
-                                                            @endif
-                                                        </li>
-                                                    @endforeach
-                                                </ol>
-                                            @endif
-                                        </li>
-                                    @endforeach
-                                @endif
-                            </ol>
+                        <div class="col-md-2">
+                            <a href="#" class="btn btn-primary btn-xs float-right" disabled>Save</a>
                         </div>
-                    </div>
-                    <div class="card-footer">
-                        <button id="saveMenuOrder" class="btn btn-primary btn-xs float-right">Save</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    Menu
+                </div>
+                <div class="card-body">
+                    <form action="{{ route('admin.menu.save') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+                        <input class="form-control" type="text" name="display_name" placeholder="Display Name"><br>
+                        <input class="form-control" type="file" name="image"><br>
+                        <button class="btn btn-xs btn-primary float-right">Save</button>
+                    </form>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    Pages
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        @if($pages->count())
+                            @foreach($pages as $page)
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{Illuminate\Support\Str::limit($page->title, 25, $end='...')}}
+                                    <button class="btn btn-xs btn-default add_page" data-page_id="{{ $page->id }}">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </li>
+                            @endforeach
+                        @else
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                No pages found
+                            </li>
+                        @endif
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    Menu Structure
+                    <button class="btn btn-primary btn-xs float-right saveMenuOrder">Save Order</button>
+                </div>
+                <div class="card-body">
+                    <div class="dd" id="nestable2">
+                        <ol class="dd-list">
+                            @if(isset($menu_items))
+                                @foreach($menu_items as $value)
+                                    <li class="dd-item" data-id="{{ $value->id }}">
+                                        <div class="dd-handle"> <span class="drag-indicator"></span>
+                                            <div>
+                                                {{ $value->display_name }}
+                                            </div>
+                                            <div class="dd-nodrag btn-group ml-auto">
+                                                <small class="mr-5 text-warning"><em><i class="fa fa-info-circle"></i> Do not attach page here!</em></small>
+                                                @if(!blank($value->page_id) AND $value->page_id !== 0)
+                                                    <span class="mr-5"><span class="badge-dot badge-primary"></span>Page</span>
+                                                @endif
+                                                <button class="btn btn-xs btn-outline-light edit_btn"
+                                                        data-page="{{$value->page_id}}"
+                                                        data-image="{{$value->image}}"
+                                                        data-title="{{$value->display_name}}"
+                                                        data-id="{{$value->id}}">Edit</button>
+                                                <button class="btn btn-outline-light btn-xs delete_btn" data-id="{{$value->id}}">
+                                                    <i class="far fa-trash-alt"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        @if ($value->children->count())
+                                            <ol class="dd-list">
+                                                @foreach($value->children as $child)
+                                                    <li class="dd-item" data-id="{{ $child->id }}">
+                                                        <div class="dd-handle"> <span class="drag-indicator"></span>
+                                                            <div>
+                                                                {{ $child->display_name }}
+                                                            </div>
+                                                            <div class="dd-nodrag btn-group ml-auto">
+                                                                <small class="mr-5 text-warning"><em><i class="fa fa-info-circle"></i> Do not attach page here!</em></small>
+                                                                @if(!blank($child->page_id) AND $child->page_id !== 0)
+                                                                    <span class="mr-5"><span class="badge-dot badge-primary"></span>Page</span>
+                                                                @endif
+                                                                <button class="btn btn-xs btn-outline-light edit_btn"
+                                                                        data-page="{{$child->page_id}}"
+                                                                        data-image="{{$child->image}}"
+                                                                        data-title="{{$child->display_name}}"
+                                                                        data-id="{{$child->id}}">Edit</button>
+                                                                <button class="btn btn-outline-light btn-xs delete_btn" data-id="{{$child->id}}">
+                                                                    <i class="far fa-trash-alt"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        @if ($child->children->count())
+                                                            <ol class="dd-list">
+                                                                @foreach($child->children as $subchild)
+                                                                    <li class="dd-item" data-id="{{ $subchild->id }}">
+                                                                        <div class="dd-handle"> <span class="drag-indicator"></span>
+                                                                            <div>
+                                                                                {{ $subchild->display_name }}
+                                                                            </div>
+                                                                            <div class="dd-nodrag btn-group ml-auto">
+                                                                                @if(!blank($subchild->page_id) AND $subchild->page_id !== 0)
+                                                                                    <span class="mr-5"><span class="badge-dot badge-primary"></span>Page</span>
+                                                                                @endif
+                                                                                <button class="btn btn-xs btn-outline-light edit_btn"
+                                                                                        data-page="{{$subchild->page_id}}"
+                                                                                        data-title="{{$subchild->display_name}}"
+                                                                                        data-image="{{$subchild->image}}"
+                                                                                        data-id="{{$subchild->id}}">Edit</button>
+                                                                                <button class="btn btn-outline-light btn-xs delete_btn" data-id="{{$subchild->id}}">
+                                                                                    <i class="far fa-trash-alt"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </li>
+                                                                @endforeach
+                                                            </ol>
+                                                        @endif
+                                                    </li>
+                                                @endforeach
+                                            </ol>
+                                        @endif
+                                    </li>
+                                @endforeach
+                            @endif
+                        </ol>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary btn-xs float-right saveMenuOrder">Save Order</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Delete Modal -->
     <div class="modal" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -285,7 +283,7 @@
             maxDepth:3
         });
 
-        $('#saveMenuOrder').on('click', function(){
+        $('.saveMenuOrder').on('click', function(){
             $.ajax({
                 type: "POST",
                 url: "{{ route('admin.menu.saveOrder') }}",

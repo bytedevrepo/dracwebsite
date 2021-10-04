@@ -125,9 +125,9 @@
                                         </li>
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             Created
-                                            <small class="text-right">
-                                                {{ $edit->created_at->format('M d Y') }} by {{ $edit->createdBy->name }}
-                                            </small>
+                                            @if(isset($edit->created_at) AND $edit->created_at != '')
+                                                <small class="text-right">{{ $edit->created_at->format('M d Y') }} by {{ $edit->createdBy->name }}</small>
+                                            @endif
                                         </li>
                                     </ul>
                                 </div>
