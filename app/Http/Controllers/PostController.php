@@ -15,7 +15,7 @@ class PostController extends Controller
 {
     public function index()
     {
-        $pages = Post::all();
+        $pages = Post::with('category')->get();
         return view('backend.post.index',compact('pages'));
     }
 

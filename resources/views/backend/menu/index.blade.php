@@ -86,8 +86,9 @@
                         @if($pages->count())
                             @foreach($pages as $page)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    {{Illuminate\Support\Str::limit($page->title, 25, $end='...')}}
-                                    <button class="btn btn-xs btn-default add_page" data-page_id="{{ $page->id }}">
+                                    {{Illuminate\Support\Str::limit($page['title'], 25, $end='...')}}<br>
+                                    <small>{{ $page['category'] }}</small>
+                                    <button class="btn btn-xs btn-default add_page" data-page_id="{{ $page['id'] }}">
                                         <i class="fa fa-plus"></i>
                                     </button>
                                 </li>
@@ -264,7 +265,7 @@
                                         <option value="">--- SELECT POST ---</option>
                                         @if($pages->count())
                                             @foreach($pages as $value)
-                                                <option value="{{ $value->id }}">{{ Illuminate\Support\Str::limit($value->title, 60, $end='...') }}</option>
+                                                <option value="{{ $value['id'] }}">{{ $value['title_category'] }}</option>
                                             @endforeach
                                         @endif
                                     </select>

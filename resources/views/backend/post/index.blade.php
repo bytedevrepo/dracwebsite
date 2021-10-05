@@ -28,6 +28,7 @@
                             <th scope="col" style="width:85px" class="text-center">S.N</th>
                             <th scope="col" style="width:150px" class="text-center">Background</th>
                             <th scope="col">Title</th>
+                            <th scope="col">Category</th>
                             <th scope="col" style="width:150px">Status</th>
                             <th scope="col" class="text-center" style="width:150px"></th>
                         </tr>
@@ -42,6 +43,9 @@
                                         <img src="{{ asset('uploads/'. $value->background_image) }}" alt="" width="45" class="rounded">
                                     <td>
                                         <a href="{{ route('admin.post.edit',$value->id) }}">{{$value->title}}</a>
+                                    </td>
+                                    <td>
+                                        {{ $value->category->title ?? 'none' }}
                                     </td>
                                     <td>
                                         @if($value->status)

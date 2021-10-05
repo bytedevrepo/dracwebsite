@@ -39,7 +39,17 @@ class MenuController extends Controller
     public function admin_index()
     {
         $menu_items = [];
-        $pages = Post::where('status', 1)->get();
+        $pages = Post::where('status', 1)->with('category:id,title')
+            ->get()->map(function ($query){
+                $category_title = (!blank($query->category)) ? Str::limit($query->category->title, 40) : '';
+                return [
+                    'id' => $query->id,
+                    'title' => $query->title,
+                    'category' => $category_title,
+                    'title_category' => Str::limit($query->title, 40) . ' - ' . $category_title,
+                    'slug' => $query->slug,
+                ];
+            });
         $menu = Menu::where('is_selected', 1)->first();
         if ($menu){
             $menu_items = MenuPage::where('menu_id',$menu->id)
