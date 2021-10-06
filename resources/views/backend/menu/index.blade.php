@@ -82,7 +82,7 @@
                     Pages
                 </div>
                 <div class="card-body">
-                    <ul class="list-group">
+                    <ul class="list-group" style="max-height: 370px;overflow-y: scroll">
                         @if($pages->count())
                             @foreach($pages as $page)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
