@@ -18,7 +18,7 @@
 @stop
 @section('content')
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="card">
                 <div class="card-header">
                     @if(blank($edit))
@@ -43,7 +43,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
                     Category Listing
@@ -54,6 +54,7 @@
                         <tr>
                             <th class="text-center" style="width: 80px;" scope="col">#</th>
                             <th scope="col">Category</th>
+                            <th scope="col">Slug</th>
                             <th class="text-center" scope="col" style="width: 150px;"></th>
                         </tr>
                         </thead>
@@ -63,6 +64,7 @@
                                 <tr>
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td>{{$value->title}}</td>
+                                    <td>{{$value->slug}}</td>
                                     <td class="text-center">
                                         <button class="btn btn-xs btn-outline-primary edit_btn">
                                             <a href="{{ route('admin.category.edit',$value['id']) }}">

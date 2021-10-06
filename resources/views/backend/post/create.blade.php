@@ -129,6 +129,12 @@
                                                 <small class="text-right">{{ $edit->created_at->format('M d Y') }} by {{ $edit->createdBy->name }}</small>
                                             @endif
                                         </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            Category
+                                            @if(isset($edit->category->title) AND $edit->category->title != '')
+                                                <small class="text-right">{{ $edit->category->title }}</small>
+                                            @endif
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -159,7 +165,11 @@
                                             <option value="">--- SELECT CATEGORY ---</option>
                                             @if($categories->count())
                                                 @foreach($categories as $value)
-                                                    <option value="{{ $value->id }}">{{ $value->title ?? '' }}</option>
+                                                    <option
+                                                        value="{{ $value->id }}"
+                                                        {{ (isset($edit->category->id) AND $edit->category->id == $value->id) ? 'selected' : '' }}>
+                                                        {{ $value->title ?? '' }}
+                                                    </option>
                                                 @endforeach
                                             @endif
                                         </select>

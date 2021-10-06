@@ -36,15 +36,28 @@ class PostController extends Controller
     {
         $request->validate([
             'title' => 'required|max:255',
+            'category' => 'required|integer',
             'meta_title' => 'nullable|max:255',
             'meta_keyword' => 'nullable|max:255',
             'meta_description' => 'nullable|max:500'
         ]);
 
-        $slug = Str::slug($request->title);
-        if($request->slug != '' AND $request->slug != $slug){
-            $slug = $request->slug;
+        $id = $request->id ? $request->id : '';
+        $category = Category::find($request->category);
+        $slug_from_title = Str::slug($request->title);
+        if ($id == ''){
+            // create new slug for new post
+            $slug = $this->createNewSlug($category, $slug_from_title);
+        }else{
+            if (isset($request->slug)){
+                // get slug from input if user submits slug on update
+                $slug = $request->slug;
+                if (Post::where('slug', $slug)->exists()){
+                    $slug = $this->createNewSlug($category, $slug_from_title);
+                }
+            }
         }
+
         if(isset($request->id) AND $request->id !== ''){
             $page = Post::find($request->id);
         }else{
@@ -63,7 +76,9 @@ class PostController extends Controller
         $background_image_path = $this->uploadImage($request, $page);
         $background_image_path ? $page->background_image = $background_image_path : '';
         $page->title = $request->title;
-        $page->slug = $slug;
+        if (isset($slug)){
+            $page->slug = $slug;
+        }
         $page->excerpt = $request->excerpt;
         $page->body = $request->body;
         $page->meta_title = $request->meta_title;
@@ -104,5 +119,21 @@ class PostController extends Controller
         $page = Post::find($id);
         $page->delete();
         return redirect()->back()->with('message', 'post has been deleted!');
+    }
+
+    /**
+     * @param $category
+     * @param $slug_from_title
+     * @return string
+     */
+    private function createNewSlug($category, $slug_from_title)
+    {
+        $slug = $slug_with_category = $category->slug . '-' . $slug_from_title;
+        $i = 1;
+        while (Post::where('slug', $slug)->exists()) {
+            $slug = $slug_with_category . '-' . $i;
+            $i++;
+        }
+        return $slug;
     }
 }
