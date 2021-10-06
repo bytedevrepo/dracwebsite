@@ -1,4 +1,22 @@
 @extends('backend.layouts.app')
+@section('css')
+    <link rel="stylesheet" type="text/css" href="{{ asset('backend-assets/vendor/datatables/css/dataTables.bootstrap4.css') }}">
+@endsection
+@section('script')
+    <script src="{{ asset('backend-assets/vendor/datatables/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('backend-assets/vendor/datatables/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('backend-assets/vendor/datatables/js/data-table.js') }}"></script>
+    <script>
+        $(document).ready( function () {
+            $('#table_id').DataTable({
+                columnDefs: [{
+                    orderable: false,
+                    targets: [1,6]
+                }],
+            });
+        } );
+    </script>
+@endsection
 @section('page-header')
     <div class="page-header">
         <h2 class="pageheader-title">
@@ -22,12 +40,13 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <table class="table table-striped table-bordered">
+                    <table class="table table-striped table-bordered" id="table_id">
                         <thead>
                         <tr>
                             <th scope="col" style="width:85px" class="text-center">S.N</th>
                             <th scope="col" style="width:150px" class="text-center">Background</th>
                             <th scope="col">Title</th>
+                            <th scope="col">Slug</th>
                             <th scope="col">Category</th>
                             <th scope="col" style="width:150px">Status</th>
                             <th scope="col" class="text-center" style="width:150px"></th>
@@ -43,6 +62,9 @@
                                         <img src="{{ asset('uploads/'. $value->background_image) }}" alt="" width="45" class="rounded">
                                     <td>
                                         <a href="{{ route('admin.post.edit',$value->id) }}">{{$value->title}}</a>
+                                    </td>
+                                    <td>
+                                        {{$value->slug}}
                                     </td>
                                     <td>
                                         {{ $value->category->title ?? 'none' }}
