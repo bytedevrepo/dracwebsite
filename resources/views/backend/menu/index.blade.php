@@ -139,14 +139,6 @@
                                                                 @if(!blank($child->page_id) AND $child->page_id !== 0)
                                                                     <span class="mr-5"><span class="badge-dot badge-primary"></span>Page</span>
                                                                 @endif
-                                                                {{--<button class="btn btn-xs btn-outline-light edit_btn"--}}
-                                                                        {{--data-page="{{$child->page_id}}"--}}
-                                                                        {{--data-image="{{$child->image}}"--}}
-                                                                        {{--data-title="{{$child->display_name}}"--}}
-                                                                        {{--data-id="{{$child->id}}">Edit</button>--}}
-                                                                {{--<button class="btn btn-outline-light btn-xs delete_btn" data-id="{{$child->id}}">--}}
-                                                                    {{--<i class="far fa-trash-alt"></i>--}}
-                                                                {{--</button>--}}
                                                                 @include('backend.menu.action-button', ['data' => $child])
                                                             </div>
                                                         </div>
@@ -162,15 +154,7 @@
                                                                                 @if(!blank($subchild->page_id) AND $subchild->page_id !== 0)
                                                                                     <span class="mr-5"><span class="badge-dot badge-primary"></span>Page</span>
                                                                                 @endif
-                                                                                    @include('backend.menu.action-button', ['data' => $subchild])
-                                                                                {{--<button class="btn btn-xs btn-outline-light edit_btn"--}}
-                                                                                        {{--data-page="{{$subchild->page_id}}"--}}
-                                                                                        {{--data-title="{{$subchild->display_name}}"--}}
-                                                                                        {{--data-image="{{$subchild->image}}"--}}
-                                                                                        {{--data-id="{{$subchild->id}}">Edit</button>--}}
-                                                                                {{--<button class="btn btn-outline-light btn-xs delete_btn" data-id="{{$subchild->id}}">--}}
-                                                                                    {{--<i class="far fa-trash-alt"></i>--}}
-                                                                                {{--</button>--}}
+                                                                                @include('backend.menu.action-button', ['data' => $subchild])
                                                                             </div>
                                                                         </div>
                                                                     </li>
@@ -285,7 +269,6 @@
             </div>
         </div>
     </div>
-{{--{{dd()}}--}}
 @stop
 @section('script')
     <script type="text/javascript">
@@ -302,7 +285,8 @@
                 },
                 data: {data:$('.dd').nestable('serialize')},
                 success: function (msg) {
-                    window.location.reload();
+                    console.log(msg)
+                    // window.location.reload();
                 }
             });
         });
@@ -327,8 +311,6 @@
                 $("#edit_target").prop('checked', 'true');
             }
             if ($(this).data("image") !== '') {
-                {{--var image= $(this).data("image");--}}
-                {{--var url = {!! json_encode(Storage::disk(${image})->url('image')) !!};--}}
                 $("#edit_image_url").prop('src', window.ASSET_URL+$(this).data("image"));
             }else{
                 $("#edit_image_url").prop('src', '{{ asset('images/default.png') }}');

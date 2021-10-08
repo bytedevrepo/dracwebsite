@@ -11,12 +11,12 @@ class MenuPage extends Model
 
     public function parent()
     {
-        return $this->belongsTo(MenuPage::class, 'parent_id');
+        return $this->belongsTo(MenuPage::class, 'parent_id')->orderBy('order', 'asc');
     }
 
     public function children()
     {
-        return $this->hasMany(MenuPage::class, 'parent_id');
+        return $this->hasMany(MenuPage::class, 'parent_id')->orderBy('order', 'asc');
     }
 
     public function menu()

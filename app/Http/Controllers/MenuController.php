@@ -55,7 +55,7 @@ class MenuController extends Controller
             $menu_items = MenuPage::where('menu_id',$menu->id)
                 ->where('parent_id',0)
                 ->with(['menu','children.page','parent','page'])
-                ->orderBy('order')
+                ->orderBy('order', 'asc')
                 ->get();
         }
 
