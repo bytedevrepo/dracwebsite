@@ -14,6 +14,14 @@
                     targets: [1,6]
                 }],
             });
+
+            $(document).ready(function () {
+                $('.delete_btn').on('click', function(){
+                    let id = $(this).data("id");
+                    $("#delete_input").val(id);
+                    $("#deleteModal").modal('show');
+                });
+            })
         } );
     </script>
 @endsection
@@ -59,7 +67,10 @@
                                     <td class="text-center">{{$loop->iteration}}</td>
 
                                     <td class="text-center">
-                                        <img src="{{ asset('uploads/'. $value->background_image) }}" alt="" width="45" class="rounded">
+                                        @if($value->background_image)
+                                            <img src="{{ asset('uploads/'. $value->background_image) }}" alt="" width="45" class="rounded">
+                                        @endif
+                                    </td>
                                     <td>
                                         <a href="{{ route('admin.post.edit',$value->id) }}">{{$value->title}}</a>
                                     </td>
@@ -122,14 +133,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('script')
-    <script type="text/javascript">
-        $('.delete_btn').on('click', function(){
-            let id = $(this).data("id");
-            $("#delete_input").val(id);
-            $("#deleteModal").modal('show');
-        });
-    </script>
 @endsection
