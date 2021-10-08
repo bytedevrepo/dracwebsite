@@ -24,8 +24,13 @@ class MenuPage extends Model
         return $this->belongsTo(Menu::class, 'menu_id');
     }
 
-    public function page()
+    public function category()
     {
-        return $this->belongsTo(Post::class, 'page_id');
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function post()
+    {
+        return $this->belongsTo(Post::class, 'post_id');
     }
 }

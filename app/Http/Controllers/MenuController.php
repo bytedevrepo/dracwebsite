@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Menu;
 use App\Models\MenuPage;
 use App\Models\Post;
@@ -17,10 +18,11 @@ class MenuController extends Controller
 
     public function getMainMenu()
     {
-        $data['background'] = \App\Models\Cms::where('key', 'home_background')->first();
-        $data['mainMenu'] = MenuPage::where('parent_id', 0)->first()->toArray();
-        $data['child'] = MenuPage::with(['page:id,slug','children'])->where('parent_id', $data['mainMenu']['id'])->get()->toArray();
-        $returnData = $this->prepareResponse(false, 'success', $data, []);
+//        $data['background'] = \App\Models\Cms::where('key', 'home_background')->first();
+        $mainMenu = MenuPage::where('parent_id', 0)->first();
+        $child = MenuPage::with(['category:id,slug','post:id,slug','children'])
+            ->where('parent_id', $mainMenu->id)->orderBy('order', 'asc')->get();
+        $returnData = $this->prepareResponse(false, 'success', compact('mainMenu', 'child'), []);
         return response()->json($returnData, 200);
     }
 
@@ -28,7 +30,7 @@ class MenuController extends Controller
     {
         $data['background'] = \App\Models\Cms::where('key', 'home_background')->first();
         $mainMenu = MenuPage::find($id);
-        $child = MenuPage::with('page:id,slug')->where('parent_id', $id)->get()->toArray();
+        $child = MenuPage::with(['category:id,slug', 'post:id,slug'])->where('parent_id', $id)->get()->toArray();
         $data['mainMenu'] = $mainMenu;
         $data['child'] = $child;
         $returnData = $this->prepareResponse(false, 'success', $data, []);
@@ -39,7 +41,8 @@ class MenuController extends Controller
     public function admin_index()
     {
         $menu_items = [];
-        $pages = Post::where('status', 1)->with('category:id,title')
+        $categories = Category::all();
+        $posts = Post::where('status', 1)->with('category:id,title')
             ->get()->map(function ($query){
                 $category_title = (!blank($query->category)) ? Str::limit($query->category->title, 40) : '';
                 return [
@@ -54,12 +57,12 @@ class MenuController extends Controller
         if ($menu){
             $menu_items = MenuPage::where('menu_id',$menu->id)
                 ->where('parent_id',0)
-                ->with(['menu','children.page','parent','page'])
+                ->with(['menu','children.post','parent','post'])
                 ->orderBy('order', 'asc')
                 ->get();
         }
 
-        return view('backend.menu.index', compact('menu', 'menu_items', 'pages'));
+        return view('backend.menu.index', compact('menu', 'menu_items', 'posts','categories'));
     }
 
     public function saveMenuOrder(Request $request)
@@ -110,7 +113,8 @@ class MenuController extends Controller
         $menu->display_name = $request->display_name;
         $menu->slug = Str::slug($request->display_name);
         $menu->parent_id = 0;
-        $menu->page_id = 0;
+        $menu->post_id = null;
+        $menu->category_id = null;
         $menu->menu_id = 1;
         $menu->save();
         Session::flash('message', 'Menu added successfully.');
@@ -134,19 +138,54 @@ class MenuController extends Controller
     public function addPageToMenu(Request $request)
     {
         $this->validate($request,[
-            'page_id' => 'required|integer'
+            'post_id' => 'required|integer'
         ]);
-        $page = Post::findOrFail($request->page_id);
+        $post = Post::findOrFail($request->post_id);
         $menu = new MenuPage();
-        $menu->page_id = $page->id;
+        $menu->post_id = $post->id;
+        $menu->category_id = null;
         $menu->menu_id = 1;
         $menu->order = 0;
-        $menu->display_name = $page->title;
-        $menu->slug = Str::slug($page->title);
+        $menu->parent_id = 0;
+        $menu->display_name = $post->title;
+        $menu->slug = Str::slug($post->title);
         $menu->image = '';
         $menu->save();
-        Session::flash('message', 'Page added successfully.');
+        Session::flash('message', 'Post added successfully.');
         return response()->json('success');
+    }
+
+    public function addCategoryToMenu(Category $category)
+    {
+        $menu = new MenuPage();
+        $menu->category_id = $category->id;
+        $menu->post_id = null;
+        $menu->menu_id = 1;
+        $menu->order = 0;
+        $menu->parent_id = 0;
+        $menu->display_name = $category->title;
+        $menu->slug = $category->slug;
+        $menu->image = '';
+        $menu->save();
+
+        $posts = $category->posts;
+        if ($posts->count()){
+            foreach($posts as $key => $post){
+                $postMenu = new MenuPage();
+                $postMenu->category_id = null;
+                $postMenu->post_id = $post->id;
+                $postMenu->menu_id = 1;
+                $postMenu->order = $key+1;
+                $postMenu->parent_id = $menu->id;
+                $postMenu->display_name = $post->title;
+                $postMenu->slug = $post->slug;
+                $postMenu->image = '';
+                $postMenu->save();
+            }
+        }
+
+        Session::flash('message', 'Category added successfully.');
+        return redirect()->back();
     }
 
     public function update(Request $request)
@@ -159,7 +198,17 @@ class MenuController extends Controller
         $menu = MenuPage::find($request->menu_id);
         $menu->display_name = $request->display_name;
         $menu->slug = Str::slug($request->display_name);
-        $menu->page_id = $request->page_id ? $request->page_id : 0;
+        if ($request->page_id){
+            $menu->post_id = $request->page_id;
+            $menu->category_id = null;
+        }elseif($request->category_id){
+            $menu->post_id = null;
+            $menu->category_id = $request->category_id;
+        }else{
+            $menu->post_id = null;
+            $menu->category_id = null;
+        }
+
         if ($request->hasFile('image')){
             $old_image = $menu->image;
             $path = $request->file('image')->store('menu_images', 'public');

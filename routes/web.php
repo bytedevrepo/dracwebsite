@@ -17,6 +17,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth', 'as'=> 'admin.'], fun
         Route::post('save', [\App\Http\Controllers\MenuController::class, 'save'])->name('save');
         Route::post('saveOrder', [\App\Http\Controllers\MenuController::class, 'saveMenuOrder'])->name('saveOrder');
         Route::post('addPageToMenu', [\App\Http\Controllers\MenuController::class, 'addPageToMenu'])->name('addPageToMenu');
+        Route::get('addCategoryToMenu/{category}', [\App\Http\Controllers\MenuController::class, 'addCategoryToMenu'])->name('addCategoryToMenu');
         Route::post('delete', [\App\Http\Controllers\MenuController::class, 'delete'])->name('delete');
         Route::post('update', [\App\Http\Controllers\MenuController::class, 'update'])->name('update');
     });

@@ -2,7 +2,7 @@
     <div class="" >
         <div class="menu_container">
             <div class="toggle" id="toggle" v-if="mainMenu">
-                <a id="add" :data-menu_id="mainMenu.id" href="#" :target="mainMenu.target" :style="mainMenu.custom_css">
+                <a id="add" :data-menu_id="mainMenu.id" href="javascript:void(0)" :style="mainMenu.custom_css">
                     <img width='175' v-if="mainMenu.image" :src="$asset_url+mainMenu.image" :alt="mainMenu.alt_text">
                 </a>
             </div>
@@ -48,23 +48,32 @@
                 await this.setMenu(response);
                 this.expandMenu();
                 this.showCloseBtn = false;
-                this.background = response.data.data.background;
+                // this.background = response.data.data.background;
             },
             async setMenu(response){
                 this.mainMenu = response.data.data.mainMenu;
                 this.childMenu = response.data.data.child;
             },
-            async followMenu(value){
-                // console.log(this.mainMenu)
-                if (value.page_id === 0) {
+            async followMenu(menu){
+                if (menu.post_id){
+                    this.$router.push({ name: 'Page', params: { menu_id: this.mainMenu.slug } })
+                } else if(menu.category_id){
+                    this.$router.push({ name: 'Page', params: { menu_id: menu.slug } })
+                } else{
                     this.closeMenu();
-                    const response = await HomeService.getChildMenu(value.id);
+                    const response = await HomeService.getChildMenu(menu.id);
                     await this.setMenu(response);
                     this.expandMenu();
-                } else{
-                    this.$router.push({ name: 'Page', params: { menu_id: this.mainMenu.slug } })
-                    // this.$router.push({ name: 'Page', params: { menu_id: value.slug } })
                 }
+                // if (value.page_id === 0) {
+                //     this.closeMenu();
+                //     const response = await HomeService.getChildMenu(value.id);
+                //     await this.setMenu(response);
+                //     this.expandMenu();
+                // } else{
+                //     this.$router.push({ name: 'Page', params: { menu_id: this.mainMenu.slug } })
+                //     // this.$router.push({ name: 'Page', params: { menu_id: value.slug } })
+                // }
                 this.showCloseBtn = true;
             },
             closeMenu(){

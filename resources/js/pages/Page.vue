@@ -15,7 +15,7 @@
                 </a>
 
                 <menu class="items-wrapper">
-                    <a href="#" @click.prevent="followMenu(value, index)" class="menu-item" v-for="(value,index) in this.pageList" :title="value.display_name">
+                    <a href="#" v-if="value.post_id" @click.prevent="followMenu(value, index)" class="menu-item" v-for="(value,index) in this.pageList" :title="value.display_name">
                         <img v-if="value.image" :src="$asset_url+value.image" alt="" width="50">
                     </a>
                 </menu>
@@ -26,8 +26,7 @@
 
             <section id="episoda-header-slider" class="episoda-slider owl-carousel">
                 <!-- slide -->
-                <!--<div class="episoda-slide" :id="value.slug" :data-hash="mainMenu.slug+'#'+value.slug" v-for="(value,index) in pageList" :key="index">-->
-                <div class="episoda-slide" :id="value.slug" v-for="(value,index) in pageList" :key="index">
+                <div class="episoda-slide" v-if="value.post_id" :id="value.slug" v-for="(value,index) in pageList" :key="index">
                     <router-link to="/" style="z-index: 990;">
                         <div class="episoda-logo" style="z-index: 990;">
                             <img v-if="value.image" :src="$asset_url+value.image" alt="" style="width: 80px !important;">
@@ -35,7 +34,7 @@
                     </router-link>
 
                     <!-- slide img -->
-                    <img v-if="value.page" class="episoda-slide-img" :src="$asset_url+value.page.background_image" alt="header slide image">
+                    <img v-if="value.post" class="episoda-slide-img" :src="$asset_url+value.post.background_image" alt="header slide image">
                     <img v-else class="episoda-slide-img" src="frontend-assets/site/img/hawaii.jpg" alt="header slide image">
                     <!-- end slide img -->
 
@@ -43,8 +42,8 @@
                     <div class="episoda-slide-content">
                         <div class="episoda-absolute col-md-9 col-lg-8 col-10">
                             <p>{{ value.display_name }}</p>
-                            <h1 v-if="value.page">{{ sliceText(value.page.title, 50) }}</h1>
-                            <p v-if="value.page" v-html="sliceText(value.page.excerpt, 255)"></p>
+                            <h1 v-if="value.post">{{ sliceText(value.post.title, 50) }}</h1>
+                            <p v-if="value.post" v-html="value.post.excerpt"></p>
                             <a href="#" @click.prevent="showPage(value)" class="episoda-pop-up-btn">Read more<i class="episoda-right-arrow"></i></a>
                         </div>
                     </div>
@@ -64,11 +63,11 @@
                     <article class="col-md-8 col-lg-8 col-12 offset-md-2 offset-lg-2 offset-0">
                         <header>
                             <p>{{ selectedMenu.display_name }}</p>
-                            <h2>{{ selectedMenu.page.title }}</h2>
+                            <h2>{{ selectedMenu.post.title }}</h2>
                         </header>
-                        <img v-if="selectedMenu.page.background_image" :src="$asset_url+selectedMenu.page.background_image" alt="" class="episoda-img-responsive">
+                        <img v-if="selectedMenu.post.background_image" :src="$asset_url+selectedMenu.post.background_image" alt="" class="episoda-img-responsive">
 
-                        <div class="episoda-content" v-html="selectedMenu.page.body"></div>
+                        <div class="episoda-content" v-html="selectedMenu.post.body"></div>
                         <!--<footer class="episoda-details">-->
                         <!--<dl class="episoda-details-container">-->
                         <!--<div class="episoda-details-item">-->
@@ -114,7 +113,7 @@
                 show:false,
                 selectedMenu:{
                     display_name: '',
-                    page: {
+                    post: {
                         title: '',
                         body: '',
                         background_image: ''
@@ -126,6 +125,9 @@
             this.menu_id = this.$route.params.menu_id;
             this.getPageList();
             $('.bg').css('display', 'none')
+        },
+        mounted(){
+            // initOwl
         },
         methods:{
             sliceText(text, length){
@@ -141,7 +143,6 @@
             },
             followMenu(value, index){
                 var element_id = '#'+value.slug;
-                console.log($(element_id).parent());
                 $(element_id).parent().trigger("to.owl.carousel", [index, 1]);
             },
             initOwl(){
@@ -165,6 +166,7 @@
                 this.pageList = response.data.data.siblings;
                 this.mainMenu = response.data.data.menu;
                 this.initOwl();
+                // console.log(this.pageList)
             },
             goBack(){
                 this.$router.push('/')

@@ -79,23 +79,46 @@
             </div>
             <div class="card">
                 <div class="card-header">
-                    Pages
+                    Categories
                 </div>
                 <div class="card-body">
                     <ul class="list-group" style="max-height: 370px;overflow-y: scroll">
-                        @if($pages->count())
-                            @foreach($pages as $page)
+                        @if($categories->count())
+                            @foreach($categories as $category)
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    {{Illuminate\Support\Str::limit($page['title'], 25, $end='...')}}<br>
-                                    <small>{{ $page['category'] }}</small>
-                                    <button class="btn btn-xs btn-default add_page" data-page_id="{{ $page['id'] }}">
+                                    {{Illuminate\Support\Str::limit($category['title'], 25, $end='...')}}
+                                    <a class="btn btn-xs btn-default" href="{{ route('admin.menu.addCategoryToMenu', $category['id']) }}">
+                                        <i class="fa fa-plus"></i>
+                                    </a>
+                                </li>
+                            @endforeach
+                        @else
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                No categories found
+                            </li>
+                        @endif
+                    </ul>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    Posts
+                </div>
+                <div class="card-body">
+                    <ul class="list-group" style="max-height: 370px;overflow-y: scroll">
+                        @if($posts->count())
+                            @foreach($posts as $post)
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{Illuminate\Support\Str::limit($post['title'], 25, $end='...')}}<br>
+                                    <small>{{ $post['category'] }}</small>
+                                    <button class="btn btn-xs btn-default add_page" data-post_id="{{ $post['id'] }}">
                                         <i class="fa fa-plus"></i>
                                     </button>
                                 </li>
                             @endforeach
                         @else
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                No pages found
+                                No posts found
                             </li>
                         @endif
                     </ul>
@@ -119,11 +142,14 @@
                                                 {{ $value->display_name }}
                                             </div>
                                             <div class="dd-nodrag btn-group ml-auto">
-                                                <small class="mr-5 text-warning"><em><i class="fa fa-info-circle"></i> Do not attach page here!</em></small>
-                                                @if(!blank($value->page_id) AND $value->page_id !== 0)
-                                                    <span class="mr-5"><span class="badge-dot badge-primary"></span>Page</span>
+                                                @if($value->post_id)
+                                                    <span class="mr-5"><span class="badge-dot badge-primary"></span>Post</span>
+                                                @elseif($value->category_id)
+                                                    <span class="mr-5"><span class="badge-dot badge-success"></span>Category</span>
+                                                @else
+                                                    <span class="mr-5"><span class="badge-dot badge-secondary"></span>Menu</span>
                                                 @endif
-                                                @include('backend.menu.action-button', ['data' => $value])
+                                                @include('backend.menu.action-button', ['data' => $value, 'level' => 1])
                                             </div>
                                         </div>
                                         @if ($value->children->count())
@@ -135,11 +161,14 @@
                                                                 {{ $child->display_name }}
                                                             </div>
                                                             <div class="dd-nodrag btn-group ml-auto">
-                                                                <small class="mr-5 text-warning"><em><i class="fa fa-info-circle"></i> Do not attach page here!</em></small>
-                                                                @if(!blank($child->page_id) AND $child->page_id !== 0)
-                                                                    <span class="mr-5"><span class="badge-dot badge-primary"></span>Page</span>
+                                                                @if($child->post_id)
+                                                                    <span class="mr-5"><span class="badge-dot badge-primary"></span>Post</span>
+                                                                @elseif($child->category_id)
+                                                                    <span class="mr-5"><span class="badge-dot badge-success"></span>Category</span>
+                                                                @else
+                                                                    <span class="mr-5"><span class="badge-dot badge-secondary"></span>Menu</span>
                                                                 @endif
-                                                                @include('backend.menu.action-button', ['data' => $child])
+                                                                @include('backend.menu.action-button', ['data' => $child, 'level' => 2])
                                                             </div>
                                                         </div>
                                                         @if ($child->children->count())
@@ -151,10 +180,14 @@
                                                                                 {{ $subchild->display_name }}
                                                                             </div>
                                                                             <div class="dd-nodrag btn-group ml-auto">
-                                                                                @if(!blank($subchild->page_id) AND $subchild->page_id !== 0)
-                                                                                    <span class="mr-5"><span class="badge-dot badge-primary"></span>Page</span>
+                                                                                @if($subchild->post_id)
+                                                                                    <span class="mr-5"><span class="badge-dot badge-primary"></span>Post</span>
+                                                                                @elseif($subchild->category_id)
+                                                                                    <span class="mr-5"><span class="badge-dot badge-success"></span>Category</span>
+                                                                                @else
+                                                                                    <span class="mr-5"><span class="badge-dot badge-secondary"></span>Menu</span>
                                                                                 @endif
-                                                                                @include('backend.menu.action-button', ['data' => $subchild])
+                                                                                @include('backend.menu.action-button', ['data' => $subchild, 'level' => 3])
                                                                             </div>
                                                                         </div>
                                                                     </li>
@@ -243,12 +276,23 @@
                                         <span class="custom-control-label">Open menu in new tab?</span>
                                     </label>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group" id="select_category">
+                                    <label for="input-select">Attach Category</label>
+                                    <select id="edit_category" class="form-control" id="input-select" name="category_id">
+                                        <option value="">--- SELECT CATEGORY ---</option>
+                                        @if($categories->count())
+                                            @foreach($categories as $value)
+                                                <option value="{{ $value['id'] }}">{{ $value['title'] }}</option>
+                                            @endforeach
+                                        @endif
+                                    </select>
+                                </div>
+                                <div class="form-group" id="select_post">
                                     <label for="input-select">Attach Post</label>
-                                    <select id="edit_page" class="form-control" id="input-select" name="page_id">
+                                    <select id="edit_post" class="form-control" id="input-select" name="page_id">
                                         <option value="">--- SELECT POST ---</option>
-                                        @if($pages->count())
-                                            @foreach($pages as $value)
+                                        @if($posts->count())
+                                            @foreach($posts as $value)
                                                 <option value="{{ $value['id'] }}">{{ $value['title_category'] }}</option>
                                             @endforeach
                                         @endif
@@ -285,8 +329,8 @@
                 },
                 data: {data:$('.dd').nestable('serialize')},
                 success: function (msg) {
-                    console.log(msg)
-                    // window.location.reload();
+                    // console.log(msg)
+                    window.location.reload();
                 }
             });
         });
@@ -299,9 +343,24 @@
         });
 
         $('.edit_btn').on('click', function(){
-            let menu_page = $(this).data("page");
-            if (menu_page !== 0) {
-                $("#edit_page").val(menu_page);
+            let level = $(this).data('level');
+            if(level === 1){
+                // hide page and category
+                $('#select_category, #select_post').hide();
+            }else if(level === 2){
+                // show page and category
+                $('#select_category, #select_post').show();
+            }else{
+                // hide category
+                $('#select_category').hide();
+            }
+            let post_id = $(this).data("post");
+            if (post_id !== 0) {
+                $("#edit_post").val(post_id);
+            }
+            let category_id = $(this).data("category");
+            if (category_id !== 0) {
+                $("#edit_category").val(category_id);
             }
             $("#edit_id").val($(this).data("id"));
             $("#edit_title").val($(this).data("title"));
@@ -323,14 +382,14 @@
         });
 
         $('.add_page').on('click', function(){
-            let page_id = $(this).data("page_id");
+            let post_id = $(this).data("post_id");
             $.ajax({
                 type: "POST",
                 url: "{{ route('admin.menu.addPageToMenu') }}",
                 headers: {
                     'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
                 },
-                data: {page_id:page_id},
+                data: {post_id:post_id},
                 success: function (response) {
                     if (response === 'success'){
                         window.location.reload();
@@ -339,12 +398,38 @@
             });
         });
 
+        {{--$('.add_category').on('click', function(e){--}}
+        {{--e.preventDefault();--}}
+        {{--let category_id = $(this).data("category_id");--}}
+        {{--let url = $(this).attr('href')--}}
+        {{--$.ajax({--}}
+        {{--type: "POST",--}}
+        {{--url: "{{ route('admin.menu.addCategoryToMenu') }}",--}}
+        {{--headers: {--}}
+        {{--'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')--}}
+        {{--},--}}
+        {{--data: {category_id:category_id},--}}
+        {{--success: function (response) {--}}
+        {{--if (response === 'success'){--}}
+        {{--window.location.reload();--}}
+        {{--}--}}
+        {{--}--}}
+        {{--});--}}
+        {{--});--}}
+
         $(".modal").on("hidden.bs.modal", function () {
             $("#edit_id").val("");
             $("#edit_title").val("");
             $("#edit_image_url").prop('src', '{{ asset('images/default.png') }}');
             $("#edit_target").prop('checked', false);
             $("#delete_input").val("");
+        });
+
+        $("#select_category").on("change", function () {
+            $("#edit_post").val("");
+        });
+        $("#select_post").on("change", function () {
+            $("#edit_category").val("");
         })
     </script>
 @endsection

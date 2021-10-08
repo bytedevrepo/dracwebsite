@@ -6,9 +6,6 @@ use App\Models\MenuPage;
 use App\Models\Post;
 use App\Traits\SetResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class PageController extends Controller
 {
@@ -25,7 +22,7 @@ class PageController extends Controller
     public function getPageList($menu_slug)
     {
         $menu = MenuPage::where('slug', $menu_slug)->first();
-        $siblings = MenuPage::where('parent_id', $menu->id)->with('page')->get();
+        $siblings = MenuPage::where('parent_id', $menu->id)->with('post')->get();
         $returnData = $this->prepareResponse(false, 'success', compact('menu', 'siblings'), []);
         return response()->json($returnData, 200);
     }

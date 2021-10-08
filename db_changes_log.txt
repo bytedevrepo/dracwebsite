@@ -1,0 +1,4 @@
+table: menu_pages
+    page_id renamed to post_id
+    nullable
+    category_id(nullable) field added

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -23,17 +24,22 @@ class CategoryController extends Controller
         $this->validate($request, [
             'title' => 'required',
         ]);
-        if (isset($request->category_id) && $request->category_id != '' )
-        {
-            $category = Category::find($request->category_id);
+
+        $slug = $slug_from_title = Str::slug($request->title, '-');
+        $i = 1;
+        while (Post::where('slug', $slug)->exists()) {
+            $slug = $slug_from_title . '-' . $i;
+            $i++;
         }
 
-        else
-        {
+        if (isset($request->category_id) && $request->category_id != '' ) {
+            $category = Category::find($request->category_id);
+        }
+        else {
             $category = new Category();
         }
         $category->title = $request->title;
-        $category->slug = Str::slug($request->title, '-');
+        $category->slug = $slug;
         $category->save();
         Session::flash('message', 'Category added successfully.');
         return redirect()->back();

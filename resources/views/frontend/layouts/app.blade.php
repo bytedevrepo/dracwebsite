@@ -32,7 +32,6 @@
     <link rel="stylesheet" href="{{ asset('frontend-assets/style.css') }}">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <base href="http://localhost/dracweb/public">
     <style>
 
         body, html {
