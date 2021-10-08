@@ -34,7 +34,7 @@
                     </router-link>
 
                     <!-- slide img -->
-                    <img v-if="value.post" class="episoda-slide-img" :src="$asset_url+value.post.background_image" alt="header slide image">
+                    <img v-if="value.post && value.post.background_image" class="episoda-slide-img" :src="$asset_url+value.post.background_image" alt="header slide image">
                     <img v-else class="episoda-slide-img" src="frontend-assets/site/img/hawaii.jpg" alt="header slide image">
                     <!-- end slide img -->
 
